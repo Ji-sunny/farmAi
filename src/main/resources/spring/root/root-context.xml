@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+			destroy-method="close">
+			<!-- DB 연결하기 -->			
+			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property> <!-- 연결할 드라이버 설정. 전부 문자열로 값을 줌. (객체인 경우 ref) -->
+			<property name="url" value="jdbc:oracle:thin:@192.168.2.131:1521:orcl"></property>
+			<property name="username" value="team"></property> <!-- 계정이름 -->
+			<property name="password" value="123456"></property> <!-- 계정 비밀번호 -->
+			<property name="initialSize" value="2"></property> <!-- 커넥션 풀이 관리하는 최초로 관리하게 지정하는 사이즈 -->
+			<property name="maxTotal" value="2"></property>
+			<property name="maxIdle" value="2"></property>
+	</bean>
+	
+	<!-- mybatis를 스프링과 연결하는 모듈 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+		<property name="dataSource" ref="dataSource"></property> 
+		<property name="configLocation" value="classpath:mybatis/mapper-config.xml"></property>
+		<property name="mapperLocations" value="classpath:mybatis/mapper/*.xml"></property>
+	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"> 
+			<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	 
+
+
+
+</beans>
