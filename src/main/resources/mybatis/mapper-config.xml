@@ -6,7 +6,7 @@
 	</settings>
 	
 	<typeAliases>
-		<typeAlias alias="excel" type="com.farmai.DTO.ExcelDTO"/>
+<!--		<typeAlias alias="excel" type="map"/>-->
 	</typeAliases>
 
 </configuration>
