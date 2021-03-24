@@ -27,5 +27,9 @@ public class CsvRepo {
         int tmp = sst.insert("excel.insertTableFileName", fileStorage);
         return tmp;
     }
+    public int deleteCsvData(Map<String, String>map){
+        int tmp = sst.delete("excel.deleteCsvData",map);
+        return tmp;
+    }
 
 }

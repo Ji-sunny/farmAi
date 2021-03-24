@@ -17,4 +17,7 @@
         insert into FILE_STORAGE(TABLES_NAME, FILES_NAME)
         values (#{tablesName},#{filesName})
     </insert>
+    <delete id="deleteCsvData" parameterType="map">
+        delete from FILE_STORAGE where FILES_NAME=${filename}
+    </delete>
 </mapper>
