@@ -1,20 +1,25 @@
 package com.farmai.Service;
 
-import com.farmai.Repository.CtableRepo;
+import com.farmai.Repository.CsvRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Map;
 
 @Service
-public class ExcelService {
-    @Resource
-    private CtableRepo tableRepo;
+public class CsvService {
+    @Autowired
+    private CsvRepo tableRepo;
 
     public void createTable(Map<String, String>map){
         tableRepo.createTable(map);
     }
     public void insertVal(Map<String, String>map){
         tableRepo.insertVal(map);
+    }
+    public String selectTname(Map<String, Object>map){
+        String tmp= tableRepo.selectTname(map);
+        return tmp;
     }
 }

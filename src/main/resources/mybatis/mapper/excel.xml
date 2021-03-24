@@ -6,7 +6,11 @@
         ${create_table}
     </select>
     <insert id="insertVal" parameterType="map">
-        insert into ${tablename}
-        values(${val})
+        insert into ${tablename} values (${val})
     </insert>
+    <select id="selectTname" parameterType="map" resultType="String">
+        select table_name
+        FROM USER_TAB_COLUMNS
+        WHERE column_name in (${inval}) and COLUMN_ID = ${size}
+    </select>
 </mapper>

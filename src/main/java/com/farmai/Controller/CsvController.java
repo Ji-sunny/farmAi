@@ -1,7 +1,6 @@
 package com.farmai.Controller;
 
-import com.farmai.Repository.CtableRepo;
-import com.farmai.Service.ExcelService;
+import com.farmai.Service.CsvService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,8 @@ public class CsvController {
 
     private static final Logger logger = LoggerFactory.getLogger(CsvController.class);
 
-    @Resource
-    private ExcelService eService;
+    @Autowired
+    private CsvService eService;
 
     @Resource(name="uploadPath")
     String uploadPath;
@@ -34,82 +33,88 @@ public class CsvController {
 
     @ResponseBody
     @RequestMapping(value = "/excelUploadAjax", method = RequestMethod.POST)
-    public ModelAndView excelUploadAjax(MultipartFile testFile, MultipartHttpServletRequest request) throws  Exception{
+    public ModelAndView excelUploadAjax(MultipartHttpServletRequest request) throws  Exception{
         System.out.println("업로드 진행");
-        MultipartFile excelFile = request.getFile("excelFile");
 
+        MultipartFile excelFile = request.getFile("excelFile");
         if(excelFile == null || excelFile.isEmpty()) {
             throw new RuntimeException("엑셀파일을 선택해 주세요");
         }
 
         String fileName = excelFile.getOriginalFilename();
-//        File destFile = new File(uploadPath,fileName);
-
-
         String direction = uploadPath+fileName;
 
         try {
-            //내가 설정한 위치에 내가 올린 파일을 만들고
             excelFile.transferTo(Paths.get(direction));
         }catch(Exception e) {
             throw new RuntimeException(e.getMessage(),e);
         }
 
-        int result = 0;
-        //반환용 리스트
-        List<List<String>> totalList = new ArrayList<List<String>>();
+        List<List<String>> totalList = new ArrayList<>();
         BufferedReader br = Files.newBufferedReader(Paths.get(direction), Charset.forName("UTF-8"));
-
-        List<String> valueList = new ArrayList<String>();
+        List<String> valueList = new ArrayList<>();
 
         String line = "";
 
-        //전체 리스트
         while((line = br.readLine()) != null){
-            //CSV 1행을 저장하는 리스트
             String regex = ",";
             int limit = -1;
-            String column[] = line.split(regex, limit); //컬럼
-            //배열에서 리스트 반환
+            String column[] = line.split(regex, limit);
             if(line.equals("")) {
                 line = " ";
             }
             valueList = Arrays.asList(column);
             totalList.add(valueList);
         }
-//        System.out.println(totalList.get(0));
 
-//        System.out.println();
-        String cTable ="create table "+fileName.substring(0,fileName.length()-4)+" (";
-        int len =totalList.get(0).size();
-        for(int i =0; i<len; i++){
-            cTable += totalList.get(0).get(i).replace("\"","")+" CLOB, ";
-//            System.out.println(totalList.get(0).get(i));
+        String inValue="";
+        int size = totalList.get(0).size();
+        for(int i =0; i<totalList.get(0).size(); i++){
+            inValue += totalList.get(0).get(i).replace("\"","\'")+", ";
         }
-        cTable = cTable.substring(0, cTable.length()-2)+")";
-//        System.out.println(cTable);
-        Map<String,String> map = new HashMap<String,String> ();
-        map.put("create_table",cTable);
-        eService.createTable(map);
-        map.clear();
-        map.put("tablename",fileName.substring(0,fileName.length()-4));
+        inValue = inValue.substring(0, inValue.length()-2);
+        Map<String, Object> maps= new HashMap<>();
+        maps.put("inval", inValue);
+        maps.put("size", size);
+        System.out.println(inValue);
+        System.out.println(size);
+        String dbTableName = eService.selectTname(maps);
+        System.out.println(dbTableName);
+
+        Map<String,String> map = new HashMap<> ();
+        if(dbTableName == null){    ///table 없으면 테이블 생성
+            /////////////////table 생성//////////////////////
+            String queryTable ="create table "+fileName.substring(0,fileName.length()-4)+" (";
+            for(int i =0; i<totalList.get(0).size(); i++){
+                queryTable += totalList.get(0).get(i).replace("\"","")+" CLOB, ";
+            }
+            queryTable = queryTable.substring(0, queryTable.length()-2)+")";
+            map.put("create_table",queryTable);
+            eService.createTable(map);
+            map.clear();
+        }
+
+        /////////////////table data insert//////////////////////
+        map.put("tablename",dbTableName);
+        List<String>list = new ArrayList<>();
         for(int i =1; i<totalList.size(); i++){
             int lens = totalList.get(i).size();
-            String str="";
+            String queryInsert="";
             for(int j =0; j<lens; j++){
-
-                str +=totalList.get(i).get(j).replace("\"","\'")+", ";
+                queryInsert +=totalList.get(i).get(j).replace("\"","\'")+", ";
             }
-            str = str.substring(0,str.length()-2);
-            System.out.println(str);
-            map.put("val", str);
+            queryInsert = queryInsert.substring(0,queryInsert.length()-2);
+
+            map.put("val", queryInsert);
             eService.insertVal(map);
-            System.out.println();
-//            System.out.println(totalList.get(i).toString());
         }
-
-
-
+//        for(int i =0; i<list.size(); i++){
+//            System.out.println(list.get(i));
+//        }
+//        map.put("val",list);
+//
+//        eService.insertVal(map);
+        System.out.println("업로드 완료");
         ModelAndView view = new ModelAndView();
         view.setViewName("index");
 
