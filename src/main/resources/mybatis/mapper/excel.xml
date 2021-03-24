@@ -13,4 +13,8 @@
         FROM USER_TAB_COLUMNS
         WHERE column_name in (${inval}) and COLUMN_ID = ${size}
     </select>
+    <insert id="insertTableFileName" parameterType="com.farmai.DTO.FileStorage">
+        insert into FILE_STORAGE(TABLES_NAME, FILES_NAME)
+        values (#{tablesName},#{filesName})
+    </insert>
 </mapper>

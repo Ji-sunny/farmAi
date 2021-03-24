@@ -1,5 +1,6 @@
 package com.farmai.Service;
 
+import com.farmai.DTO.FileStorage;
 import com.farmai.Repository.CsvRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,4 +23,10 @@ public class CsvService {
         String tmp= tableRepo.selectTname(map);
         return tmp;
     }
+
+    public void insertTableFileName(FileStorage fileStorage){
+        int tmp = tableRepo.insertTableFileName(fileStorage);
+        System.out.println(tmp);
+    }
+
 }
