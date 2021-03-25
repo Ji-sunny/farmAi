@@ -83,55 +83,78 @@ public class CsvController {
             totalList.add(valueList);
         }
 
-        ///////db에 csv 파일 구조와 같은 테이블 있는지 확인///////////
-        String inValue = "";
-        int size = totalList.get(0).size();
-        for (int i = 0; i < totalList.get(0).size(); i++) {
-            inValue += totalList.get(0).get(i).replace("\"", "\'") + ", ";
-        }
-        inValue = inValue.substring(0, inValue.length() - 2);
-        Map<String, Object> maps = new HashMap<>();
-        maps.put("inval", inValue);
-        maps.put("size", size);
-        String dbTableName = eService.selectTname(maps);
-        System.out.println("dbTableName : " + dbTableName);
 
-        ///////db에 csv 파일 구조가 긑은 table 없으면 테이블 생성///////////
-        Map<String, String> map = new HashMap<>();
-        if (dbTableName == null) {
-            /////////////////table 생성//////////////////////
-            String queryTable = "create table " + filesName + " (";
+        if(filesName.equals("farmingboxdata")){
+            fileStorage = new FileStorage(filesName, csvName.substring(0, csvName.length() - 4));
+            eService.insertTableFileName(fileStorage);
+            Map<String, String> farmmap = new HashMap<>();
+            farmmap.put("tablename", filesName);
+            List<String> list = new ArrayList<>();
+            System.out.println("totalList.size() : "+totalList.size());
+            for (int i = 1; i < totalList.size(); i++) {
+                int lens = totalList.get(i).size();
+                String queryInsert = "";
+                for (int j = 0; j < lens; j++) {
+//                    System.out.print(totalList.get(i).get(j)+" ");
+                    queryInsert += "\'"+totalList.get(i).get(j).replace("\"", "").replace("\u0000", "")+"\'" + ", ";
+                }
+                System.out.println();
+                queryInsert = queryInsert + "\'" + csvName.substring(0, csvName.length() - 4) + "\'";
+                System.out.println("queryInsert : " + queryInsert);
+                farmmap.put("val", queryInsert);
+                eService.insertVal(farmmap);
+            }
+        }else{
+            ///////db에 csv 파일 구조와 같은 테이블 있는지 확인///////////
+            String inValue = "";
+            int size = totalList.get(0).size();
             for (int i = 0; i < totalList.get(0).size(); i++) {
-                queryTable += totalList.get(0).get(i).replace("\"", "") + " CLOB, ";
+                inValue += totalList.get(0).get(i).replace("\"", "\'") + ", ";
             }
-            queryTable = queryTable + "FILES_NAME VARCHAR2(50) "
-                    + "constraint " + filesName + "_fk_cascade"
-                    + " references FILE_STORAGE"
-                    + " on delete cascade"
-                    + ")";
+            inValue = inValue.substring(0, inValue.length() - 2);
+            Map<String, Object> maps = new HashMap<>();
+            maps.put("inval", inValue);
+            maps.put("size", size);
+            String dbTableName = eService.selectTname(maps);
+            System.out.println("dbTableName : " + dbTableName);
 
-            map.put("create_table", queryTable);
-            eService.createTable(map);
-            map.clear();
-            dbTableName = filesName;
-        }
-        ////////////////////////////////////////////////////////
-        fileStorage = new FileStorage(dbTableName, csvName.substring(0, csvName.length() - 4));
-        eService.insertTableFileName(fileStorage);
-        /////////////////table data insert//////////////////////
-        map.put("tablename", dbTableName);
-        List<String> list = new ArrayList<>();
-        for (int i = 1; i < totalList.size(); i++) {
-            int lens = totalList.get(i).size();
-            String queryInsert = "";
-            for (int j = 0; j < lens; j++) {
-                queryInsert += totalList.get(i).get(j).replace("\"", "\'") + ", ";
+            ///////db에 csv 파일 구조가 긑은 table 없으면 테이블 생성///////////
+            Map<String, String> map = new HashMap<>();
+            if (dbTableName == null) {
+                /////////////////table 생성//////////////////////
+                String queryTable = "create table " + filesName + " (";
+                for (int i = 0; i < totalList.get(0).size(); i++) {
+                    queryTable += totalList.get(0).get(i).replace("\"", "") + " CLOB, ";
+                }
+                queryTable = queryTable + "FILES_NAME VARCHAR2(50) "
+                        + "constraint " + filesName + "_fk_cascade"
+                        + " references FILE_STORAGE"
+                        + " on delete cascade"
+                        + ")";
+
+                map.put("create_table", queryTable);
+                eService.createTable(map);
+                map.clear();
+                dbTableName = filesName;
             }
+            ////////////////////////////////////////////////////////
+            fileStorage = new FileStorage(dbTableName, csvName.substring(0, csvName.length() - 4));
+            eService.insertTableFileName(fileStorage);
+            /////////////////table data insert//////////////////////
+            map.put("tablename", dbTableName);
+            List<String> list = new ArrayList<>();
+            for (int i = 1; i < totalList.size(); i++) {
+                int lens = totalList.get(i).size();
+                String queryInsert = "";
+                for (int j = 0; j < lens; j++) {
+                    queryInsert += totalList.get(i).get(j).replace("\"", "\'") + ", ";
+                }
 
-            queryInsert = queryInsert + "\'" + csvName.substring(0, csvName.length() - 4) + "\'";
-            System.out.println("queryInsert : " + queryInsert);
-            map.put("val", queryInsert);
-            eService.insertVal(map);
+                queryInsert = queryInsert + "\'" + csvName.substring(0, csvName.length() - 4) + "\'";
+                System.out.println("queryInsert : " + queryInsert);
+                map.put("val", queryInsert);
+                eService.insertVal(map);
+            }
         }
 
         System.out.println("업로드 완료");
