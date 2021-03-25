@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -30,6 +31,10 @@ public class CsvRepo {
     public int deleteCsvData(Map<String, String>map){
         int tmp = sst.delete("excel.deleteCsvData",map);
         return tmp;
+    }
+
+    public List<FileStorage> getFileNameList(){
+        return sst.selectList("excel.getFileNameList");
     }
 
 }

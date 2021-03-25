@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -31,6 +32,10 @@ public class CsvService {
     public void deleteCsvData(Map<String, String>map){
         int tmp = tableRepo.deleteCsvData(map);
         System.out.println(tmp);
+    }
+
+    public List<FileStorage> getFileNameList(){
+        return tableRepo.getFileNameList();
     }
 
 }

@@ -20,4 +20,7 @@
     <delete id="deleteCsvData" parameterType="map">
         delete from FILE_STORAGE where FILES_NAME=${filename}
     </delete>
+    <select id="getFileNameList" resultType="com.farmai.DTO.FileStorage">
+        select TABLES_NAME, FILES_NAME from FILE_STORAGE
+    </select>
 </mapper>
