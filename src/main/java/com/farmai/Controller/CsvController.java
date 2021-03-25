@@ -36,7 +36,7 @@ public class CsvController {
 
     @ResponseBody
     @PostMapping(value = "/csvUpload")
-    public String excelUploadAjax(MultipartHttpServletRequest request) throws Exception {
+    public ModelAndView excelUploadAjax(MultipartHttpServletRequest request) throws Exception {
         System.out.println("업로드 진행");
 
         MultipartFile csvFile = request.getFile("csvFile");
@@ -160,7 +160,7 @@ public class CsvController {
         System.out.println("업로드 완료");
         ModelAndView view = new ModelAndView();
         view.setViewName("index");
-        return "redirect:/";
+        return view;
     }
 
     @GetMapping("delete")

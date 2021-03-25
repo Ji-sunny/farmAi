@@ -22,12 +22,38 @@
     <!-- Custom styles for this template-->
     <link href="${root}/resources/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
+<style type="text/css">
+    .wrap-loading { /*화면 전체를 어둡게 합니다.*/
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.2); /*not in ie */
+        z-index: 99999999;
+        filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000'); /* ie */
+    }
+
+    .wrap-loading div { /*로딩 이미지*/
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-left: -21px;
+        margin-top: -21px;
+    }
+
+    .display-none { /*감추기*/
+        display: none;
+    }
+</style>
 
 <body id="page-top">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
-
+    <div class="wrap-loading display-none">
+        <div><img src="${root}/resources/img/loading.gif" alt="파일이 업로드 중입니다. 잠시만 기다려주세요."/></div>
+    </div>
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -146,9 +172,11 @@
         <!-- Sidebar Message -->
         <div class="sidebar-card">
             <img class="sidebar-card-illustration mb-2" src="${root}/resources/img/undraw_rocket.svg" alt="">
-            <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and
+            <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components,
+                and
                 more!</p>
-            <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
+            <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to
+                Pro!</a>
         </div>
 
     </ul>
@@ -387,10 +415,12 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">CSV 파일
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">CSV
+                                            파일
                                             저장
                                         </div>
-                                        <form id="excelUploadForm" name="excelUploadForm" enctype="multipart/form-data"
+                                        <form id="excelUploadForm" name="excelUploadForm"
+                                              enctype="multipart/form-data"
                                               method="post" action="${root}/csvUpload">
                                             <div class="contents">
                                                 <dl class="vm_name">
@@ -419,19 +449,14 @@
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                             저장된 엑셀 파일 삭제
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            <form method="get" action="${root}/delete">
-                                                <label for="csvexcel"><strong>엑셀선택</strong></label>
-                                                <select id="csvexcel" name="csvexcel">
-                                                    <option value="">선택</option>
-                                                </select>
-                                                <br/>
-                                                <input type="submit" name="btn" value="전송">
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        <form method="get" action="${root}/delete">
+                                            <dt class="down w90"><label for="csvexcel">엑셀선택</label></dt>
+                                            <select id="csvexcel" name="csvexcel">
+                                                <option value="">선택</option>
+                                            </select>
+                                            <br/>
+                                            <input type="submit" name="btn" value="파일삭제">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -782,20 +807,21 @@
 <script src="${root}/resources/js/demo/chart-area-demo.js"></script>
 <script src="${root}/resources/js/demo/chart-pie-demo.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
+
 </body>
 <script>
 
     $(document).ready(function () {
-            $.get("${root}/select/list",
-                function (data, status) {
-                    console.log(data)
-                    $.each(data.test, function (index, vo) {
-                        console.log("1", index)
-                        console.log("2", vo)
-                        $("#csvexcel").append(
-                            "<option value='" + vo.filesName + "'>" + vo.filesName + "</option>");
-                    });
-                }, "json");
+        $.get("${root}/select/list",
+            function (data, status) {
+                // console.log(data)
+                $.each(data.test, function (index, vo) {
+                    // console.log("1", index)
+                    // console.log("2", vo)
+                    $("#csvexcel").append(
+                        "<option value='" + vo.filesName + "'>" + vo.filesName + "</option>");
+                });
+            }, "json");
     });
 
     // $('#selectClick').click(function() {
@@ -831,6 +857,14 @@
                     console.log(data);
                     alert("모든 데이터가 업로드 되었습니다.");
                     javascript:history.go(0);
+                },
+                beforeSend: function () {
+                    // console.log("start");
+                    $('.wrap-loading').removeClass('display-none');
+                },
+                complete: function () {
+                    console.log("complete");
+                    $('.wrap-loading').addClass('display-none');
                 },
                 type: "POST"
             };
