@@ -451,7 +451,7 @@
                                         </div>
                                         <form method="get" action="${root}/delete">
                                             <dt class="down w90"><label for="csvexcel">엑셀선택</label></dt>
-                                            <select id="csvexcel" name="csvexcel">
+                                            <select id="csvexcel" name="csvexcel" class="selectpicker" data-live-search="true">
                                                 <option value="">선택</option>
                                             </select>
                                             <br/>
@@ -807,7 +807,9 @@
 <script src="${root}/resources/js/demo/chart-area-demo.js"></script>
 <script src="${root}/resources/js/demo/chart-pie-demo.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
 </body>
 <script>
 
@@ -823,14 +825,6 @@
                 });
             }, "json");
     });
-
-    // $('#selectClick').click(function() {
-    //     const a = $('#csvexcel').val();
-    //     $.ajax({
-    //
-    //     })
-    //     console.log(a)
-    // });
 
     function checkFileType(filePath) {
         var fileFormat = filePath.split(".");
@@ -865,6 +859,7 @@
                 complete: function () {
                     console.log("complete");
                     $('.wrap-loading').addClass('display-none');
+                    javascript:history.go(0);
                 },
                 type: "POST"
             };
