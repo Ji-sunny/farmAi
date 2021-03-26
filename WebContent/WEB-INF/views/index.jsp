@@ -861,6 +861,10 @@
                     $('.wrap-loading').addClass('display-none');
                     javascript:history.go(0);
                 },
+                error : function(request) {
+                    const test = request.responseText;
+                    alert(test);
+                },
                 type: "POST"
             };
             $("#excelUploadForm").ajaxSubmit(options);

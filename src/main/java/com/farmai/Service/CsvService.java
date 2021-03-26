@@ -27,7 +27,6 @@ public class CsvService {
 
     public void insertTableFileName(FileStorage fileStorage){
         int tmp = tableRepo.insertTableFileName(fileStorage);
-        System.out.println(tmp);
     }
     public void deleteCsvData(Map<String, String>map){
         int tmp = tableRepo.deleteCsvData(map);
