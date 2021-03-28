@@ -2,6 +2,7 @@ package com.farmai.ControllerRest;
 
 
 import com.farmai.DTO.FileStorage;
+import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +43,6 @@ public class CsvRestController {
 
         MultipartFile csvFile = request.getFile("csvFile");
 
-//        if (csvFile == null || csvFile.isEmpty()) {
-//            throw new RuntimeException("엑셀파일이 비어있습니다.");
-//        }
         try {
             if (csvFile == null || csvFile.isEmpty()) {
                 throw new RuntimeException("엑셀파일이 비어있습니다.");
@@ -180,6 +178,32 @@ public class CsvRestController {
             entity = handleException(e);
         }
         return entity;
+    }
+
+    @GetMapping("table/list")
+    public ModelAndView getTable(@RequestParam(defaultValue = "1")int pageNo,
+                                 @RequestParam String tableName,
+                                 @RequestParam int rowsPer, ModelAndView mv){
+        System.out.println(pageNo);
+        System.out.println(tableName);
+        System.out.println(rowsPer);
+        Map<String, String>map = new HashMap<>();
+        map.put("tableName",tableName);
+        int totalRows = eService.getTotalRows(map);
+        System.out.println(totalRows);
+        Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
+        System.out.println("pager : " +pager);
+
+        List<String> list = eService.getTableList(pager);
+
+        for(String str : list){
+            System.out.println(str);
+        }
+
+        mv.setViewName("index");
+        mv.addObject("list",list);
+        mv.addObject("pager",pager);
+        return mv;
     }
 
 

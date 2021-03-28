@@ -2,3 +2,6 @@
 /target/
 root-context.xml
 dispatcher-servlet.xml
+farmai.iml
+/.idea
+web.xml
