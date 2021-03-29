@@ -65,4 +65,8 @@ public class CsvService {
         int tmp = tableRepo.deleteMacro(macro);
     }
 
+    public Macro getMacro(Map<String, String> map){
+        return tableRepo.getMacro(map);
+    }
+
 }

@@ -81,7 +81,16 @@ public class CsvController {
         String macroName = req.getParameter("macro");
         macro = new Macro(macroName);
         eService.deleteMacro(macro);
+        return "redirect:/";
+    }
 
+    @PostMapping("macro/excute")
+    public String macroshow (HttpServletRequest req) {
+        String macroName = req.getParameter("macroName");
+        Map<String, String>map = new HashMap<>();
+        map.put("macroName","\'"+macroName+"\'");
+        macro = eService.getMacro(map);
+        System.out.println(macro);
         return "redirect:/";
     }
 

@@ -48,22 +48,28 @@ public class CsvRepo {
         return tmp;
     }
 
-    public List<Map<String,String>> getTableList(Pager pager){
+    public List<Map<String, String>> getTableList(Pager pager) {
         System.out.println("list : 전");
-        List<Map<String,String>>list = sst.selectList("excel.getTableList",pager);
-        System.out.println("list : "+list);
+        List<Map<String, String>> list = sst.selectList("excel.getTableList", pager);
+        System.out.println("list : " + list);
         return list;
     }
 
-    public int insertMacro(Macro macro){
-        int tmp = sst.insert("excel.insertMacro",macro);
+    public int insertMacro(Macro macro) {
+        int tmp = sst.insert("excel.insertMacro", macro);
         return tmp;
     }
-    public List<Macro>getMacroList(){
+
+    public List<Macro> getMacroList() {
         return sst.selectList("excel.getMacroList");
     }
-    public int deleteMacro(Macro macro){
+
+    public int deleteMacro(Macro macro) {
         int tmp = sst.delete("excel.deleteMacro", macro);
         return tmp;
+    }
+
+    public Macro getMacro(Map<String, String> map) {
+        return sst.selectOne("excel.getMacro",map);
     }
 }
