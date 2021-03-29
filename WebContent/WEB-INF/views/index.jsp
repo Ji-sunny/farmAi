@@ -513,7 +513,6 @@
                 <!-- Content Row -->
 
                 <div class="row">
-
                     <!-- Area Chart -->
                     <div class="col-xl-12 col-lg-">
                         <!-- DataTales Example -->
@@ -521,8 +520,16 @@
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
                             </div>
+
                             <div class="card-body">
                                 <div class="table-responsive">
+                                    <div>
+                                        <dt class="down w90"><label for="csvexcel2">파일선택</label></dt>
+                                        <select id= "csvexcel2" name="csvexcel2" class="selectpicker" data-live-search="true">
+                                            <option value="choose1">선택1</option>
+                                            <option value="choose2">선택2</option>
+                                        </select>
+                                    </div>
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                         <tr>
@@ -545,10 +552,6 @@
                                         </tr>
                                         </tfoot>
                                         <tbody>
-<%--                                        <dt class="down w90"><label for="csvexcel">엑셀선택</label></dt>--%>
-<%--                                        <select id="csvexcel" name="csvexcel" class="selectpicker" data-live-search="true">--%>
-<%--                                            <option value="">선택</option>--%>
-<%--                                        </select>--%>
                                         <tr>
                                             <td>Tiger Nixon</td>
                                             <td>System Architect</td>
@@ -760,7 +763,7 @@
                 $.each(data.test, function (index, vo) {
                     // console.log("1", index)
                     // console.log("2", vo)
-                    $("#csvexcel").append(
+                    $(".selectpicker").append(
                         "<option value='" + vo.filesName + "'>" + vo.filesName + "</option>");
                 });
             }, "json");
@@ -798,15 +801,16 @@
                     $('.wrap-loading').addClass('display-none');
                     javascript:history.go(0);
                 },
-                error : function(request) {
-                    const test = request.responseText;
-                    alert(test);
-                },
                 type: "POST"
             };
             $("#excelUploadForm").ajaxSubmit(options);
         }
         // window.location.reload()
     }
+    ////////지선///////////
+    $('#csvexcel2').change(function() {
+        var state = $('#csvexcel2 option:selected').val();
+        console.log(state)
+    });
 </script>
 </html>
