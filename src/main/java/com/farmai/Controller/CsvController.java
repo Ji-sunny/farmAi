@@ -15,8 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.File;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -53,7 +54,8 @@ public class CsvController {
             System.out.println("파일이 존재하지 않습니다.");
         }
         Map<String, String>map = new HashMap<>();
-        map.put("filename","\'"+filename+"\'");
+        map.put("filename","\'"+filename.toUpperCase()+"\'");
+        System.out.println(filename);
         eService.deleteCsvData(map);
 
         return "redirect:/";
@@ -91,6 +93,7 @@ public class CsvController {
         map.put("macroName","\'"+macroName+"\'");
         macro = eService.getMacro(map);
         System.out.println(macro);
+
         return "redirect:/";
     }
 

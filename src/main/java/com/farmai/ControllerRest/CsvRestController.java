@@ -50,7 +50,7 @@ public class CsvRestController {
             if (csvFile == null || csvFile.isEmpty()) {
                 throw new RuntimeException("엑셀파일이 비어있습니다.");
             }
-            String csvName = csvFile.getOriginalFilename();
+            String csvName = csvFile.getOriginalFilename().toUpperCase();
             String filesName = csvName.substring(0, csvName.length() - 4);
             String direction = uploadPath + csvName;
             ///////저장된 csv 파일있는지 체크, 있으면 저장 안되고 없으면 저장 진행///////////
@@ -126,7 +126,7 @@ public class CsvRestController {
                     /////////////////table 생성//////////////////////
                     String queryTable = "create table " + filesName + " (";
                     for (int i = 0; i < totalList.get(0).size(); i++) {
-                        queryTable += totalList.get(0).get(i).replace("\"", "") + " CLOB, ";
+                        queryTable += totalList.get(0).get(i).replace("\"", "") + " VARCHAR2(50), ";
                     }
                     queryTable = queryTable + "FILES_NAME VARCHAR2(50) "
                             + "constraint " + filesName + "_fk_cascade"
@@ -136,6 +136,10 @@ public class CsvRestController {
 
                     map.put("create_table", queryTable);
                     eService.createTable(map);
+
+
+
+
                     map.clear();
                     dbTableName = filesName;
                 }
