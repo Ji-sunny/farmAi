@@ -33,6 +33,7 @@
         z-index: 99999999;
         filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000'); /* ie */
     }
+
     .wrap-loading div { /*로딩 이미지*/
         position: fixed;
         top: 50%;
@@ -40,6 +41,7 @@
         margin-left: -21px;
         margin-top: -21px;
     }
+
     .display-none { /*감추기*/
         display: none;
     }
@@ -448,12 +450,13 @@
                                             저장된 엑셀 파일 삭제
                                         </div>
                                         <form method="get" action="${root}/delete">
-                                            <dt class="down w90"><label for="csvexcel">엑셀선택</label></dt>
-                                            <select id="csvexcel" name="csvexcel" class="selectpicker" data-live-search="true">
+                                            <dt class="down w90"><label>엑셀선택</label></dt>
+                                            <select name="csvexcel" id="delexcel" class="selectpicker" data-live-search="true">
                                                 <option value="">선택</option>
                                             </select>
                                             <br/>
-                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn" value="파일삭제">
+                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn"
+                                                   value="파일삭제">
                                         </form>
                                     </div>
                                 </div>
@@ -467,23 +470,29 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">매크로 만들기
                                         </div>
                                         <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="progress progress-sm mr-2">
-                                                    <div class="progress-bar bg-info" role="progressbar"
-                                                         style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                         aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
+                                            <form method="post" action="${root}/macro/save">
+                                                <select name="macro1" id="macroselect1" class="selectpicker" data-live-search="true">
+                                                    <option value="">선택</option>
+                                                </select>
+                                                <select name="macro2" id="macroselect2" class="selectpicker" data-live-search="true">
+                                                    <option value="">선택</option>
+                                                </select>
+                                                <select name="macro3" id="macroselect3" class="selectpicker" data-live-search="true">
+                                                    <option value="">선택</option>
+                                                </select>
+                                                <select name="macro4" id="macroselect4" class="selectpicker" data-live-search="true">
+                                                    <option value="">선택</option>
+                                                </select>
+                                                <select name="macro5" id="macroselect5" class="selectpicker" data-live-search="true">
+                                                    <option value="">선택</option>
+                                                </select>
+                                                <input type="text" name="macroName">
+                                                <input type="submit" class="btn-primary btn-sm" name="btn" value="매크로 저장">
+                                            </form>
                                         </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
@@ -497,12 +506,28 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Pending Requests
+                                            매크로 리스트
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                        <div class="row no-gutters align-items-center">
+                                            <form method="post" action="${root}/macro/excute">
+                                                <select id="selectMacro" name="macroName" class="selectpicker" data-live-search="true">
+                                                    <option value="">선택</option>
+                                                </select>
+                                                <input type="submit" class="btn-primary btn-sm" name="btn" value="전처리 실행">
+                                            </form>
+                                        </div>
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            매크로 삭제
+                                        </div>
+                                        <form method="get" action="${root}/macro/delete">
+                                            <dt class="down w90"><label>매크로 선택</label></dt>
+                                            <select name="macro" id="macrodel" class="selectpicker" data-live-search="true">
+                                                <option value="">선택</option>
+                                            </select>
+                                            <br/>
+                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn"
+                                                   value="매크로 삭제">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -525,7 +550,8 @@
                                 <div class="table-responsive">
                                     <div>
                                         <dt class="down w90"><label for="csvexcel2">파일선택</label></dt>
-                                        <select id= "csvexcel2" name="csvexcel2" class="selectpicker" data-live-search="true">
+                                        <select id="csvexcel2" name="csvexcel2" class="selectpicker"
+                                                data-live-search="true">
                                             <option value="choose1">선택1</option>
                                             <option value="choose2">선택2</option>
                                         </select>
@@ -743,7 +769,8 @@
 <script src="${root}/resources/js/demo/chart-area-demo.js"></script>
 <script src="${root}/resources/js/demo/chart-pie-demo.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>
 
@@ -760,14 +787,22 @@
         $.get("${root}/select/list",
             function (data, status) {
                 // console.log(data)
-                $.each(data.test, function (index, vo) {
+                $.each(data.list, function (index, vo) {
                     // console.log("1", index)
                     // console.log("2", vo)
-                    $(".selectpicker").append(
+                    $("#delexcel, #macroselect1, #macroselect2, #macroselect3, #macroselect4, #macroselect5").append(
                         "<option value='" + vo.filesName + "'>" + vo.filesName + "</option>");
                 });
             }, "json");
+        $.get("${root}/macro/list",
+            function (data, status) {
+                $.each(data.list, function (index, vo) {
+                    $("#selectMacro, #macrodel").append(
+                        "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");
+                });
+            }, "json");
     });
+
     function checkFileType(filePath) {
         var fileFormat = filePath.split(".");
         if (fileFormat.indexOf("csv") > -1 || fileFormat.indexOf("xlsx") > -1) {
@@ -776,6 +811,7 @@
             return false;
         }
     }
+
     function check() {
         var file = $("#csvFile").val();
         if (file == "" || file == null) {
@@ -807,8 +843,9 @@
         }
         // window.location.reload()
     }
+
     ////////지선///////////
-    $('#csvexcel2').change(function() {
+    $('#csvexcel2').change(function () {
         var state = $('#csvexcel2 option:selected').val();
         console.log(state)
     });

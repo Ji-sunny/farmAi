@@ -2,6 +2,7 @@ package com.farmai.ControllerRest;
 
 
 import com.farmai.DTO.FileStorage;
+import com.farmai.DTO.Macro;
 import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.File;
 import java.nio.charset.Charset;
@@ -31,6 +33,7 @@ public class CsvRestController {
     private CsvService eService;
 
     private FileStorage fileStorage;
+
 
     @Resource(name = "uploadPath")
     String uploadPath;
@@ -87,7 +90,7 @@ public class CsvRestController {
             }
 
 
-            if(filesName.equals("farmingboxdata")){
+            if (filesName.equals("farmingboxdata")) {
                 fileStorage = new FileStorage(filesName, csvName.substring(0, csvName.length() - 4));
                 eService.insertTableFileName(fileStorage);
                 Map<String, String> farmmap = new HashMap<>();
@@ -97,13 +100,13 @@ public class CsvRestController {
                     int lens = totalList.get(i).size();
                     String queryInsert = "";
                     for (int j = 0; j < lens; j++) {
-                        queryInsert += "\'"+totalList.get(i).get(j).replace("\"", "").replace("\u0000", "")+"\'" + ", ";
+                        queryInsert += "\'" + totalList.get(i).get(j).replace("\"", "").replace("\u0000", "") + "\'" + ", ";
                     }
                     queryInsert = queryInsert + "\'" + csvName.substring(0, csvName.length() - 4) + "\'";
                     farmmap.put("val", queryInsert);
                     eService.insertVal(farmmap);
                 }
-            }else{
+            } else {
                 ///////db에 csv 파일 구조와 같은 테이블 있는지 확인///////////
                 String inValue = "";
                 int size = totalList.get(0).size();
@@ -154,10 +157,10 @@ public class CsvRestController {
                 }
             }
             Map<String, Object> result = new HashMap<>();
-            result.put("result","succ");
+            result.put("result", "succ");
             entity = handleSuccess(result);
             System.out.println("업로드 완료");
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             entity = handleException(e.getMessage());
         }
 
@@ -166,45 +169,63 @@ public class CsvRestController {
 
 
     @GetMapping("select/list")
-    public ResponseEntity<Map<String, Object>> getList(){
+    public ResponseEntity<Map<String, Object>> getList() {
         System.out.println("/select/list");
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
         try {
-            List<FileStorage>list = eService.getFileNameList();
-            result.put("test",list);
+            List<FileStorage> list = eService.getFileNameList();
+            result.put("list", list);
             entity = handleSuccess(result);
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             entity = handleException(e);
         }
         return entity;
     }
 
     @GetMapping("table/list")
-    public ModelAndView getTable(@RequestParam(defaultValue = "1")int pageNo,
+    public ModelAndView getTable(@RequestParam(defaultValue = "1") int pageNo,
                                  @RequestParam String tableName,
-                                 @RequestParam int rowsPer, ModelAndView mv){
+                                 @RequestParam int rowsPer, ModelAndView mv) {
         System.out.println(pageNo);
         System.out.println(tableName);
         System.out.println(rowsPer);
-        Map<String, String>map = new HashMap<>();
-        map.put("tableName",tableName);
+        Map<String, String> map = new HashMap<>();
+        map.put("tableName", tableName);
         int totalRows = eService.getTotalRows(map);
         System.out.println(totalRows);
         Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
-        System.out.println("pager : " +pager);
+        System.out.println("pager : " + pager);
 
         List<String> list = eService.getTableList(pager);
 
-        for(String str : list){
+        for (String str : list) {
             System.out.println(str);
         }
 
         mv.setViewName("index");
-        mv.addObject("list",list);
-        mv.addObject("pager",pager);
+        mv.addObject("list", list);
+        mv.addObject("pager", pager);
         return mv;
     }
+
+    @GetMapping("macro/list")
+    public ResponseEntity<Map<String, Object>> getMacro() {
+        System.out.println("/macro/list");
+        ResponseEntity<Map<String, Object>> entity = null;
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<Macro> list = eService.getMacroList();
+            result.put("list", list);
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
+    }
+
+
+
 
 
     private ResponseEntity<Map<String, Object>> handleSuccess(Map<String, Object> data) {
@@ -215,15 +236,16 @@ public class CsvRestController {
 
     private ResponseEntity<Map<String, Object>> handleException(Exception e) {
         logger.error("예외 발생 : ", e);
-        System.out.println("예외 발생 : "+e);
+        System.out.println("예외 발생 : " + e);
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("status", false);
         resultMap.put("data", e.getMessage());
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
     private ResponseEntity<Map<String, Object>> handleException(String e) {
         logger.error("예외 발생 : ", e);
-        System.out.println("예외 발생 : "+e);
+        System.out.println("예외 발생 : " + e);
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("status", false);
         resultMap.put("datastr", e);

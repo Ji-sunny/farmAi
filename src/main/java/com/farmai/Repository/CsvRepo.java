@@ -1,6 +1,7 @@
 package com.farmai.Repository;
 
 import com.farmai.DTO.FileStorage;
+import com.farmai.DTO.Macro;
 import com.farmai.DTO.Pager;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,17 @@ public class CsvRepo {
     public List<String> getTableList(Pager pager){
         List<String>list = sst.selectList("excel.getTableList",pager);
         return list;
+    }
+
+    public int insertMacro(Macro macro){
+        int tmp = sst.insert("excel.insertMacro",macro);
+        return tmp;
+    }
+    public List<Macro>getMacroList(){
+        return sst.selectList("excel.getMacroList");
+    }
+    public int deleteMacro(Macro macro){
+        int tmp = sst.delete("excel.deleteMacro", macro);
+        return tmp;
     }
 }

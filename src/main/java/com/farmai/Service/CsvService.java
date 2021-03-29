@@ -1,6 +1,7 @@
 package com.farmai.Service;
 
 import com.farmai.DTO.FileStorage;
+import com.farmai.DTO.Macro;
 import com.farmai.DTO.Pager;
 import com.farmai.Repository.CsvRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,19 @@ public class CsvService {
     public List<String> getTableList(Pager pager){
         List<String> list = tableRepo.getTableList(pager);
         return list;
+    }
+
+    public int insertMacro(Macro macro){
+        int tmp = tableRepo.insertMacro(macro);
+        return tmp;
+    }
+
+    public List<Macro> getMacroList(){
+        return tableRepo.getMacroList();
+    }
+
+    public void deleteMacro(Macro macro){
+        int tmp = tableRepo.deleteMacro(macro);
     }
 
 }

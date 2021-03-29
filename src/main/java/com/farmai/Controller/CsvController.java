@@ -1,10 +1,12 @@
 package com.farmai.Controller;
 
 import com.farmai.DTO.FileStorage;
+import com.farmai.DTO.Macro;
 import com.farmai.Service.CsvService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +33,8 @@ public class CsvController {
     @Resource(name = "uploadPath")
     String uploadPath;
 
+    private Macro macro;
+
 
     @GetMapping("delete")
     public String delete(HttpServletRequest req) {
@@ -55,6 +59,31 @@ public class CsvController {
         return "redirect:/";
     }
 
+    @PostMapping("macro/save")
+    public String macroSave(HttpServletRequest req) {
+        String one = req.getParameter("macro1");
+        String two = req.getParameter("macro2");
+        String three = req.getParameter("macro3");
+        String four = req.getParameter("macro4");
+        String five = req.getParameter("macro5");
+        String name = req.getParameter("macroName");
+
+        System.out.println(one + two + three + four + five + name);
+
+        macro = new Macro(name, one, two, three, four, five);
+        int tmp = eService.insertMacro(macro);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("macro/delete")
+    public String macrodel(HttpServletRequest req) {
+        String macroName = req.getParameter("macro");
+        macro = new Macro(macroName);
+        eService.deleteMacro(macro);
+
+        return "redirect:/";
+    }
 
 
 }
