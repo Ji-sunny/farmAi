@@ -195,13 +195,11 @@ public class CsvRestController {
         int totalRows = eService.getTotalRows(map);
         System.out.println(totalRows);
         Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
+
         System.out.println("pager : " + pager);
 
-        List<String> list = eService.getTableList(pager);
-
-        for (String str : list) {
-            System.out.println(str);
-        }
+        List<Map<String,String>> list = eService.getTableList(pager);
+        System.out.println(list);
 
         mv.setViewName("index");
         mv.addObject("list", list);

@@ -48,8 +48,10 @@ public class CsvRepo {
         return tmp;
     }
 
-    public List<String> getTableList(Pager pager){
-        List<String>list = sst.selectList("excel.getTableList",pager);
+    public List<Map<String,String>> getTableList(Pager pager){
+        System.out.println("list : 전");
+        List<Map<String,String>>list = sst.selectList("excel.getTableList",pager);
+        System.out.println("list : "+list);
         return list;
     }
 

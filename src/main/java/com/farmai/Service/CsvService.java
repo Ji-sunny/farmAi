@@ -47,8 +47,8 @@ public class CsvService {
         return total;
     }
 
-    public List<String> getTableList(Pager pager){
-        List<String> list = tableRepo.getTableList(pager);
+    public List<Map<String,String>> getTableList(Pager pager){
+        List<Map<String,String>> list = tableRepo.getTableList(pager);
         return list;
     }
 
