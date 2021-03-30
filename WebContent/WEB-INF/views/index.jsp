@@ -247,27 +247,6 @@
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1">매크로 만들기
                                         </div>
-                                        <div class="row no-gutters align-items-center">
-                                            <form method="post" action="${root}/macro/save">
-                                                <select name="macro1" id="macroselect1" class="selectpicker" data-live-search="true">
-                                                    <option value="">선택</option>
-                                                </select>
-                                                <select name="macro2" id="macroselect2" class="selectpicker" data-live-search="true">
-                                                    <option value="">선택</option>
-                                                </select>
-                                                <select name="macro3" id="macroselect3" class="selectpicker" data-live-search="true">
-                                                    <option value="">선택</option>
-                                                </select>
-                                                <select name="macro4" id="macroselect4" class="selectpicker" data-live-search="true">
-                                                    <option value="">선택</option>
-                                                </select>
-                                                <select name="macro5" id="macroselect5" class="selectpicker" data-live-search="true">
-                                                    <option value="">선택</option>
-                                                </select>
-                                                <input type="text" name="macroName">
-                                                <input type="submit" class="btn-primary btn-sm" name="btn" value="매크로 저장">
-                                            </form>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -308,6 +287,60 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
+                    <!-- Area Chart -->
+                    <div class="col-xl-12 col-lg-">
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">_new 파일 선택</h6>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="row no-gutters align-items-center">
+                                    <form method="post" action="${root}/macro/save">
+                                        <select name="macro1" id="macroselect1" class="selectpicker" data-live-search="true" onchange="getColumn(this.value,name)">
+                                            <option value="">선택</option>
+                                        </select>
+                                        <div class="macro1"></div>
+
+                                        <select name="macro2" id="macroselect2" class="selectpicker" data-live-search="true" onchange="getColumn(this.value,name)">
+                                            <option value="">선택</option>
+                                        </select>
+                                        <div class="macro2"></div>
+
+                                        <select name="macro3" id="macroselect3" class="selectpicker" data-live-search="true" onchange="getColumn(this.value,name)">
+                                            <option value="">선택</option>
+                                        </select>
+                                        <div class="macro3"></div>
+
+                                        <select name="macro4" id="macroselect4" class="selectpicker" data-live-search="true" onchange="getColumn(this.value,name)">
+                                            <option value="">선택</option>
+                                        </select>
+                                        <div class="macro4"></div>
+
+                                        <select name="macro5" id="macroselect5" class="selectpicker" data-live-search="true" onchange="getColumn(this.value,name)">
+                                            <option value="">선택</option>
+                                        </select>
+                                        <div class="macro5"></div>
+
+                                        <input type="text" name="macroName">
+                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="매크로 저장">
+                                    </form>
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Content Row -->
@@ -430,28 +463,8 @@
 
 <!-- Core plugin JavaScript-->
 <script src="${root}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
 <script src="${root}/resources/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<%--<script src="${root}/resources/vendor/chart.js/Chart.min.js"></script>--%>
-
-<%--<!-- Page level custom scripts -->--%>
-<%--<script src="${root}/resources/js/demo/chart-area-demo.js"></script>--%>
-<%--<script src="${root}/resources/js/demo/chart-pie-demo.js"></script>--%>
 <script src="http://malsup.github.com/jquery.form.js"></script>
-<%--<link rel="stylesheet"--%>
-<%--      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">--%>
-<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>--%>
-<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>--%>
-
-<!-- Page level plugins -->
-<%--<script src="${root}/resources/vendor/datatables/jquery.dataTables.min.js"></script>--%>
-<%--<script src="${root}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>--%>
-
-<!-- Page level custom scripts -->
-<%--<script src="${root}/resources/js/demo/datatables-demo.js"></script>--%>
 
 </body>
 <script>
@@ -462,8 +475,18 @@
                 $.each(data.list, function (index, vo) {
                     // console.log("1", index)
                     // console.log("2", vo)
-                    $("#delexcel, #macroselect1, #macroselect2, #macroselect3, #macroselect4, #macroselect5").append(
+                    $("#delexcel").append(
                         "<option value='" + vo.filesName + "'>" + vo.filesName + "</option>");
+                });
+            }, "json");
+        $.get("${root}/select_new/list",
+            function (data, status) {
+                // console.log(data)
+                $.each(data.list, function (index, vo) {
+                    // console.log("1", index)
+                    // console.log("2", vo)
+                    $("#macroselect1, #macroselect2, #macroselect3, #macroselect4, #macroselect5").append(
+                        "<option value='" + vo.tablesName + "'>" + vo.filesName + "</option>");
                 });
             }, "json");
         $.get("${root}/macro/list",
@@ -474,7 +497,24 @@
                 });
             }, "json");
     });
+    function getColumn(tableName, divName) {
+        // alert(tableName+" "+divName);
+        $.get("${root}/table_new/list/"+tableName,
+            function (data, status) {
+                $("."+divName).append("받을 열 : ");
+                $.each(data.list, function (index, vo) {
+                    $("."+divName).append("<input type=\"checkbox\" name=\"check\" class=\"check\" value=\"${status.index}\">"+"   "+vo.COLUMN_NAME+"  |  ");
+                });
+                $("."+divName).append("</br>");
 
+                $("."+divName).append("기준 열 : ");
+                $.each(data.list, function (index, vo) {
+                    $("."+divName).append("<input type=\"checkbox\" name=\"check\" class=\"check\" value=\"${status.index}\">"+"   "+vo.COLUMN_NAME+"  |  ");
+                });
+
+
+            }, "json");
+    }
     function checkFileType(filePath) {
         var fileFormat = filePath.split(".");
         if (fileFormat.indexOf("csv") > -1 || fileFormat.indexOf("xlsx") > -1) {
@@ -536,6 +576,7 @@
             console.log(errorThrown);
         });
     });
+
 
 </script>
 </html>

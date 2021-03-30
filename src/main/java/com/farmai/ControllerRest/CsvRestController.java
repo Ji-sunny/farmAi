@@ -5,6 +5,7 @@ import com.farmai.DTO.FileStorage;
 import com.farmai.DTO.Macro;
 import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
+import org.apache.xmlbeans.impl.jam.mutable.MPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,20 +178,34 @@ public class CsvRestController {
 
     @GetMapping("select/list")
     public ResponseEntity<Map<String, Object>> getList() {
-        System.out.println("/select/list");
+//        System.out.println("/select/list");
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
         try {
             List<FileStorage> list = eService.getFileNameList();
             result.put("list", list);
-            System.out.println(list.get(0));
+//            System.out.println(list.get(0));
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);
         }
         return entity;
     }
-
+    @GetMapping("select_new/list")
+    public ResponseEntity<Map<String, Object>> getListNew() {
+//        System.out.println("/select/list");
+        ResponseEntity<Map<String, Object>> entity = null;
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<FileStorage> list = eService.getFileNameListNew();
+            result.put("list", list);
+//            System.out.println(list.get(0));
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
+    }
 
     @GetMapping("table/list")
     public ModelAndView getTable(@RequestParam(defaultValue = "1") int pageNo,
@@ -218,7 +233,7 @@ public class CsvRestController {
 
     @GetMapping("macro/list")
     public ResponseEntity<Map<String, Object>> getMacro() {
-        System.out.println("/macro/list");
+//        System.out.println("/macro/list");
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
         try {
@@ -231,7 +246,24 @@ public class CsvRestController {
         return entity;
     }
 
+    @GetMapping("table_new/list/{tableName}")
+    public ResponseEntity<Map<String, Object>> getNewList(@PathVariable("tableName") String tableName) {
+        System.out.println(tableName);
 
+        ResponseEntity<Map<String, Object>> entity = null;
+        Map<String, Object> result = new HashMap<>();
+        Map<String, String>map = new HashMap<>();
+        try {
+            map.put("tableName","\'"+tableName.toUpperCase()+"\'");
+            List<Map<String, String>> list = eService.getColumnNames(map);
+            result.put("list", list);
+
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
+    }
 
 
 

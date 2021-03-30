@@ -42,6 +42,13 @@ public class CsvRepo {
     public List<FileStorage> getFileNameList() {
         return sst.selectList("excel.getFileNameList");
     }
+    public List<FileStorage> getFileNameListNew() {
+        return sst.selectList("excel.getFileNameListNew");
+    }
+
+    public List<Map<String, String>> getColumnNames(Map<String, String>map) {
+        return sst.selectList("excel.getColumnNames",map);
+    }
 
     public int getTotalRows(Map<String, String> map) {
         int tmp = sst.selectOne("excel.getTotalRows", map);

@@ -41,6 +41,13 @@ public class CsvService {
     public List<FileStorage> getFileNameList() {
         return tableRepo.getFileNameList();
     }
+    public List<FileStorage> getFileNameListNew() {
+        return tableRepo.getFileNameListNew();
+    }
+
+    public List<Map<String, String>> getColumnNames(Map<String, String>map){
+        return tableRepo.getColumnNames(map);
+    }
 
     public int getTotalRows(Map<String, String> map) {
         int total = tableRepo.getTotalRows(map);
