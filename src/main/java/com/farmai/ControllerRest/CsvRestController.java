@@ -183,12 +183,14 @@ public class CsvRestController {
         try {
             List<FileStorage> list = eService.getFileNameList();
             result.put("list", list);
+            System.out.println(list.get(0));
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);
         }
         return entity;
     }
+
 
     @GetMapping("table/list")
     public ModelAndView getTable(@RequestParam(defaultValue = "1") int pageNo,
