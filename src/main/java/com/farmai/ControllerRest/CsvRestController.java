@@ -19,9 +19,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Clob;
 import java.util.*;
 
 @RestController
@@ -190,7 +193,7 @@ public class CsvRestController {
     @GetMapping("table/list")
     public ModelAndView getTable(@RequestParam(defaultValue = "1") int pageNo,
                                  @RequestParam String tableName,
-                                 @RequestParam int rowsPer, ModelAndView mv) {
+                                 @RequestParam (defaultValue = "10")int rowsPer, ModelAndView mv) throws IOException {
         System.out.println(pageNo);
         System.out.println(tableName);
         System.out.println(rowsPer);
@@ -205,7 +208,7 @@ public class CsvRestController {
         List<Map<String,String>> list = eService.getTableList(pager);
         System.out.println(list);
 
-        mv.setViewName("index");
+        mv.setViewName("tabletest");
         mv.addObject("list", list);
         mv.addObject("pager", pager);
         return mv;

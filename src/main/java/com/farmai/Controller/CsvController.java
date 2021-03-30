@@ -2,12 +2,14 @@ package com.farmai.Controller;
 
 import com.farmai.DTO.FileStorage;
 import com.farmai.DTO.Macro;
+import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -96,6 +98,29 @@ public class CsvController {
 
         return "redirect:/";
     }
+    @GetMapping("table/list1")
+    public String tablemake(@RequestParam(defaultValue = "1") int pageNo,
+                            @RequestParam String tableName,
+                            @RequestParam (defaultValue = "10")int rowsPer, Model model) {
+        System.out.println(pageNo);
+        System.out.println(tableName);
+        System.out.println(rowsPer);
+        Map<String, String> map = new HashMap<>();
+        map.put("tableName", tableName);
+        int totalRows = eService.getTotalRows(map);
+        System.out.println(totalRows);
+        Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
+
+        System.out.println("pager : " + pager);
+
+        List<Map<String,String>> list = eService.getTableList(pager);
+        System.out.println(list);
+        model.addAttribute("list", list);
+        model.addAttribute("pager",pager);
+        return "tabletest";
+    }
+
+
 
 
 }
