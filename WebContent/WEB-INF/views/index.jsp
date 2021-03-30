@@ -533,6 +533,10 @@
             console.log("에러");
             console.log(jqXHR);
             console.log(textStatus);
+
+
+
+
             console.log(errorThrown);
         });
     });
