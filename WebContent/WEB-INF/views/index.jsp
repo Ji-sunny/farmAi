@@ -364,32 +364,8 @@
                                             <option value="CENTERSITES">선택2</option>
                                         </select>
                                     </div>
-                                    <h1>확인중입니다.</h1>
-
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-
-                                        <%--                                        <thead>--%>
-                                        <%--                                            <c:forEach items="${list.get(0).keySet()}" var="item">--%>
-                                        <%--                                                <th>${item}</th>--%>
-                                        <%--                                            </c:forEach>--%>
-                                        <%--                                        </thead>--%>
-                                        <%--                                        <tfoot>--%>
-                                        <%--                                            <c:forEach items="${list.get(0).keySet()}" var="item">--%>
-                                        <%--                                                <th>${item}</th>--%>
-                                        <%--                                            </c:forEach>--%>
-                                        <%--                                        </tfoot>--%>
-                                        <%--                                        <tbody>--%>
-                                        <%--                                            <c:forEach items="${list}" var="item" varStatus="status">--%>
-                                        <%--                                                <tr>--%>
-                                        <%--                                                    <c:forEach items="${list.get(status.count).values()}" var="item">--%>
-
-                                        <%--                                                            <td>${item}</td>--%>
-
-                                        <%--                                                    </c:forEach>--%>
-                                        <%--                                                </tr>--%>
-                                        <%--                                            </c:forEach>--%>
-
-                                        <%--                                        </tbody>--%>
+                                        <div id="table1"></div>
                                     </table>
                                 </div>
                             </div>
@@ -401,7 +377,6 @@
                                 <h6 class="m-0 font-weight-bold text-primary"> Example</h6>
                             </div>
                             <div class="card-body">
-                                <div id="table1"></div>
                             </div>
 
                         </div>
@@ -566,8 +541,6 @@
             type: "get"
         }).done(function (result) {
             console.log("결과확인" + result);
-            // var html = jQuery('<div>').html(result);
-            // var contents = html.find("div#gettable").html();
             $("#table1").html(result);
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log("에러");
@@ -577,6 +550,21 @@
         });
     });
 
+    function list() {
+        $.ajax({
+            url: "${root}/table/list2?tableName=" +"FILE_STORAGE",
+            type: "get"
+        }).done(function (result) {
+            console.log("결과확인" + result);
+            $("#table1").html(result);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("에러");
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        });
+    }
+    $(document).ready(list());
 
 </script>
 </html>

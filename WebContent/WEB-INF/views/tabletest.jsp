@@ -11,33 +11,26 @@
 --%>
 
 <div id="gettable">
-        ${list.get(0).keySet()}
             <table class="table table-bordered">
-                <c:forEach items="${list}" var="item">
-                <thead>
+
+                <c:forEach items="${list}" var="item" varStatus="status">
+                    <thead>
+
+
+                    <c:if test="${status.index eq 0}">
+                        <c:forEach items="${item}" var="col" >
+                            <th>${col.key}</th>
+                        </c:forEach>
+                    </c:if>
+
+
+                    </thead>
                     <tr>
                         <c:forEach items="${item}" var="it">
-                                <th>${it.value}</th>
+                                <td>${it.value}</td>
                         </c:forEach>
                     </tr>
-                </thead>
                 </c:forEach>
-<%--                <tr>--%>
-<%--                    <c:forEach items="${list.get(0).keySet()}" var="item">--%>
-<%--                        <th>${item}</th>--%>
-<%--                    </c:forEach>--%>
-<%--                </tr>--%>
-<%--            <tbody>--%>
-<%--                <c:forEach items="${list}" var="item" varStatus="status">--%>
-<%--                    <tr>--%>
-<%--                        <c:forEach items="${list.get(status.count).values()}" var="item">--%>
-
-<%--                            <td>${item}</td>--%>
-
-<%--                        </c:forEach>--%>
-<%--                    </tr>--%>
-<%--                </c:forEach>--%>
-<%--            </tbody>--%>
         </table>
 </div>
 

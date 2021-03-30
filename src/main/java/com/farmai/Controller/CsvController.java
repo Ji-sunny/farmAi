@@ -120,6 +120,28 @@ public class CsvController {
         return "/tabletest";
     }
 
+    @GetMapping("table/list2")
+    public String tablemake2(@RequestParam(defaultValue = "1") int pageNo,
+                            @RequestParam String tableName,
+                            @RequestParam (defaultValue = "10")int rowsPer, Model model) {
+        System.out.println(pageNo);
+        System.out.println(tableName);
+        System.out.println(rowsPer);
+        Map<String, String> map = new HashMap<>();
+        map.put("tableName", tableName);
+        int totalRows = eService.getTotalRows(map);
+        System.out.println(totalRows);
+        Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
+
+        System.out.println("pager : " + pager);
+
+        List<Map<String,String>> list = eService.getTableList(pager);
+        System.out.println(list);
+        model.addAttribute("list", list);
+        model.addAttribute("pager",pager);
+        return "/tabletest";
+    }
+
 
 
 
