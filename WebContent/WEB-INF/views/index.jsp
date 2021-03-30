@@ -435,11 +435,11 @@
 <script src="${root}/resources/js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="${root}/resources/vendor/chart.js/Chart.min.js"></script>
+<%--<script src="${root}/resources/vendor/chart.js/Chart.min.js"></script>--%>
 
-<!-- Page level custom scripts -->
-<script src="${root}/resources/js/demo/chart-area-demo.js"></script>
-<script src="${root}/resources/js/demo/chart-pie-demo.js"></script>
+<%--<!-- Page level custom scripts -->--%>
+<%--<script src="${root}/resources/js/demo/chart-area-demo.js"></script>--%>
+<%--<script src="${root}/resources/js/demo/chart-pie-demo.js"></script>--%>
 <script src="http://malsup.github.com/jquery.form.js"></script>
 <%--<link rel="stylesheet"--%>
 <%--      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">--%>
@@ -447,11 +447,11 @@
 <%--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/i18n/defaults-*.min.js"></script>--%>
 
 <!-- Page level plugins -->
-<script src="${root}/resources/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="${root}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<%--<script src="${root}/resources/vendor/datatables/jquery.dataTables.min.js"></script>--%>
+<%--<script src="${root}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>--%>
 
 <!-- Page level custom scripts -->
-<script src="${root}/resources/js/demo/datatables-demo.js"></script>
+<%--<script src="${root}/resources/js/demo/datatables-demo.js"></script>--%>
 
 </body>
 <script>
@@ -525,18 +525,14 @@
             url: "${root}/table/list1?tableName=" +state,
             type: "get"
         }).done(function (result) {
-            console.log("결과확인");
-            var html = jQuery('<div>').html(result);
-            var contents = html.find("div#gettable").html();
-            $("#table1").html(contents);
+            console.log("결과확인" + result);
+            // var html = jQuery('<div>').html(result);
+            // var contents = html.find("div#gettable").html();
+            $("#table1").html(result);
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log("에러");
             console.log(jqXHR);
             console.log(textStatus);
-
-
-
-
             console.log(errorThrown);
         });
     });

@@ -117,7 +117,7 @@ public class CsvController {
         System.out.println(list);
         model.addAttribute("list", list);
         model.addAttribute("pager",pager);
-        return "tabletest";
+        return "/tabletest";
     }
 
 
