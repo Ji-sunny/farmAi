@@ -63,7 +63,7 @@ public class CsvController {
         return "redirect:/";
     }
 
-    @PostMapping("macro/save")
+    @GetMapping("modeling")
     public String macroSave(HttpServletRequest req) {
         String one = req.getParameter("macro1");
         String two = req.getParameter("macro2");
@@ -74,8 +74,8 @@ public class CsvController {
 
         System.out.println(one + two + three + four + five + name);
 
-        macro = new Macro(name, one, two, three, four, five);
-        int tmp = eService.insertMacro(macro);
+//        macro = new Macro(name, one, two, three, four, five);
+//        int tmp = eService.insertMacro(macro);
 
         return "redirect:/";
     }

@@ -172,7 +172,7 @@ public class CsvRestController {
             ///////////////파이썬 연결 //////////////////////
 
             BufferedReader in = null;
-            URL obj = new URL("http://127.0.0.1:8082/preprocess/"+filesName.toUpperCase()); // 호출할 url
+            URL obj = new URL("http://127.0.0.1:8082/preprocess?table="+filesName.toUpperCase()+"&file="+csvName.substring(0, csvName.length() - 4)); // 호출할 url
             HttpURLConnection con = (HttpURLConnection)obj.openConnection();
 
             con.setRequestMethod("GET");

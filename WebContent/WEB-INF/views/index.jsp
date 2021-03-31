@@ -288,7 +288,7 @@
                             <div class="card-body">
 
                                 <div class="row no-gutters align-items-center">
-                                    <form method="post" action="${root}/macro/save">
+                                    <form method="get" action="${root}/modeling">
                                         <select name="macro1" id="macroselect1" class="selectpicker" data-live-search="true" onchange="getColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
@@ -315,7 +315,7 @@
                                         <div class="macro5"></div>
 
                                         <input type="text" name="macroName">
-                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="매크로 저장">
+                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="모델링 실행">
                                     </form>
                                 </div>
 
@@ -929,12 +929,14 @@
                 $("."+divName).append("받을 열 : ");
                 $.each(data.list, function (index, vo) {
                     $("."+divName).append("<input type=\"checkbox\" name=\"check\" class=\"check\" value=\"${status.index}\">"+"   "+vo.COLUMN_NAME+"  |  ");
+                    console.log(index);
                 });
+
                 $("."+divName).append("</br>");
 
                 $("."+divName).append("기준 열 : ");
                 $.each(data.list, function (index, vo) {
-                    $("."+divName).append("<input type=\"checkbox\" name=\"check\" class=\"check\" value=\"${status.index}\">"+"   "+vo.COLUMN_NAME+"  |  ");
+                    $("."+divName).append("<input type=\"checkbox\" name=\"check\" class=\"check\" value=\"${vo.COLUMN_NAME}\">"+"   "+vo.COLUMN_NAME+"  |  ");
                 });
 
 
