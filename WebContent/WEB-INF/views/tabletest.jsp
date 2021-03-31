@@ -11,7 +11,7 @@
 --%>
 
 <div id="gettable">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="dataTable" >
 
                 <c:forEach items="${list}" var="item" varStatus="status">
                     <thead>
