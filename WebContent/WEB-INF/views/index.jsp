@@ -239,54 +239,40 @@
                         </div>
                     </div>
 
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-info shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">매크로 만들기
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Pending Requests Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            매크로 리스트
-                                        </div>
-                                        <div class="row no-gutters align-items-center">
-                                            <form method="post" action="${root}/macro/excute">
-                                                <select id="selectMacro" name="macroName" class="selectpicker" data-live-search="true">
-                                                    <option value="">선택</option>
-                                                </select>
-                                                <input type="submit" class="btn-primary btn-sm" name="btn" value="전처리 실행">
-                                            </form>
-                                        </div>
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            매크로 삭제
-                                        </div>
-                                        <form method="get" action="${root}/macro/delete">
-                                            <dt class="down w90"><label>매크로 선택</label></dt>
-                                            <select name="macro" id="macrodel" class="selectpicker" data-live-search="true">
-                                                <option value="">선택</option>
-                                            </select>
-                                            <br/>
-                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn"
-                                                   value="매크로 삭제">
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<%--                    <div class="col-xl-3 col-md-6 mb-4">--%>
+<%--                        <div class="card border-left-warning shadow h-100 py-2">--%>
+<%--                            <div class="card-body">--%>
+<%--                                <div class="row no-gutters align-items-center">--%>
+<%--                                    <div class="col mr-2">--%>
+<%--                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">--%>
+<%--                                            매크로 리스트--%>
+<%--                                        </div>--%>
+<%--                                        <div class="row no-gutters align-items-center">--%>
+<%--                                            <form method="post" action="${root}/macro/excute">--%>
+<%--                                                <select id="selectMacro" name="macroName" class="selectpicker" data-live-search="true">--%>
+<%--                                                    <option value="">선택</option>--%>
+<%--                                                </select>--%>
+<%--                                                <input type="submit" class="btn-primary btn-sm" name="btn" value="전처리 실행">--%>
+<%--                                            </form>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">--%>
+<%--                                            매크로 삭제--%>
+<%--                                        </div>--%>
+<%--                                        <form method="get" action="${root}/macro/delete">--%>
+<%--                                            <dt class="down w90"><label>매크로 선택</label></dt>--%>
+<%--                                            <select name="macro" id="macrodel" class="selectpicker" data-live-search="true">--%>
+<%--                                                <option value="">선택</option>--%>
+<%--                                            </select>--%>
+<%--                                            <br/>--%>
+<%--                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn"--%>
+<%--                                                   value="매크로 삭제">--%>
+<%--                                        </form>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
                 </div>
 
                 <div class="row">
@@ -444,7 +430,7 @@
 </body>
 <script>
     $(document).ready(function () {
-        $.get("${root}/select/list",
+        $.get("${root}/selectori/list",
             function (data, status) {
                 // console.log(data)
                 $.each(data.list, function (index, vo) {
@@ -454,7 +440,7 @@
                         "<option value='" + vo.filesName + "'>" + vo.filesName + "</option>");
                 });
             }, "json");
-        $.get("${root}/select_new/list",
+        $.get("${root}/selectnew/list",
             function (data, status) {
                 // console.log(data)
                 $.each(data.list, function (index, vo) {

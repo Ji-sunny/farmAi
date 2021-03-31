@@ -42,9 +42,9 @@ public class CsvController {
     @GetMapping("delete")
     public String delete(HttpServletRequest req) {
         String filename = req.getParameter("csvexcel");
-        System.out.println(filename);
+//        System.out.println(filename);
         String location = uploadPath + filename+".csv";
-        System.out.println(location);
+//        System.out.println(location);
         File file = new File(location);
         if (file.exists()) {
             if (file.delete()) {
@@ -56,7 +56,7 @@ public class CsvController {
             System.out.println("파일이 존재하지 않습니다.");
         }
         Map<String, String>map = new HashMap<>();
-        map.put("filename","\'"+filename.toUpperCase()+"\'");
+        map.put("filename","\'%"+filename.toUpperCase()+"%\'");
         System.out.println(filename);
         eService.deleteCsvData(map);
 
@@ -102,19 +102,19 @@ public class CsvController {
     public String tablemake(@RequestParam(defaultValue = "1") int pageNo,
                             @RequestParam String tableName,
                             @RequestParam (defaultValue = "10")int rowsPer, Model model) {
-        System.out.println(pageNo);
-        System.out.println(tableName);
-        System.out.println(rowsPer);
+//        System.out.println(pageNo);
+//        System.out.println(tableName);
+//        System.out.println(rowsPer);
         Map<String, String> map = new HashMap<>();
         map.put("tableName", tableName);
         int totalRows = eService.getTotalRows(map);
-        System.out.println(totalRows);
+//        System.out.println(totalRows);
         Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
 
-        System.out.println("pager : " + pager);
+//        System.out.println("pager : " + pager);
 
         List<Map<String,String>> list = eService.getTableList(pager);
-        System.out.println(list);
+//        System.out.println(list);
         model.addAttribute("list", list);
         model.addAttribute("pager",pager);
         return "/tabletest";
@@ -124,19 +124,19 @@ public class CsvController {
     public String tablemake2(@RequestParam(defaultValue = "1") int pageNo,
                             @RequestParam String tableName,
                             @RequestParam (defaultValue = "10")int rowsPer, Model model) {
-        System.out.println(pageNo);
-        System.out.println(tableName);
-        System.out.println(rowsPer);
+//        System.out.println(pageNo);
+//        System.out.println(tableName);
+//        System.out.println(rowsPer);
         Map<String, String> map = new HashMap<>();
         map.put("tableName", tableName);
         int totalRows = eService.getTotalRows(map);
-        System.out.println(totalRows);
+//        System.out.println(totalRows);
         Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
 
-        System.out.println("pager : " + pager);
+//        System.out.println("pager : " + pager);
 
         List<Map<String,String>> list = eService.getTableList(pager);
-        System.out.println(list);
+//        System.out.println(list);
         model.addAttribute("list", list);
         model.addAttribute("pager",pager);
         return "/tabletest";

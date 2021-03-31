@@ -5,7 +5,10 @@ import com.farmai.DTO.FileStorage;
 import com.farmai.DTO.Macro;
 import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
-import org.apache.xmlbeans.impl.jam.mutable.MPackage;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Clob;
 import java.util.*;
 
 @RestController
@@ -73,8 +77,8 @@ public class CsvRestController {
             ///////file_storage에 테이블 이름과 csv파일이름 저장///////////
 
             filesName = filesName.replaceAll("[^a-zA-Z\\s]", "").trim();
-            System.out.println("filesName : " + filesName);
-            System.out.println("csvName : " + csvName.substring(0, csvName.length() - 4));
+//            System.out.println("filesName : " + filesName);
+//            System.out.println("csvName : " + csvName.substring(0, csvName.length() - 4));
 
 
             ///////csv 파일 읽기///////////
@@ -122,7 +126,7 @@ public class CsvRestController {
                 maps.put("inval", inValue);
                 maps.put("size", size);
                 String dbTableName = eService.selectTname(maps);
-                System.out.println("dbTableName : " + dbTableName);
+                System.out.println("dbTableName :  if전 null나오면 테이블 없음 : " + dbTableName);
 
                 ///////db에 csv 파일 구조가 긑은 table 없으면 테이블 생성///////////
                 Map<String, String> map = new HashMap<>();
@@ -164,8 +168,35 @@ public class CsvRestController {
                     eService.insertVal(map);
                 }
             }
+
+            ///////////////파이썬 연결 //////////////////////
+
+            BufferedReader in = null;
+            URL obj = new URL("http://127.0.0.1:8082/preprocess/"+filesName.toUpperCase()); // 호출할 url
+            HttpURLConnection con = (HttpURLConnection)obj.openConnection();
+
+            con.setRequestMethod("GET");
+            in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+
+            String str = null;
+            StringBuffer buff = new StringBuffer();
+            while ((str = in.readLine()) != null) {
+                buff.append(str + "\n");
+            }
+            String data = buff.toString().trim();
+
+            System.out.println("data : "+data);
+
+            JSONParser jsonParser = new JSONParser();
+            JSONObject json = (JSONObject) jsonParser.parse(data);
+
+            if(!json.get("result").equals("success") || data.equals("")){
+                throw new RuntimeException((String) json.get("result"));
+            }
+            /////////////////////////////////////////////
+
             Map<String, Object> result = new HashMap<>();
-            result.put("result", "succ");
+            result.put("result", "success");
             entity = handleSuccess(result);
             System.out.println("업로드 완료");
         } catch (RuntimeException e) {
@@ -178,28 +209,37 @@ public class CsvRestController {
 
     @GetMapping("select/list")
     public ResponseEntity<Map<String, Object>> getList() {
-//        System.out.println("/select/list");
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
         try {
             List<FileStorage> list = eService.getFileNameList();
             result.put("list", list);
-//            System.out.println(list.get(0));
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);
         }
         return entity;
     }
-    @GetMapping("select_new/list")
+    @GetMapping("selectnew/list")
     public ResponseEntity<Map<String, Object>> getListNew() {
-//        System.out.println("/select/list");
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
         try {
             List<FileStorage> list = eService.getFileNameListNew();
             result.put("list", list);
-//            System.out.println(list.get(0));
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
+    }
+    @GetMapping("selectori/list")
+    public ResponseEntity<Map<String, Object>> getListOri() {
+        ResponseEntity<Map<String, Object>> entity = null;
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<FileStorage> list = eService.getFileNameListOri();
+            result.put("list", list);
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);
@@ -211,19 +251,19 @@ public class CsvRestController {
     public ModelAndView getTable(@RequestParam(defaultValue = "1") int pageNo,
                                  @RequestParam String tableName,
                                  @RequestParam (defaultValue = "10")int rowsPer, ModelAndView mv) throws IOException {
-        System.out.println(pageNo);
-        System.out.println(tableName);
-        System.out.println(rowsPer);
+//        System.out.println(pageNo);
+//        System.out.println(tableName);
+//        System.out.println(rowsPer);
         Map<String, String> map = new HashMap<>();
         map.put("tableName", tableName);
         int totalRows = eService.getTotalRows(map);
-        System.out.println(totalRows);
+//        System.out.println(totalRows);
         Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
 
-        System.out.println("pager : " + pager);
+//        System.out.println("pager : " + pager);
 
         List<Map<String,String>> list = eService.getTableList(pager);
-        System.out.println(list);
+//        System.out.println(list);
 
         mv.setViewName("tabletest");
         mv.addObject("list", list);

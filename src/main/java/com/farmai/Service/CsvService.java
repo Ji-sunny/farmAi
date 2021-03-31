@@ -35,7 +35,7 @@ public class CsvService {
 
     public void deleteCsvData(Map<String, String> map) {
         int tmp = tableRepo.deleteCsvData(map);
-        System.out.println(tmp);
+//        System.out.println(tmp);
     }
 
     public List<FileStorage> getFileNameList() {
@@ -43,6 +43,9 @@ public class CsvService {
     }
     public List<FileStorage> getFileNameListNew() {
         return tableRepo.getFileNameListNew();
+    }
+    public List<FileStorage> getFileNameListOri() {
+        return tableRepo.getFileNameListOri();
     }
 
     public List<Map<String, String>> getColumnNames(Map<String, String>map){

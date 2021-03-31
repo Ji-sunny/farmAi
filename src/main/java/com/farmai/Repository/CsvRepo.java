@@ -45,6 +45,9 @@ public class CsvRepo {
     public List<FileStorage> getFileNameListNew() {
         return sst.selectList("excel.getFileNameListNew");
     }
+    public List<FileStorage> getFileNameListOri() {
+        return sst.selectList("excel.getFileNameListOri");
+    }
 
     public List<Map<String, String>> getColumnNames(Map<String, String>map) {
         return sst.selectList("excel.getColumnNames",map);
@@ -56,9 +59,9 @@ public class CsvRepo {
     }
 
     public List<Map<String, String>> getTableList(Pager pager) {
-        System.out.println("list : 전");
+//        System.out.println("list : 전");
         List<Map<String, String>> list = sst.selectList("excel.getTableList", pager);
-        System.out.println("list : " + list);
+//        System.out.println("list : " + list);
         return list;
     }
 
