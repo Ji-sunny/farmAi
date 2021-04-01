@@ -38,7 +38,7 @@ public class CsvService {
 //        System.out.println(tmp);
     }
 
-    public List<FileStorage> getFileNameList() {
+    public List<String> getFileNameList() {
         return tableRepo.getFileNameList();
     }
     public List<FileStorage> getFileNameListNew() {

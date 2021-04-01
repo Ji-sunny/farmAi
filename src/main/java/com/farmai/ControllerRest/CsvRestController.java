@@ -213,7 +213,7 @@ public class CsvRestController {
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
         try {
-            List<FileStorage> list = eService.getFileNameList();
+            List<String> list = eService.getFileNameList();
             result.put("list", list);
             entity = handleSuccess(result);
         } catch (RuntimeException e) {

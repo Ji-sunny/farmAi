@@ -39,7 +39,7 @@ public class CsvRepo {
         return tmp;
     }
 
-    public List<FileStorage> getFileNameList() {
+    public List<String> getFileNameList() {
         return sst.selectList("excel.getFileNameList");
     }
     public List<FileStorage> getFileNameListNew() {

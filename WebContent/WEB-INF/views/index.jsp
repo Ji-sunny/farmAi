@@ -459,7 +459,7 @@
                     // console.log("1", index)
                     // console.log("2", vo)
                     $("#aidatatable").append(
-                        "<option value='" + vo.tablesName + "'>" + vo.tablesName + "</option>");
+                        "<option value='" + vo + "'>" + vo + "</option>");
                 });
             }, "json");
         $.get("${root}/selectnew/list",
@@ -483,6 +483,7 @@
 
     function getColumn(tableName, divName) {
         // alert(tableName+" "+divName);
+        $("." + divName).empty();
         $.get("${root}/table_new/list/" + tableName,
             function (data, status) {
                 $("." + divName).append("받을 열 : ");
@@ -497,8 +498,6 @@
                 $.each(data.list, function (index, vo) {
                     $("." + divName).append("<input type=\"checkbox\" name=\"check\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
                 });
-
-
             }, "json");
     }
 
@@ -582,6 +581,9 @@
 
     }
 
-
+    $("#sidebarToggle").on('click', function(e) {
+        $("body").toggleClass("sidebar-toggled");
+        $(".sidebar").toggleClass("toggled");
+    });
 </script>
 </html>
