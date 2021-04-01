@@ -334,7 +334,7 @@
                 <!-- Content Row -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">테이블 </h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -486,24 +486,67 @@
         $("." + divName).empty();
         $.get("${root}/table_new/list/" + tableName,
             function (data, status) {
-                $("." + divName).append("받을 열 : ");
-                $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"check\" class=\"check\" value=\"${status.index}\">" + "   " + vo.COLUMN_NAME + "  |  ");
-                    console.log(index);
-                });
-
-                $("." + divName).append("</br>");
-
-                $("." + divName).append("기준 열 : ");
-                $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"check\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
-                });
+                if (divName == 'macro1'){
+                    $("." + divName).append("받을 열 : ");
+                    $.each(data.list, function (index, vo) {
+                        $("." + divName).append("<input type=\"checkbox\" name=\"check1\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    });
+                    $("." + divName).append("</br>");
+                    $("." + divName).append("기준 열 : ");
+                    $.each(data.list, function (index, vo) {
+                        $("." + divName).append("<input type=\"checkbox\" name=\"check2\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    });
+                }
+                if (divName == 'macro2'){
+                    $("." + divName).append("받을 열 : ");
+                    $.each(data.list, function (index, vo) {
+                        $("." + divName).append("<input type=\"checkbox\" name=\"check3\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    });
+                    $("." + divName).append("</br>");
+                    $("." + divName).append("기준 열 : ");
+                    $.each(data.list, function (index, vo) {
+                        $("." + divName).append("<input type=\"checkbox\" name=\"check4\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    });
+                }
+                if (divName == 'macro3'){
+                    $("." + divName).append("받을 열 : ");
+                    $.each(data.list, function (index, vo) {
+                        $("." + divName).append("<input type=\"checkbox\" name=\"check5\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    });
+                    $("." + divName).append("</br>");
+                    $("." + divName).append("기준 열 : ");
+                    $.each(data.list, function (index, vo) {
+                        $("." + divName).append("<input type=\"checkbox\" name=\"check6\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    });
+                }
+                if (divName == 'macro4'){
+                    $("." + divName).append("받을 열 : ");
+                    $.each(data.list, function (index, vo) {
+                        $("." + divName).append("<input type=\"checkbox\" name=\"check7\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    });
+                    $("." + divName).append("</br>");
+                    $("." + divName).append("기준 열 : ");
+                    $.each(data.list, function (index, vo) {
+                        $("." + divName).append("<input type=\"checkbox\" name=\"check8\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    });
+                }
+                if (divName == 'macro5'){
+                    $("." + divName).append("받을 열 : ");
+                    $.each(data.list, function (index, vo) {
+                        $("." + divName).append("<input type=\"checkbox\" name=\"check9\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    });
+                    $("." + divName).append("</br>");
+                    $("." + divName).append("기준 열 : ");
+                    $.each(data.list, function (index, vo) {
+                        $("." + divName).append("<input type=\"checkbox\" name=\"check10\" class=\"check\" value=\"${vo.COLUMN_NAME}\">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    });
+                }
             }, "json");
     }
 
     function checkFileType(filePath) {
         var fileFormat = filePath.split(".");
-        if (fileFormat.indexOf("csv") > -1 || fileFormat.indexOf("xlsx") > -1) {
+        if (fileFormat.indexOf("csv") > -1) {
             return true;
         } else {
             return false;
