@@ -26,7 +26,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-5">
             <div class="dataTables_info" id="dataTable_info" role="status"
-                 aria-live="polite">Showing 1 to 10 of 57 entries
+                 aria-live="polite">Showing ${pager.startRowNo} to ${pager.endRowNo} of ${pager.totalRows} entries
             </div>
         </div>
         <div class="col-sm-12 col-md-7">
