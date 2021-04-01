@@ -343,7 +343,7 @@
                                     <div class="col-sm-12 col-md-2">
                                         <div class="dataTables_length" id="dataTable_length">
                                             <label>Show
-                                                <select name="dataTable_length" aria-controls="dataTable"
+                                                <select id="airowper" name="dataTable_length" aria-controls="dataTable"
                                                         class="custom-select custom-select-sm form-control form-control-sm">
                                                     <option value="10">10</option>
                                                     <option value="25">25</option>
@@ -365,73 +365,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <table class="table table-bordered dataTable" width="100%" id="boardList" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                                            ${list}
-                                            <c:forEach items="${list}" var="item" varStatus="status">
-                                                <thead>
-                                                    <c:if test="${status.index eq 0}">
-                                                        <c:forEach items="${item}" var="col" >
-                                                            <th>${col.key}</th>
-                                                        </c:forEach>
-                                                    </c:if>
-                                                </thead>
-                                                <tr>
-                                                    <c:forEach items="${item}" var="it">
-                                                        <td>${it.value}</td>
-                                                    </c:forEach>
-                                                </tr>
-                                            </c:forEach>
-                                        </table>
-                                    </div>
+                                <div id="boardList">
+
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-5">
-                                        <div class="dataTables_info" id="dataTable_info" role="status"
-                                             aria-live="polite">Showing 1 to 10 of 57 entries
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-7">
-                                        <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                                            <ul class="pagination">
-                                                <li class="paginate_button page-item previous disabled"
-                                                    id="dataTable_previous"><a href="#" aria-controls="dataTable"
-                                                                               data-dt-idx="0" tabindex="0"
-                                                                               class="page-link">Previous</a></li>
-                                                <li class="paginate_button page-item active"><a href="#"
-                                                                                                aria-controls="dataTable"
-                                                                                                data-dt-idx="1"
-                                                                                                tabindex="0"
-                                                                                                class="page-link">1</a>
-                                                </li>
-                                                <li class="paginate_button page-item "><a href="#"
-                                                                                          aria-controls="dataTable"
-                                                                                          data-dt-idx="2" tabindex="0"
-                                                                                          class="page-link">2</a></li>
-                                                <li class="paginate_button page-item "><a href="#"
-                                                                                          aria-controls="dataTable"
-                                                                                          data-dt-idx="3" tabindex="0"
-                                                                                          class="page-link">3</a></li>
-                                                <li class="paginate_button page-item "><a href="#"
-                                                                                          aria-controls="dataTable"
-                                                                                          data-dt-idx="4" tabindex="0"
-                                                                                          class="page-link">4</a></li>
-                                                <li class="paginate_button page-item "><a href="#"
-                                                                                          aria-controls="dataTable"
-                                                                                          data-dt-idx="5" tabindex="0"
-                                                                                          class="page-link">5</a></li>
-                                                <li class="paginate_button page-item "><a href="#"
-                                                                                          aria-controls="dataTable"
-                                                                                          data-dt-idx="6" tabindex="0"
-                                                                                          class="page-link">6</a></li>
-                                                <li class="paginate_button page-item next" id="dataTable_next"><a
-                                                        href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0"
-                                                        class="page-link">Next</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -522,7 +459,7 @@
                     // console.log("1", index)
                     // console.log("2", vo)
                     $("#aidatatable").append(
-                        "<option value='" + vo.tablesName + "'>" + vo.filesName + "</option>");
+                        "<option value='" + vo.tablesName + "'>" + vo.tablesName + "</option>");
                 });
             }, "json");
         $.get("${root}/selectnew/list",
@@ -610,12 +547,12 @@
 
     $('#aidatatable').change(function () {
         var tname = $('#aidatatable option:selected').val();
+        var rper = $('#airowper option:selected').val();
         console.log(tname)
         $.ajax({
-            url: "${root}/table/list?tableName=" + tname,
+            url: "${root}/table/list?tableName=" + tname+"&rowsPer="+rper,
             type: "get"
         }).done(function (result) {
-            console.log("result",result);
             $("#boardList").html(result);
 
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -625,20 +562,25 @@
             console.log(errorThrown);
         });
     });
-    <%--$('#aidatatable').change(function () {--%>
-    <%--    var tname = $('#aidatatable option:selected').val();--%>
-    <%--    console.log(tname)--%>
-    <%--    var table = $('#myTable').DataTable({--%>
-    <%--        ajax: {--%>
-    <%--            url: "${root}/table/list?tableName=" + tname,--%>
-    <%--            type: "get",--%>
-    <%--            dataSrc:''--%>
-    <%--        },columns: [--%>
-    <%--            {"data": "CO2"},--%>
-    <%--            {"data": "CONN_ERROR"}--%>
-    <%--        ]--%>
-    <%--    });--%>
-    <%--});--%>
+    function pagingBoard(no) {
+        //@RequestParam(defaultValue = "1") int pageNo, @RequestParam String tableName, @RequestParam (defaultValue = "10")int rowsPer, Model model) throws IOException {
+        var tname = $('#aidatatable option:selected').val();
+        var rper = $('#airowper option:selected').val();
+        $.ajax({
+            url: "${root}/table/list?pageNo="+no+"&tableName="+tname+"&rowsPer="+rper,
+            type: "get"
+        }).done(function (result) {
+            console.log("결과확인");
+            $("#boardList").html(result);
+
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("에러");
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        });
+
+    }
 
 
 </script>

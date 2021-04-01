@@ -27,8 +27,8 @@
 
     <select id="getFileNameList" resultType="filestorage">
         select lower(TABLES_NAME) as TABLES_NAME, lower(FILES_NAME) as FILES_NAME from FILE_STORAGE a where FILES_NAME not like '%_new%'
-union all
-select lower(TABLES_NAME) as TABLES_NAME, lower(FILES_NAME) as FILES_NAME from FILE_STORAGE b where FILES_NAME like '%_new%'
+        union all
+        select lower(TABLES_NAME) as TABLES_NAME, lower(FILES_NAME) as FILES_NAME from FILE_STORAGE b where FILES_NAME like '%_new%'
     </select>
     <select id="getFileNameListNew" resultType="filestorage">
         select TABLES_NAME, FILES_NAME from FILE_STORAGE where FILES_NAME like '%_new%'

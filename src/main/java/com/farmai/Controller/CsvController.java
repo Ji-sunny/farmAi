@@ -1,28 +1,18 @@
 package com.farmai.Controller;
 
-import com.farmai.DTO.FileStorage;
 import com.farmai.DTO.Macro;
 import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Controller
@@ -103,17 +93,13 @@ public class CsvController {
         Map<String, String> map = new HashMap<>();
         map.put("tableName", tableName);
         int totalRows = eService.getTotalRows(map);
-//        System.out.println(totalRows);
 
         Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
 
-//        System.out.println("pager : " + pager);
-
         List<Map<String,String>> list = eService.getTableList(pager);
-//        System.out.println(list);
         model.addAttribute("list", list);
         model.addAttribute("pager",pager);
-        return "/tabletest";
+        return "getDataTable";
     }
 
 
