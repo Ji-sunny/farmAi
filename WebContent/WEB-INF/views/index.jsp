@@ -607,6 +607,7 @@
     }
 
 
+
     $('#aidatatable').change(function () {
         var tname = $('#aidatatable option:selected').val();
         console.log(tname)
