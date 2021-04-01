@@ -23,7 +23,6 @@
                         </c:forEach>
                     </c:if>
 
-
                     </thead>
                     <tr>
                         <c:forEach items="${item}" var="it">
