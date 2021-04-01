@@ -65,6 +65,11 @@ public class CsvRepo {
         return list;
     }
 
+    public List<Map<String,String>> getTableDataList(Map<String, String>map){
+        List<Map<String,String>> list = sst.selectList("excel.getTableDataList", map);
+        return list;
+    }
+
     public int insertMacro(Macro macro) {
         int tmp = sst.insert("excel.insertMacro", macro);
         return tmp;

@@ -57,6 +57,12 @@
     <resultMap type="java.util.LinkedHashMap" id="tableMapList">
     </resultMap>
 
+    <select id="getTableDataList" parameterType="map" resultMap="tableDataList">
+        select * from ${tableName}
+    </select>
+    <resultMap type="java.util.LinkedHashMap" id="tableDataList">
+    </resultMap>
+
 
     <insert id="insertMacro" parameterType="macro">
         insert into MACRO values (#{macroName},#{macroFile1},#{macroFile2},#{macroFile3},#{macroFile4},#{macroFile5})

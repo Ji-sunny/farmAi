@@ -12,6 +12,7 @@ import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -321,7 +322,7 @@ public class CsvRestController {
 
     @GetMapping("table_new/list/{tableName}")
     public ResponseEntity<Map<String, Object>> getNewList(@PathVariable("tableName") String tableName) {
-        System.out.println(tableName);
+//        System.out.println(tableName);
 
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
@@ -338,7 +339,39 @@ public class CsvRestController {
         return entity;
     }
 
+    @RequestMapping("csv/save/{tableName}")
+    public ResponseEntity<String> getTotalList(@PathVariable("tableName")String tableName) {
+        Map<String, String>map = new HashMap<>();
+        map.put("tableName",tableName);
+        List<Map<String,String>> list = eService.getTableDataList(map); // DB에서 가져온 데이터리스트
+//        System.out.println("list : "+list);
+        System.out.println(list.get(0).keySet());
 
+        HttpHeaders header = new HttpHeaders();
+        header.add("Content-Type", "text/csv; charset=MS949");
+        header.add("Content-Disposition", "attachment; filename=\"" + "total.csv" + "\"");
+        return new ResponseEntity<String>(setContent(list), header, HttpStatus.CREATED);
+    }
+    public String setContent(List<Map<String,String>> list){
+        StringBuilder str= new StringBuilder();
+        for(String a : list.get(0).keySet()){
+            str.append(a).append(",");
+            str.append(" ");
+        }
+        str.append("\n");
+
+        System.out.println(list.get(0).values());
+        for(int i =0; i<list.size();i++){
+            for(String a : list.get(i).values()){
+                str.append(a).append(",");
+                str.append(" ");
+            }
+            str.append("\n");
+        }
+
+        System.out.println("str : "+str);
+        return str.toString();
+    }
 
     private ResponseEntity<Map<String, Object>> handleSuccess(Map<String, Object> data) {
         data.put("status", true);

@@ -62,6 +62,12 @@ public class CsvService {
         return list;
     }
 
+    public List<Map<String,String>> getTableDataList(Map<String, String>map){
+        List<Map<String,String>> list = tableRepo.getTableDataList(map);
+        return list;
+    }
+
+
     public int insertMacro(Macro macro){
         int tmp = tableRepo.insertMacro(macro);
         return tmp;
