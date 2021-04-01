@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -247,28 +248,59 @@ public class CsvRestController {
         return entity;
     }
 
-    @GetMapping("table/list")
-    public ModelAndView getTable(@RequestParam(defaultValue = "1") int pageNo,
-                                 @RequestParam String tableName,
-                                 @RequestParam (defaultValue = "10")int rowsPer, ModelAndView mv) throws IOException {
-//        System.out.println(pageNo);
-//        System.out.println(tableName);
-//        System.out.println(rowsPer);
+
+//    @GetMapping("table/list")
+//    public ResponseEntity<Map<String, Object>> getTable(@RequestParam(defaultValue = "1") int pageNo, @RequestParam String tableName, @RequestParam (defaultValue = "10")int rowsPer, ModelAndView mv) throws IOException {
+//
+//        ResponseEntity<Map<String, Object>> entity = null;
+//        Map<String, String> map = new HashMap<>();
+//
+//        try {
+//            map.put("tableName", tableName);
+//            int totalRows = eService.getTotalRows(map);
+//            Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
+//            List<Map<String,String>> list = eService.getTableList(pager);
+//
+//            Map<String, Object> result = new HashMap<>();
+//
+//            result.put("list", list);
+//            result.put("pager", pager);
+/////////////////////////////////////////////////////////////
+//            entity = handleSuccess(result);
+//        } catch (RuntimeException e) {
+//            entity = handleException(e);
+//        }
+//        return entity;
+//    }
+
+    @GetMapping("table/list2222")
+    public ResponseEntity<Map<String, Object>> getTable222(@RequestParam(defaultValue = "1") int pageNo, @RequestParam String tableName, @RequestParam (defaultValue = "10")int rowsPer, ModelAndView mv) throws IOException {
+
+        ResponseEntity<Map<String, Object>> entity = null;
         Map<String, String> map = new HashMap<>();
-        map.put("tableName", tableName);
-        int totalRows = eService.getTotalRows(map);
-//        System.out.println(totalRows);
-        Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
 
-//        System.out.println("pager : " + pager);
+        try {
+            map.put("tableName", tableName);
+            int totalRows = eService.getTotalRows(map);
+            Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
+            List<Map<String,String>> list = eService.getTableList(pager);
 
-        List<Map<String,String>> list = eService.getTableList(pager);
-//        System.out.println(list);
+            Map<String, Object> result = new HashMap<>();
 
-        mv.setViewName("tabletest");
-        mv.addObject("list", list);
-        mv.addObject("pager", pager);
-        return mv;
+            result.put("list", list);
+            result.put("pager", pager);
+///////////////////////////////////////////////////////////
+            List<Object> listlist = new ArrayList<>();
+            listlist.add(list);
+            listlist.add(pager);
+
+            Map<String, Object> result2 = new HashMap<>();
+            result2.put("data",listlist);
+            entity = handleSuccess(result2);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
     }
 
     @GetMapping("macro/list")
