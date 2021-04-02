@@ -1,13 +1,11 @@
 package com.farmai.Service;
 
 import com.farmai.DTO.FileStorage;
-import com.farmai.DTO.Macro;
 import com.farmai.DTO.Pager;
 import com.farmai.Repository.CsvRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -67,22 +65,22 @@ public class CsvService {
         return list;
     }
 
-
-    public int insertMacro(Macro macro){
-        int tmp = tableRepo.insertMacro(macro);
-        return tmp;
-    }
-
-    public List<Macro> getMacroList(){
-        return tableRepo.getMacroList();
-    }
-
-    public void deleteMacro(Macro macro){
-        int tmp = tableRepo.deleteMacro(macro);
-    }
-
-    public Macro getMacro(Map<String, String> map){
-        return tableRepo.getMacro(map);
-    }
+//
+//    public int insertMacro(Macro macro){
+//        int tmp = tableRepo.insertMacro(macro);
+//        return tmp;
+//    }
+//
+//    public List<Macro> getMacroList(){
+//        return tableRepo.getMacroList();
+//    }
+//
+//    public void deleteMacro(Macro macro){
+//        int tmp = tableRepo.deleteMacro(macro);
+//    }
+//
+//    public Macro getMacro(Map<String, String> map){
+//        return tableRepo.getMacro(map);
+//    }
 
 }

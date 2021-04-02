@@ -64,23 +64,23 @@
     </resultMap>
 
 
-    <insert id="insertMacro" parameterType="macro">
-        insert into MACRO values (#{macroName},#{macroFile1},#{macroFile2},#{macroFile3},#{macroFile4},#{macroFile5})
-    </insert>
+<!--    <insert id="insertMacro" parameterType="macro">-->
+<!--        insert into MACRO values (#{macroName},#{macroFile1},#{macroFile2},#{macroFile3},#{macroFile4},#{macroFile5})-->
+<!--    </insert>-->
 
-    <select id="getMacroList" resultType="macro">
-        SELECT MACRO_NAME, MACRO_FILE1, MACRO_FILE2, MACRO_FILE3, MACRO_FILE4, MACRO_FILE5
-        FROM MACRO
-    </select>
+<!--    <select id="getMacroList" resultType="macro">-->
+<!--        SELECT MACRO_NAME, MACRO_FILE1, MACRO_FILE2, MACRO_FILE3, MACRO_FILE4, MACRO_FILE5-->
+<!--        FROM MACRO-->
+<!--    </select>-->
 
-    <delete id="deleteMacro" parameterType="macro">
-        delete from MACRO where MACRO_NAME=#{macroName}
-    </delete>
+<!--    <delete id="deleteMacro" parameterType="macro">-->
+<!--        delete from MACRO where MACRO_NAME=#{macroName}-->
+<!--    </delete>-->
 
-    <select id="getMacro" parameterType="map" resultType="macro">
-        SELECT MACRO_NAME, MACRO_FILE1, MACRO_FILE2, MACRO_FILE3, MACRO_FILE4, MACRO_FILE5
-        FROM MACRO where MACRO_NAME =${macroName}
-    </select>
+<!--    <select id="getMacro" parameterType="map" resultType="macro">-->
+<!--        SELECT MACRO_NAME, MACRO_FILE1, MACRO_FILE2, MACRO_FILE3, MACRO_FILE4, MACRO_FILE5-->
+<!--        FROM MACRO where MACRO_NAME =${macroName}-->
+<!--    </select>-->
 
     <select id="getColumnNames" parameterType="map" resultMap="columnList">
         SELECT COLUMN_NAME FROM USER_TAB_COLUMNS WHERE TABLE_NAME = ${tableName}

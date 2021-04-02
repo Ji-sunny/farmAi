@@ -177,8 +177,6 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                    <a href="${root}/csv/save/box_new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                        <i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                 </div>
 
                 <!-- Content Row -->
@@ -353,7 +351,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-10">
+                                    <div class="col-sm-12 col-md-8">
                                         <div class="dataTables_length">
                                             <label>테이블 검색:
                                                 <select id="aidatatable" name="aidatatable"
@@ -364,7 +362,13 @@
                                             </label>
                                         </div>
                                     </div>
+                                    <div class="col-sm-12 col-md-2">
+                                        <a href="${root}/csv/save/box_new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                            <i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                                    </div>
                                 </div>
+
+
                                 <div id="boardList">
 
                                 </div>
@@ -472,13 +476,13 @@
                         "<option value='" + vo.tablesName + "'>" + vo.filesName + "</option>");
                 });
             }, "json");
-        $.get("${root}/macro/list",
-            function (data, status) {
-                $.each(data.list, function (index, vo) {
-                    $("#selectMacro, #macrodel").append(
-                        "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");
-                });
-            }, "json");
+        <%--$.get("${root}/macro/list",--%>
+        <%--    function (data, status) {--%>
+        <%--        $.each(data.list, function (index, vo) {--%>
+        <%--            $("#selectMacro, #macrodel").append(--%>
+        <%--                "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");--%>
+        <%--        });--%>
+        <%--    }, "json");--%>
     });
 
     function getColumn(tableName, divName) {

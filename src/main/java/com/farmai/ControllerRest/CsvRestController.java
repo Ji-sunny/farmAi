@@ -2,11 +2,8 @@ package com.farmai.ControllerRest;
 
 
 import com.farmai.DTO.FileStorage;
-import com.farmai.DTO.Macro;
-import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -15,23 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -66,7 +60,7 @@ public class CsvRestController {
             ///////저장된 csv 파일있는지 체크, 있으면 저장 안되고 없으면 저장 진행///////////
             File f = new File(direction);
             if (f.exists()) {
-                throw new RuntimeException("같은 이름의 엑셀파일이 존재 합니다");
+                f.delete();
             }
 
             ///////csv 파일 저장///////////
@@ -134,9 +128,12 @@ public class CsvRestController {
                 Map<String, String> map = new HashMap<>();
                 if (dbTableName == null) {
                     /////////////////table 생성//////////////////////
+                    String str="";
                     String queryTable = "create table " + filesName + " (";
                     for (int i = 0; i < totalList.get(0).size(); i++) {
-                        queryTable += totalList.get(0).get(i).replace("\"", "") + " VARCHAR2(50), ";
+                        str = totalList.get(0).get(i).replace("\"", "");
+                        if(str.charAt(0)=='_') str = str.substring(1,str.length());
+                        queryTable +=  str+ " VARCHAR2(50), ";
                     }
                     queryTable = queryTable + "FILES_NAME VARCHAR2(50) "
                             + "constraint " + filesName + "_fk_cascade"
@@ -146,10 +143,6 @@ public class CsvRestController {
 
                     map.put("create_table", queryTable);
                     eService.createTable(map);
-
-
-
-
                     map.clear();
                     dbTableName = filesName;
                 }
@@ -163,7 +156,7 @@ public class CsvRestController {
                     int lens = totalList.get(i).size();
                     String queryInsert = "";
                     for (int j = 0; j < lens; j++) {
-                        queryInsert += totalList.get(i).get(j).replace("\"", "\'") + ", ";
+                        queryInsert += totalList.get(i).get(j).replace("\"", "\'")+ ", ";
                     }
                     queryInsert = queryInsert + "\'" + csvName.substring(0, csvName.length() - 4) + "\'";
                     map.put("val", queryInsert);
@@ -250,75 +243,22 @@ public class CsvRestController {
     }
 
 
-//    @GetMapping("table/list")
-//    public ResponseEntity<Map<String, Object>> getTable(@RequestParam(defaultValue = "1") int pageNo, @RequestParam String tableName, @RequestParam (defaultValue = "10")int rowsPer, ModelAndView mv) throws IOException {
-//
+
+
+//    @GetMapping("macro/list")
+//    public ResponseEntity<Map<String, Object>> getMacro() {
+////        System.out.println("/macro/list");
 //        ResponseEntity<Map<String, Object>> entity = null;
-//        Map<String, String> map = new HashMap<>();
-//
+//        Map<String, Object> result = new HashMap<>();
 //        try {
-//            map.put("tableName", tableName);
-//            int totalRows = eService.getTotalR
-//            ows(map);
-//            Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
-//            List<Map<String,String>> list = eService.getTableList(pager);
-//
-//            Map<String, Object> result = new HashMap<>();
-//
+//            List<Macro> list = eService.getMacroList();
 //            result.put("list", list);
-//            result.put("pager", pager);
-/////////////////////////////////////////////////////////////
 //            entity = handleSuccess(result);
 //        } catch (RuntimeException e) {
 //            entity = handleException(e);
 //        }
 //        return entity;
 //    }
-
-    @GetMapping("table/list2222")
-    public ResponseEntity<Map<String, Object>> getTable222(@RequestParam(defaultValue = "1") int pageNo, @RequestParam String tableName, @RequestParam (defaultValue = "10")int rowsPer, ModelAndView mv) throws IOException {
-
-        ResponseEntity<Map<String, Object>> entity = null;
-        Map<String, String> map = new HashMap<>();
-
-        try {
-            map.put("tableName", tableName);
-            int totalRows = eService.getTotalRows(map);
-            Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
-            List<Map<String,String>> list = eService.getTableList(pager);
-
-            Map<String, Object> result = new HashMap<>();
-
-            result.put("list", list);
-            result.put("pager", pager);
-///////////////////////////////////////////////////////////
-            List<Object> listlist = new ArrayList<>();
-            listlist.add(list);
-            listlist.add(pager);
-
-            Map<String, Object> result2 = new HashMap<>();
-            result2.put("data",listlist);
-            entity = handleSuccess(result2);
-        } catch (RuntimeException e) {
-            entity = handleException(e);
-        }
-        return entity;
-    }
-
-    @GetMapping("macro/list")
-    public ResponseEntity<Map<String, Object>> getMacro() {
-//        System.out.println("/macro/list");
-        ResponseEntity<Map<String, Object>> entity = null;
-        Map<String, Object> result = new HashMap<>();
-        try {
-            List<Macro> list = eService.getMacroList();
-            result.put("list", list);
-            entity = handleSuccess(result);
-        } catch (RuntimeException e) {
-            entity = handleException(e);
-        }
-        return entity;
-    }
 
     @GetMapping("table_new/list/{tableName}")
     public ResponseEntity<Map<String, Object>> getNewList(@PathVariable("tableName") String tableName) {
@@ -344,12 +284,14 @@ public class CsvRestController {
         Map<String, String>map = new HashMap<>();
         map.put("tableName",tableName);
         List<Map<String,String>> list = eService.getTableDataList(map); // DB에서 가져온 데이터리스트
-//        System.out.println("list : "+list);
-        System.out.println(list.get(0).keySet());
+
+        SimpleDateFormat fmt = new SimpleDateFormat ( "yyMMdd");
+        Date dt = new Date();
+        String time = fmt.format(dt);
 
         HttpHeaders header = new HttpHeaders();
         header.add("Content-Type", "text/csv; charset=MS949");
-        header.add("Content-Disposition", "attachment; filename=\"" + "total.csv" + "\"");
+        header.add("Content-Disposition", "attachment; filename=\"" + tableName+"_"+time+".csv" + "\"");
         return new ResponseEntity<String>(setContent(list), header, HttpStatus.CREATED);
     }
     public String setContent(List<Map<String,String>> list){
@@ -358,6 +300,7 @@ public class CsvRestController {
             str.append(a).append(",");
             str.append(" ");
         }
+        str.delete(str.length()-2, str.length());
         str.append("\n");
 
         System.out.println(list.get(0).values());
@@ -366,6 +309,7 @@ public class CsvRestController {
                 str.append(a).append(",");
                 str.append(" ");
             }
+            str.delete(str.length()-2, str.length());
             str.append("\n");
         }
 

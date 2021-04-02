@@ -1,12 +1,8 @@
 package com.farmai.Controller;
 
-import com.farmai.DTO.Macro;
 import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +15,6 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.*;
 
 @Controller
@@ -33,8 +27,6 @@ public class CsvController {
 
     @Resource(name = "uploadPath")
     String uploadPath;
-
-    private Macro macro;
 
 
     @GetMapping("delete")
@@ -139,7 +131,7 @@ public class CsvController {
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://127.0.0.1:8082/macroprocess";
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("table_name", tableName);
+        jsonObject.put("table_names", tableName);
         jsonObject.put("sel_cols", sel);
         jsonObject.put("stnd_cols", stnd);
         HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(),headers);
@@ -150,24 +142,24 @@ public class CsvController {
         return "redirect:/";
     }
 
-    @GetMapping("macro/delete")
-    public String macrodel(HttpServletRequest req) {
-        String macroName = req.getParameter("macro");
-        macro = new Macro(macroName);
-        eService.deleteMacro(macro);
-        return "redirect:/";
-    }
-
-    @PostMapping("macro/excute")
-    public String macroshow(HttpServletRequest req) {
-        String macroName = req.getParameter("macroName");
-        Map<String, String> map = new HashMap<>();
-        map.put("macroName", "\'" + macroName + "\'");
-        macro = eService.getMacro(map);
-        System.out.println(macro);
-
-        return "redirect:/";
-    }
+//    @GetMapping("macro/delete")
+//    public String macrodel(HttpServletRequest req) {
+//        String macroName = req.getParameter("macro");
+//        macro = new Macro(macroName);
+//        eService.deleteMacro(macro);
+//        return "redirect:/";
+//    }
+//
+//    @PostMapping("macro/excute")
+//    public String macroshow(HttpServletRequest req) {
+//        String macroName = req.getParameter("macroName");
+//        Map<String, String> map = new HashMap<>();
+//        map.put("macroName", "\'" + macroName + "\'");
+//        macro = eService.getMacro(map);
+//        System.out.println(macro);
+//
+//        return "redirect:/";
+//    }
 
     @GetMapping("table/list")
     public String getTable(@RequestParam(defaultValue = "1") int pageNo, @RequestParam String tableName, @RequestParam(defaultValue = "10") int rowsPer, Model model) throws IOException {
