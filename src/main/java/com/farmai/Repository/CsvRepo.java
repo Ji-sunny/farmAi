@@ -15,74 +15,45 @@ public class CsvRepo {
     private SqlSessionTemplate sst;
 
     public void createTable(Map<String, String> map) {
-        sst.selectOne("excel.createTable", map);
+        sst.selectOne("csv.createTable", map);
     }
 
     public void insertVal(Map<String, String> map) {
-        sst.insert("excel.insertVal", map);
+        sst.insert("csv.insertVal", map);
     }
 
     public String selectTname(Map<String, Object> map) {
-        String tmp = sst.selectOne("excel.selectTname", map);
+        String tmp = sst.selectOne("csv.selectTname", map);
         return tmp;
     }
 
     public int insertTableFileName(FileStorage fileStorage) {
-        int tmp = sst.insert("excel.insertTableFileName", fileStorage);
+        int tmp = sst.insert("csv.insertTableFileName", fileStorage);
         return tmp;
     }
 
     public int deleteCsvData(Map<String, String> map) {
-        int tmp = sst.delete("excel.deleteCsvData", map);
+        int tmp = sst.delete("csv.deleteCsvData", map);
         return tmp;
     }
 
-    public List<String> getFileNameList() {
-        return sst.selectList("excel.getFileNameList");
-    }
-    public List<FileStorage> getFileNameListNew() {
-        return sst.selectList("excel.getFileNameListNew");
-    }
     public List<FileStorage> getFileNameListOri() {
-        return sst.selectList("excel.getFileNameListOri");
-    }
-
-    public List<Map<String, String>> getColumnNames(Map<String, String>map) {
-        return sst.selectList("excel.getColumnNames",map);
+        return sst.selectList("csv.getFileNameListOri");
     }
 
     public int getTotalRows(Map<String, String> map) {
-        int tmp = sst.selectOne("excel.getTotalRows", map);
+        int tmp = sst.selectOne("csv.getTotalRows", map);
         return tmp;
     }
 
     public List<Map<String, String>> getTableList(Pager pager) {
-//        System.out.println("list : 전");
-        List<Map<String, String>> list = sst.selectList("excel.getTableList", pager);
-//        System.out.println("list : " + list);
+        List<Map<String, String>> list = sst.selectList("csv.getTableList", pager);
         return list;
     }
 
-    public List<Map<String,String>> getTableDataList(Map<String, String>map){
-        List<Map<String,String>> list = sst.selectList("excel.getTableDataList", map);
+    public List<Map<String, String>> getTableDataList(Map<String, String> map) {
+        List<Map<String, String>> list = sst.selectList("csv.getTableDataList", map);
         return list;
     }
 
-//    public int insertMacro(Macro macro) {
-//        int tmp = sst.insert("excel.insertMacro", macro);
-//        return tmp;
-//    }
-//
-//    public List<Macro> getMacroList() {
-//        return sst.selectList("excel.getMacroList");
-//    }
-//
-//    public int deleteMacro(Macro macro) {
-//        int tmp = sst.delete("excel.deleteMacro", macro);
-//        return tmp;
-//    }
-//
-//    public Macro getMacro(Map<String, String> map) {
-//        return sst.selectOne("excel.getMacro",map);
-//    }
 }

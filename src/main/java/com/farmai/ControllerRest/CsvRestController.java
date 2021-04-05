@@ -29,12 +29,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
+@RequestMapping("csv")
 public class CsvRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(CsvRestController.class);
 
     @Autowired
-    private CsvService eService;
+    private CsvService cService;
 
     private FileStorage fileStorage;
 
@@ -43,7 +44,7 @@ public class CsvRestController {
     String uploadPath;
 
 
-    @PostMapping(value = "/csvUpload")
+    @PostMapping(value = "csvUpload")
     public ResponseEntity<Map<String, Object>> excelUpload(MultipartHttpServletRequest request) throws Exception {
         System.out.println("업로드 진행");
         ResponseEntity<Map<String, Object>> entity = null;
@@ -96,7 +97,7 @@ public class CsvRestController {
 
             if (filesName.equals("farmingboxdata")) {
                 fileStorage = new FileStorage(filesName, csvName.substring(0, csvName.length() - 4));
-                eService.insertTableFileName(fileStorage);
+                cService.insertTableFileName(fileStorage);
                 Map<String, String> farmmap = new HashMap<>();
                 farmmap.put("tablename", filesName);
                 List<String> list = new ArrayList<>();
@@ -108,7 +109,7 @@ public class CsvRestController {
                     }
                     queryInsert = queryInsert + "\'" + csvName.substring(0, csvName.length() - 4) + "\'";
                     farmmap.put("val", queryInsert);
-                    eService.insertVal(farmmap);
+                    cService.insertVal(farmmap);
                 }
             } else {
                 ///////db에 csv 파일 구조와 같은 테이블 있는지 확인///////////
@@ -121,19 +122,19 @@ public class CsvRestController {
                 Map<String, Object> maps = new HashMap<>();
                 maps.put("inval", inValue);
                 maps.put("size", size);
-                String dbTableName = eService.selectTname(maps);
+                String dbTableName = cService.selectTname(maps);
                 System.out.println("dbTableName :  if전 null나오면 테이블 없음 : " + dbTableName);
 
                 ///////db에 csv 파일 구조가 긑은 table 없으면 테이블 생성///////////
                 Map<String, String> map = new HashMap<>();
                 if (dbTableName == null) {
                     /////////////////table 생성//////////////////////
-                    String str="";
+                    String str = "";
                     String queryTable = "create table " + filesName + " (";
                     for (int i = 0; i < totalList.get(0).size(); i++) {
                         str = totalList.get(0).get(i).replace("\"", "");
-                        if(str.charAt(0)=='_') str = str.substring(1,str.length());
-                        queryTable +=  str+ " VARCHAR2(50), ";
+                        if (str.charAt(0) == '_') str = str.substring(1, str.length());
+                        queryTable += str + " VARCHAR2(50), ";
                     }
                     queryTable = queryTable + "FILES_NAME VARCHAR2(50) "
                             + "constraint " + filesName + "_fk_cascade"
@@ -142,13 +143,13 @@ public class CsvRestController {
                             + ")";
 
                     map.put("create_table", queryTable);
-                    eService.createTable(map);
+                    cService.createTable(map);
                     map.clear();
                     dbTableName = filesName;
                 }
                 ////////////////////////////////////////////////////////
                 fileStorage = new FileStorage(dbTableName, csvName.substring(0, csvName.length() - 4));
-                eService.insertTableFileName(fileStorage);
+                cService.insertTableFileName(fileStorage);
                 /////////////////table data insert//////////////////////
                 map.put("tablename", dbTableName);
                 List<String> list = new ArrayList<>();
@@ -156,19 +157,19 @@ public class CsvRestController {
                     int lens = totalList.get(i).size();
                     String queryInsert = "";
                     for (int j = 0; j < lens; j++) {
-                        queryInsert += totalList.get(i).get(j).replace("\"", "\'")+ ", ";
+                        queryInsert += totalList.get(i).get(j).replace("\"", "\'") + ", ";
                     }
                     queryInsert = queryInsert + "\'" + csvName.substring(0, csvName.length() - 4) + "\'";
                     map.put("val", queryInsert);
-                    eService.insertVal(map);
+                    cService.insertVal(map);
                 }
             }
 
             ///////////////파이썬 연결 //////////////////////
 
             BufferedReader in = null;
-            URL obj = new URL("http://127.0.0.1:8082/preprocess?table="+filesName.toUpperCase()+"&file="+csvName.substring(0, csvName.length() - 4)); // 호출할 url
-            HttpURLConnection con = (HttpURLConnection)obj.openConnection();
+            URL obj = new URL("http://127.0.0.1:8082/preprocess?table=" + filesName.toUpperCase() + "&file=" + csvName.substring(0, csvName.length() - 4)); // 호출할 url
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
             con.setRequestMethod("GET");
             in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
@@ -180,12 +181,12 @@ public class CsvRestController {
             }
             String data = buff.toString().trim();
 
-            System.out.println("data : "+data);
+            System.out.println("data : " + data);
 
             JSONParser jsonParser = new JSONParser();
             JSONObject json = (JSONObject) jsonParser.parse(data);
 
-            if(!json.get("result").equals("success") || data.equals("")){
+            if (!json.get("result").equals("success") || data.equals("")) {
                 throw new RuntimeException((String) json.get("result"));
             }
             /////////////////////////////////////////////
@@ -201,39 +202,12 @@ public class CsvRestController {
         return entity;
     }
 
-
     @GetMapping("select/list")
-    public ResponseEntity<Map<String, Object>> getList() {
-        ResponseEntity<Map<String, Object>> entity = null;
-        Map<String, Object> result = new HashMap<>();
-        try {
-            List<String> list = eService.getFileNameList();
-            result.put("list", list);
-            entity = handleSuccess(result);
-        } catch (RuntimeException e) {
-            entity = handleException(e);
-        }
-        return entity;
-    }
-    @GetMapping("selectnew/list")
-    public ResponseEntity<Map<String, Object>> getListNew() {
-        ResponseEntity<Map<String, Object>> entity = null;
-        Map<String, Object> result = new HashMap<>();
-        try {
-            List<FileStorage> list = eService.getFileNameListNew();
-            result.put("list", list);
-            entity = handleSuccess(result);
-        } catch (RuntimeException e) {
-            entity = handleException(e);
-        }
-        return entity;
-    }
-    @GetMapping("selectori/list")
     public ResponseEntity<Map<String, Object>> getListOri() {
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
         try {
-            List<FileStorage> list = eService.getFileNameListOri();
+            List<FileStorage> list = cService.getFileNameListOri();
             result.put("list", list);
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
@@ -243,77 +217,42 @@ public class CsvRestController {
     }
 
 
+    @RequestMapping("save/{tableName}")
+    public ResponseEntity<String> getTotalList(@PathVariable("tableName") String tableName) {
+        Map<String, String> map = new HashMap<>();
+        map.put("tableName", tableName);
+        List<Map<String, String>> list = cService.getTableDataList(map); // DB에서 가져온 데이터리스트
 
-
-//    @GetMapping("macro/list")
-//    public ResponseEntity<Map<String, Object>> getMacro() {
-////        System.out.println("/macro/list");
-//        ResponseEntity<Map<String, Object>> entity = null;
-//        Map<String, Object> result = new HashMap<>();
-//        try {
-//            List<Macro> list = eService.getMacroList();
-//            result.put("list", list);
-//            entity = handleSuccess(result);
-//        } catch (RuntimeException e) {
-//            entity = handleException(e);
-//        }
-//        return entity;
-//    }
-
-    @GetMapping("table_new/list/{tableName}")
-    public ResponseEntity<Map<String, Object>> getNewList(@PathVariable("tableName") String tableName) {
-//        System.out.println(tableName);
-
-        ResponseEntity<Map<String, Object>> entity = null;
-        Map<String, Object> result = new HashMap<>();
-        Map<String, String>map = new HashMap<>();
-        try {
-            map.put("tableName","\'"+tableName.toUpperCase()+"\'");
-            List<Map<String, String>> list = eService.getColumnNames(map);
-            result.put("list", list);
-
-            entity = handleSuccess(result);
-        } catch (RuntimeException e) {
-            entity = handleException(e);
-        }
-        return entity;
-    }
-
-    @RequestMapping("csv/save/{tableName}")
-    public ResponseEntity<String> getTotalList(@PathVariable("tableName")String tableName) {
-        Map<String, String>map = new HashMap<>();
-        map.put("tableName",tableName);
-        List<Map<String,String>> list = eService.getTableDataList(map); // DB에서 가져온 데이터리스트
-
-        SimpleDateFormat fmt = new SimpleDateFormat ( "yyMMdd");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyMMdd");
         Date dt = new Date();
         String time = fmt.format(dt);
 
         HttpHeaders header = new HttpHeaders();
         header.add("Content-Type", "text/csv; charset=MS949");
-        header.add("Content-Disposition", "attachment; filename=\"" + tableName+"_"+time+".csv" + "\"");
+        header.add("Content-Disposition", "attachment; filename=\"" + tableName + "_" + time + ".csv" + "\"");
         return new ResponseEntity<String>(setContent(list), header, HttpStatus.CREATED);
     }
-    public String setContent(List<Map<String,String>> list){
-        StringBuilder str= new StringBuilder();
-        for(String a : list.get(0).keySet()){
+
+    public String setContent(List<Map<String, String>> list) {
+        StringBuilder str = new StringBuilder();
+        for (String a : list.get(0).keySet()) {
             str.append(a).append(",");
             str.append(" ");
         }
-        str.delete(str.length()-2, str.length());
+        str.delete(str.length() - 2, str.length());
         str.append("\n");
 
         System.out.println(list.get(0).values());
-        for(int i =0; i<list.size();i++){
-            for(String a : list.get(i).values()){
+        for (int i = 0; i < list.size(); i++) {
+            for (String a : list.get(i).values()) {
                 str.append(a).append(",");
                 str.append(" ");
             }
-            str.delete(str.length()-2, str.length());
+            str.delete(str.length() - 2, str.length());
             str.append("\n");
         }
 
-        System.out.println("str : "+str);
+        System.out.println("str : " + str);
         return str.toString();
     }
 

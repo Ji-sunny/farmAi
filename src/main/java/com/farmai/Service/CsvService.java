@@ -12,75 +12,46 @@ import java.util.Map;
 @Service
 public class CsvService {
     @Autowired
-    private CsvRepo tableRepo;
+    private CsvRepo cRepo;
 
     public void createTable(Map<String, String> map) {
-        tableRepo.createTable(map);
+        cRepo.createTable(map);
     }
 
     public void insertVal(Map<String, String> map) {
-        tableRepo.insertVal(map);
+        cRepo.insertVal(map);
     }
 
     public String selectTname(Map<String, Object> map) {
-        String tmp = tableRepo.selectTname(map);
+        String tmp = cRepo.selectTname(map);
         return tmp;
     }
 
     public void insertTableFileName(FileStorage fileStorage) {
-        int tmp = tableRepo.insertTableFileName(fileStorage);
+        int tmp = cRepo.insertTableFileName(fileStorage);
     }
 
     public void deleteCsvData(Map<String, String> map) {
-        int tmp = tableRepo.deleteCsvData(map);
-//        System.out.println(tmp);
+        int tmp = cRepo.deleteCsvData(map);
     }
 
-    public List<String> getFileNameList() {
-        return tableRepo.getFileNameList();
-    }
-    public List<FileStorage> getFileNameListNew() {
-        return tableRepo.getFileNameListNew();
-    }
     public List<FileStorage> getFileNameListOri() {
-        return tableRepo.getFileNameListOri();
-    }
-
-    public List<Map<String, String>> getColumnNames(Map<String, String>map){
-        return tableRepo.getColumnNames(map);
+        return cRepo.getFileNameListOri();
     }
 
     public int getTotalRows(Map<String, String> map) {
-        int total = tableRepo.getTotalRows(map);
+        int total = cRepo.getTotalRows(map);
         return total;
     }
 
-    public List<Map<String,String>> getTableList(Pager pager){
-        List<Map<String,String>> list = tableRepo.getTableList(pager);
+    public List<Map<String, String>> getTableList(Pager pager) {
+        List<Map<String, String>> list = cRepo.getTableList(pager);
         return list;
     }
 
-    public List<Map<String,String>> getTableDataList(Map<String, String>map){
-        List<Map<String,String>> list = tableRepo.getTableDataList(map);
+    public List<Map<String, String>> getTableDataList(Map<String, String> map) {
+        List<Map<String, String>> list = cRepo.getTableDataList(map);
         return list;
     }
-
-//
-//    public int insertMacro(Macro macro){
-//        int tmp = tableRepo.insertMacro(macro);
-//        return tmp;
-//    }
-//
-//    public List<Macro> getMacroList(){
-//        return tableRepo.getMacroList();
-//    }
-//
-//    public void deleteMacro(Macro macro){
-//        int tmp = tableRepo.deleteMacro(macro);
-//    }
-//
-//    public Macro getMacro(Map<String, String> map){
-//        return tableRepo.getMacro(map);
-//    }
 
 }

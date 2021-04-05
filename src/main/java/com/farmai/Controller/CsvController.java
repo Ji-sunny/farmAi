@@ -32,9 +32,7 @@ public class CsvController {
     @GetMapping("delete")
     public String delete(HttpServletRequest req) {
         String filename = req.getParameter("csvexcel");
-//        System.out.println(filename);
         String location = uploadPath + filename + ".csv";
-//        System.out.println(location);
         File file = new File(location);
         if (file.exists()) {
             if (file.delete()) {
@@ -142,24 +140,6 @@ public class CsvController {
         return "redirect:/";
     }
 
-//    @GetMapping("macro/delete")
-//    public String macrodel(HttpServletRequest req) {
-//        String macroName = req.getParameter("macro");
-//        macro = new Macro(macroName);
-//        eService.deleteMacro(macro);
-//        return "redirect:/";
-//    }
-//
-//    @PostMapping("macro/excute")
-//    public String macroshow(HttpServletRequest req) {
-//        String macroName = req.getParameter("macroName");
-//        Map<String, String> map = new HashMap<>();
-//        map.put("macroName", "\'" + macroName + "\'");
-//        macro = eService.getMacro(map);
-//        System.out.println(macro);
-//
-//        return "redirect:/";
-//    }
 
     @GetMapping("table/list")
     public String getTable(@RequestParam(defaultValue = "1") int pageNo, @RequestParam String tableName, @RequestParam(defaultValue = "10") int rowsPer, Model model) throws IOException {

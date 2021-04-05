@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="excel">
+<mapper namespace="csv">
     <select id="createTable" parameterType="map">
         ${create_table}
     </select>
@@ -25,14 +25,6 @@
         delete from FILE_STORAGE where FILES_NAME like ${filename}
     </delete>
 
-    <select id="getFileNameList" resultType="String">
-        select distinct lower(TABLES_NAME) as TABLES_NAME from FILE_STORAGE where FILES_NAME not like '%_new%'
-        union all
-        select distinct lower(TABLES_NAME) as TABLES_NAME from FILE_STORAGE where FILES_NAME like '%_new%'
-    </select>
-    <select id="getFileNameListNew" resultType="filestorage">
-        select TABLES_NAME, FILES_NAME from FILE_STORAGE where FILES_NAME like '%_new%'
-    </select>
     <select id="getFileNameListOri" resultType="filestorage">
         select TABLES_NAME, FILES_NAME from FILE_STORAGE where FILES_NAME not like '%_new%'
     </select>
@@ -63,29 +55,5 @@
     <resultMap type="java.util.LinkedHashMap" id="tableDataList">
     </resultMap>
 
-
-<!--    <insert id="insertMacro" parameterType="macro">-->
-<!--        insert into MACRO values (#{macroName},#{macroFile1},#{macroFile2},#{macroFile3},#{macroFile4},#{macroFile5})-->
-<!--    </insert>-->
-
-<!--    <select id="getMacroList" resultType="macro">-->
-<!--        SELECT MACRO_NAME, MACRO_FILE1, MACRO_FILE2, MACRO_FILE3, MACRO_FILE4, MACRO_FILE5-->
-<!--        FROM MACRO-->
-<!--    </select>-->
-
-<!--    <delete id="deleteMacro" parameterType="macro">-->
-<!--        delete from MACRO where MACRO_NAME=#{macroName}-->
-<!--    </delete>-->
-
-<!--    <select id="getMacro" parameterType="map" resultType="macro">-->
-<!--        SELECT MACRO_NAME, MACRO_FILE1, MACRO_FILE2, MACRO_FILE3, MACRO_FILE4, MACRO_FILE5-->
-<!--        FROM MACRO where MACRO_NAME =${macroName}-->
-<!--    </select>-->
-
-    <select id="getColumnNames" parameterType="map" resultMap="columnList">
-        SELECT COLUMN_NAME FROM USER_TAB_COLUMNS WHERE TABLE_NAME = ${tableName}
-    </select>
-    <resultMap type="map" id="columnList">
-    </resultMap>
 
 </mapper>

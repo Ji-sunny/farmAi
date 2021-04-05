@@ -200,7 +200,7 @@
                                         </div>
                                         <form id="excelUploadForm" name="excelUploadForm"
                                               enctype="multipart/form-data"
-                                              method="post" action="${root}/csvUpload">
+                                              method="post" action="${root}/csv/csvUpload">
                                             <div class="contents">
                                                 <dl class="vm_name">
                                                     <dt class="down w90">첨부파일(only one)</dt>
@@ -416,7 +416,7 @@
 </body>
 <script>
     $(document).ready(function () {
-        $.get("${root}/selectori/list",
+        $.get("${root}/csv/select/list",
             function (data, status) {
                 // console.log(data)
                 $.each(data.list, function (index, vo) {
@@ -426,7 +426,7 @@
                         "<option value='" + vo.filesName + "'>" + vo.filesName + "</option>");
                 });
             }, "json");
-        $.get("${root}/select/list",
+        $.get("${root}/process/select/list",
             function (data, status) {
                 // console.log(data)
                 $.each(data.list, function (index, vo) {
@@ -436,7 +436,7 @@
                         "<option value='" + vo + "'>" + vo + "</option>");
                 });
             }, "json");
-        $.get("${root}/selectnew/list",
+        $.get("${root}/process/selectnew/list",
             function (data, status) {
                 // console.log(data)
                 $.each(data.list, function (index, vo) {
@@ -451,7 +451,7 @@
     function getColumn(tableName, divName) {
         // alert(tableName+" "+divName);
         $("." + divName).empty();
-        $.get("${root}/table_new/list/" + tableName,
+        $.get("${root}/process/table_new/list/" + tableName,
             function (data, status) {
                 if (divName == 'merge1'){
                     $("." + divName).append("받을 열 : ");

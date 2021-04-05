@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="process">
+    <select id="getFileNameList" resultType="String">
+        select distinct lower(TABLES_NAME) as TABLES_NAME from FILE_STORAGE where FILES_NAME not like '%_new%'
+        union all
+        select distinct lower(TABLES_NAME) as TABLES_NAME from FILE_STORAGE where FILES_NAME like '%_new%'
+    </select>
+
+    <select id="getFileNameListNew" resultType="filestorage">
+        select TABLES_NAME, FILES_NAME from FILE_STORAGE where FILES_NAME like '%_new%'
+    </select>
+
+    <select id="getColumnNames" parameterType="map" resultMap="columnList">
+        SELECT COLUMN_NAME FROM USER_TAB_COLUMNS WHERE TABLE_NAME = ${tableName}
+    </select>
+    <resultMap type="map" id="columnList">
+    </resultMap>
+</mapper>

@@ -231,13 +231,13 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <form method="get" action="${root}/merge">
-                                        <select name="macro1" id="macroselect1" class=""
-                                                data-live-search="true" onchange="getColumn(this.value,name)">
+                                        <select name="macro" id="marcoColumn" class=""
+                                                data-live-search="true" onchange="getMarcoColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
-                                        <div class="macro1"></div>
+                                        <div class="macro"></div>
                                         <input type="text" name="macroName"/>
-                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="모델링 실행">
+                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="매크로 추가">
                                     </form>
                                 </div>
                             </div>
@@ -245,7 +245,7 @@
                     </div>
 
                 </div>
-
+                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick=""> 매크로 실행</a>
                 <!-- Content Row -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -334,6 +334,30 @@
 <script src="${root}/resources/js/demo/datatables-demo.js"></script>
 </body>
 <script>
+    $(document).ready(function () {
+        $.get("${root}/macro/tableList",
+            function (data, status) {
+                $.each(data.list, function (index, vo) {
+                    $("#marcoColumn").append(
+                        "<option value='" + vo.tablesName + "'>" + vo.filesName + "</option>");
+                });
+            }, "json");
+    });
+
+    function getMarcoColumn(tableName, divName) {
+        // alert(tableName+" "+divName);
+        $("." + divName).empty();
+        $.get("${root}/macro/columnList/" + tableName,
+            function (data, status) {
+                $("." + divName).append("받을 열 : ");
+                $.each(data.list, function (index, vo) {
+                    $("." + divName).append("<input type=\"checkbox\" name=\"check1\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                });
+                $("." + divName).append("<input type=\"hidden\" name=\"check1name\" class=\"\" value="+tableName+">");
+                $("." + divName).append("</br>");
+            }, "json");
+    }
+
     $("#sidebarToggle").on('click', function(e) {
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
