@@ -258,7 +258,7 @@
                             <div class="card-body">
 
                                 <div class="row no-gutters align-items-center">
-                                    <form method="get" action="${root}/merge">
+                                    <form method="get" action="${root}/process/merge">
                                         <select name="merge1" id="mergeselect1" class=""
                                                 data-live-search="true" onchange="getColumn(this.value,name)">
                                             <option value="">선택</option>
@@ -288,7 +288,8 @@
                                             <option value="">선택</option>
                                         </select>
                                         <div class="merge5"></div>
-                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="Merge 실행">
+                                        <input type="submit" class="btn-primary btn-sm" name="btn" onclick="makeMerge()"
+                                               value="Merge 실행">
                                     </form>
                                 </div>
 
@@ -611,6 +612,12 @@
             console.log(textStatus);
             console.log(errorThrown);
         });
+
+    }
+    function makeMerge(){
+        console.log('test');
+        var name = $('#delexcel option:selected').val();
+        console.log(name);
 
     }
     $("#sidebarToggle").on('click', function(e) {
