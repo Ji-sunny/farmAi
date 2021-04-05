@@ -31,8 +31,9 @@ public class CsvService {
         int tmp = cRepo.insertTableFileName(fileStorage);
     }
 
-    public void deleteCsvData(Map<String, String> map) {
+    public int deleteCsvData(Map<String, String> map) {
         int tmp = cRepo.deleteCsvData(map);
+        return tmp;
     }
 
     public List<FileStorage> getFileNameListOri() {

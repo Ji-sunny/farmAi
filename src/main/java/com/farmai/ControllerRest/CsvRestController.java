@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -199,6 +200,35 @@ public class CsvRestController {
             entity = handleException(e.getMessage());
         }
 
+        return entity;
+    }
+
+    @GetMapping("delete/{csvexcel}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("csvexcel")String csvexcel) {
+        ResponseEntity<Map<String, Object>> entity = null;
+        Map<String, Object> result = new HashMap<>();
+        String filename = csvexcel;
+        String location = uploadPath + filename + ".csv";
+        try {
+            File file = new File(location);
+            if (file.exists()) {
+                if (file.delete()) {
+                    System.out.println("파일삭제 성공");
+                } else {
+                    System.out.println("파일삭제 실패");
+                }
+            } else {
+                System.out.println("파일이 존재하지 않습니다.");
+            }
+            Map<String, String> map = new HashMap<>();
+            map.put("filename", "\'%" + filename.toUpperCase() + "%\'");
+
+            int tmp = cService.deleteCsvData(map);
+            result.put("tmp", tmp);
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
         return entity;
     }
 

@@ -25,32 +25,6 @@ public class CsvController {
     @Autowired
     private CsvService eService;
 
-    @Resource(name = "uploadPath")
-    String uploadPath;
-
-
-    @GetMapping("delete")
-    public String delete(HttpServletRequest req) {
-        String filename = req.getParameter("csvexcel");
-        String location = uploadPath + filename + ".csv";
-        File file = new File(location);
-        if (file.exists()) {
-            if (file.delete()) {
-                System.out.println("파일삭제 성공");
-            } else {
-                System.out.println("파일삭제 실패");
-            }
-        } else {
-            System.out.println("파일이 존재하지 않습니다.");
-        }
-        Map<String, String> map = new HashMap<>();
-        map.put("filename", "\'%" + filename.toUpperCase() + "%\'");
-        System.out.println(filename);
-        eService.deleteCsvData(map);
-
-        return "redirect:/";
-    }
-
     @GetMapping("merge")
     public String macroSave(HttpServletRequest req) {
         String[] check1 = req.getParameterValues("check1");

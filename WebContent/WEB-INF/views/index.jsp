@@ -228,14 +228,14 @@
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                             저장된 엑셀 파일 삭제
                                         </div>
-                                        <form method="get" action="${root}/delete">
+                                        <form method="get">
                                             <dt class="down w90"><label>엑셀선택</label></dt>
                                             <select name="csvexcel" id="delexcel" class="selectpicker"
                                                     data-live-search="true">
                                                 <option value="">선택</option>
                                             </select>
                                             <br/>
-                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn"
+                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn" onclick="delCsv()"
                                                    value="파일삭제">
                                         </form>
                                     </div>
@@ -595,7 +595,24 @@
         });
 
     }
+    function delCsv(){
+        console.log('test');
+        var name = $('#delexcel option:selected').val();
+        console.log(name);
+        $.ajax({
+            url: "${root}/csv/delete/"+name,
+            type: "get"
+        }).done(function (result) {
+            console.log("결과확인");
 
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("에러");
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        });
+
+    }
     $("#sidebarToggle").on('click', function(e) {
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
