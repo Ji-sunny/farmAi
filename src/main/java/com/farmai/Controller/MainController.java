@@ -17,5 +17,10 @@ public class MainController {
         logger.info("실행 : main");
         return "index";
     }
+    @RequestMapping(value = "modeling")
+    public static String modeling(){
+        logger.info("실행 : modeling");
+        return "modeling";
+    }
 
 }

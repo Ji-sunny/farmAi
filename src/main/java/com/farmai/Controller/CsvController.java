@@ -53,7 +53,7 @@ public class CsvController {
         return "redirect:/";
     }
 
-    @GetMapping("modeling")
+    @GetMapping("merge")
     public String macroSave(HttpServletRequest req) {
         String[] check1 = req.getParameterValues("check1");
         String[] check2 = req.getParameterValues("check2");

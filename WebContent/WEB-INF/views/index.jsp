@@ -58,7 +58,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.jsp">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${root}/">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -70,7 +70,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="index.jsp">
+            <a class="nav-link" href="${root}/">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -84,6 +84,12 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="${root}/modeling" aria-expanded="true" >
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Modeling</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
@@ -238,40 +244,6 @@
                         </div>
                     </div>
 
-                    <!-- Pending Requests Card Example -->
-                    <%--                    <div class="col-xl-3 col-md-6 mb-4">--%>
-                    <%--                        <div class="card border-left-warning shadow h-100 py-2">--%>
-                    <%--                            <div class="card-body">--%>
-                    <%--                                <div class="row no-gutters align-items-center">--%>
-                    <%--                                    <div class="col mr-2">--%>
-                    <%--                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">--%>
-                    <%--                                            매크로 리스트--%>
-                    <%--                                        </div>--%>
-                    <%--                                        <div class="row no-gutters align-items-center">--%>
-                    <%--                                            <form method="post" action="${root}/macro/excute">--%>
-                    <%--                                                <select id="selectMacro" name="macroName" class="selectpicker" data-live-search="true">--%>
-                    <%--                                                    <option value="">선택</option>--%>
-                    <%--                                                </select>--%>
-                    <%--                                                <input type="submit" class="btn-primary btn-sm" name="btn" value="전처리 실행">--%>
-                    <%--                                            </form>--%>
-                    <%--                                        </div>--%>
-                    <%--                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">--%>
-                    <%--                                            매크로 삭제--%>
-                    <%--                                        </div>--%>
-                    <%--                                        <form method="get" action="${root}/macro/delete">--%>
-                    <%--                                            <dt class="down w90"><label>매크로 선택</label></dt>--%>
-                    <%--                                            <select name="macro" id="macrodel" class="selectpicker" data-live-search="true">--%>
-                    <%--                                                <option value="">선택</option>--%>
-                    <%--                                            </select>--%>
-                    <%--                                            <br/>--%>
-                    <%--                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn"--%>
-                    <%--                                                   value="매크로 삭제">--%>
-                    <%--                                        </form>--%>
-                    <%--                                    </div>--%>
-                    <%--                                </div>--%>
-                    <%--                            </div>--%>
-                    <%--                        </div>--%>
-                    <%--                    </div>--%>
                 </div>
 
                 <div class="row">
@@ -286,39 +258,37 @@
                             <div class="card-body">
 
                                 <div class="row no-gutters align-items-center">
-                                    <form method="get" action="${root}/modeling">
-                                        <select name="macro1" id="macroselect1" class=""
+                                    <form method="get" action="${root}/merge">
+                                        <select name="merge1" id="mergeselect1" class=""
                                                 data-live-search="true" onchange="getColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
-                                        <div class="macro1"></div>
+                                        <div class="merge1"></div>
 
-                                        <select name="macro2" id="macroselect2" class=""
+                                        <select name="merge2" id="mergeselect2" class=""
                                                 data-live-search="true" onchange="getColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
-                                        <div class="macro2"></div>
+                                        <div class="merge2"></div>
 
-                                        <select name="macro3" id="macroselect3" class=""
+                                        <select name="merge3" id="mergeselect3" class=""
                                                 data-live-search="true" onchange="getColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
-                                        <div class="macro3"></div>
+                                        <div class="merge3"></div>
 
-                                        <select name="macro4" id="macroselect4" class=""
+                                        <select name="merge4" id="mergeselect4" class=""
                                                 data-live-search="true" onchange="getColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
-                                        <div class="macro4"></div>
+                                        <div class="merge4"></div>
 
-                                        <select name="macro5" id="macroselect5" class=""
+                                        <select name="merge5" id="mergeselect5" class=""
                                                 data-live-search="true" onchange="getColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
-                                        <div class="macro5"></div>
-
-<%--                                        <input type="text" name="macroName">--%>
-                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="모델링 실행">
+                                        <div class="merge5"></div>
+                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="Merge 실행">
                                     </form>
                                 </div>
 
@@ -472,17 +442,10 @@
                 $.each(data.list, function (index, vo) {
                     // console.log("1", index)
                     // console.log("2", vo)
-                    $("#macroselect1, #macroselect2, #macroselect3, #macroselect4, #macroselect5").append(
+                    $("#mergeselect1, #mergeselect2, #mergeselect3, #mergeselect4, #mergeselect5").append(
                         "<option value='" + vo.tablesName + "'>" + vo.filesName + "</option>");
                 });
             }, "json");
-        <%--$.get("${root}/macro/list",--%>
-        <%--    function (data, status) {--%>
-        <%--        $.each(data.list, function (index, vo) {--%>
-        <%--            $("#selectMacro, #macrodel").append(--%>
-        <%--                "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");--%>
-        <%--        });--%>
-        <%--    }, "json");--%>
     });
 
     function getColumn(tableName, divName) {
@@ -490,7 +453,7 @@
         $("." + divName).empty();
         $.get("${root}/table_new/list/" + tableName,
             function (data, status) {
-                if (divName == 'macro1'){
+                if (divName == 'merge1'){
                     $("." + divName).append("받을 열 : ");
                     $.each(data.list, function (index, vo) {
                         $("." + divName).append("<input type=\"checkbox\" name=\"check1\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
@@ -502,7 +465,7 @@
                         $("." + divName).append("<input type=\"checkbox\" name=\"check2\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                     });
                 }
-                if (divName == 'macro2'){
+                if (divName == 'merge2'){
                     $("." + divName).append("받을 열 : ");
                     $.each(data.list, function (index, vo) {
                         $("." + divName).append("<input type=\"checkbox\" name=\"check3\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
@@ -514,7 +477,7 @@
                         $("." + divName).append("<input type=\"checkbox\" name=\"check4\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                     });
                 }
-                if (divName == 'macro3'){
+                if (divName == 'merge3'){
                     $("." + divName).append("받을 열 : ");
                     $.each(data.list, function (index, vo) {
                         $("." + divName).append("<input type=\"checkbox\" name=\"check5\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
@@ -526,7 +489,7 @@
                         $("." + divName).append("<input type=\"checkbox\" name=\"check6\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                     });
                 }
-                if (divName == 'macro4'){
+                if (divName == 'merge4'){
                     $("." + divName).append("받을 열 : ");
                     $.each(data.list, function (index, vo) {
                         $("." + divName).append("<input type=\"checkbox\" name=\"check7\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
@@ -538,7 +501,7 @@
                         $("." + divName).append("<input type=\"checkbox\" name=\"check8\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                     });
                 }
-                if (divName == 'macro5'){
+                if (divName == 'merge5'){
                     $("." + divName).append("받을 열 : ");
                     $.each(data.list, function (index, vo) {
                         $("." + divName).append("<input type=\"checkbox\" name=\"check9\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
