@@ -85,9 +85,15 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="${root}/modeling" aria-expanded="true" >
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Modeling</span>
+            <a class="nav-link collapsed" href="${root}/modeling1" aria-expanded="true" >
+                <i class="fas fa-chart-bar"></i>
+                <span>Modeling1</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="${root}/modeling2" aria-expanded="true" >
+                <i class="fas fa-chart-pie"></i>
+                <span>Modeling2</span>
             </a>
         </li>
         <li class="nav-item">

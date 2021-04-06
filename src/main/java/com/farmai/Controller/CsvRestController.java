@@ -1,4 +1,4 @@
-package com.farmai.ControllerRest;
+package com.farmai.Controller;
 
 
 import com.farmai.DTO.FileStorage;
@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;

@@ -12,15 +12,15 @@ public class MainController {
 
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     
-    @RequestMapping(value = "/")
+    @RequestMapping("/")
     public static String index(){
         logger.info("실행 : main");
         return "index";
     }
-    @RequestMapping(value = "modeling")
+    @RequestMapping("modeling1")
     public static String modeling(){
-        logger.info("실행 : modeling");
-        return "modeling";
+        logger.info("실행 : modeling1");
+        return "modeling1";
     }
 
 }

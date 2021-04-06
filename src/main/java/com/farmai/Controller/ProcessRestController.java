@@ -1,31 +1,17 @@
-package com.farmai.ControllerRest;
+package com.farmai.Controller;
 
 
 import com.farmai.DTO.FileStorage;
-import com.farmai.Service.CsvService;
 import com.farmai.Service.ProcessService;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -159,7 +145,7 @@ public class ProcessRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://127.0.0.1:8082/macroprocess";
+        String url = "http://127.0.0.1:8082/mergetable";
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("table_names", tableName);
         jsonObject.put("sel_cols", sel);
