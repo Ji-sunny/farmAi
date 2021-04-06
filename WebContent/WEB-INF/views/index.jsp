@@ -241,7 +241,7 @@
                                                 <option value="">선택</option>
                                             </select>
                                             <br/>
-                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn" onclick="delCsv()"
+                                            <input type="submit" class="btn-success btn-sm mt-2" onclick="delCsv()"
                                                    value="파일삭제">
                                         </form>
                                     </div>
@@ -294,7 +294,7 @@
                                             <option value="">선택</option>
                                         </select>
                                         <div class="merge5"></div>
-                                        <input type="submit" class="btn-primary btn-sm" name="btn" onclick="makeMerge()"
+                                        <input type="submit" class="btn-primary btn-sm" name="btn"
                                                value="Merge 실행">
                                     </form>
                                 </div>
@@ -611,7 +611,7 @@
             type: "get"
         }).done(function (result) {
             console.log("결과확인");
-
+            javascript:history.go(0);
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log("에러");
             console.log(jqXHR);
@@ -620,18 +620,7 @@
         });
 
     }
-    function makeMerge(){
-        console.log('test');
-        console.log(name);
 
-
-
-
-
-
-
-
-    }
     $("#sidebarToggle").on('click', function(e) {
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");

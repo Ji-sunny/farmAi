@@ -111,7 +111,6 @@
             </div>
         </li>
 
-
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 
@@ -242,7 +241,7 @@
                                             <option value="">선택</option>
                                         </select>
                                         <div class="macro"></div>
-                                        <input type="text" name="macroName"/>
+                                        매크로 이름 : <input type="text" name="macroName"/>
                                         <input type="submit" class="btn-primary btn-sm" name="btn" value="매크로 추가">
                                     </form>
                                 </div>
@@ -341,26 +340,32 @@
 </body>
 <script>
     $(document).ready(function () {
-        $.get("${root}/macro/tableList",
+        $.get("${root}/process/selectnew/list",
             function (data, status) {
+                // console.log(data)
                 $.each(data.list, function (index, vo) {
+                    // console.log("1", index)
+                    // console.log("2", vo)
                     $("#marcoColumn").append(
                         "<option value='" + vo.tablesName + "'>" + vo.filesName + "</option>");
                 });
             }, "json");
     });
-
+//marcoColumn
     function getMarcoColumn(tableName, divName) {
-        // alert(tableName+" "+divName);
         $("." + divName).empty();
-        $.get("${root}/macro/columnList/" + tableName,
+        $.get("${root}/process/table_new/list/" + tableName,
             function (data, status) {
-                $("." + divName).append("받을 열 : ");
+                $("." + divName).append("cols_X : ");
                 $.each(data.list, function (index, vo) {
                     $("." + divName).append("<input type=\"checkbox\" name=\"check1\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                 });
                 $("." + divName).append("<input type=\"hidden\" name=\"check1name\" class=\"\" value="+tableName+">");
                 $("." + divName).append("</br>");
+                $("." + divName).append("col_y : ");
+                $.each(data.list, function (index, vo) {
+                    $("." + divName).append("<input type=\"checkbox\" name=\"check2\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                });
             }, "json");
     }
 

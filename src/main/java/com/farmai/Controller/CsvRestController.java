@@ -114,12 +114,17 @@ public class CsvRestController {
             } else {
                 ///////db에 csv 파일 구조와 같은 테이블 있는지 확인///////////
                 String inValue = "";
+                String inValueBe="";
                 int size = totalList.get(0).size();
                 for (int i = 0; i < totalList.get(0).size(); i++) {
-                    inValue += totalList.get(0).get(i).replace("\"", "\'") + ", ";
+                    inValueBe = totalList.get(0).get(i).replace("\"", "").toUpperCase();
+                    if (inValueBe.charAt(0) == '_') inValueBe = inValueBe.substring(1, inValueBe.length());
+                    inValue += "\'"+ inValueBe +"\'" + ", ";
                 }
                 inValue = inValue.substring(0, inValue.length() - 2);
                 Map<String, Object> maps = new HashMap<>();
+                System.out.println("inValue : "+inValue);
+                System.out.println("size : "+size);
                 maps.put("inval", inValue);
                 maps.put("size", size);
                 String dbTableName = cService.selectTname(maps);
@@ -132,7 +137,7 @@ public class CsvRestController {
                     String str = "";
                     String queryTable = "create table " + filesName + " (";
                     for (int i = 0; i < totalList.get(0).size(); i++) {
-                        str = totalList.get(0).get(i).replace("\"", "");
+                        str = totalList.get(0).get(i).replace("\"", "").toUpperCase();
                         if (str.charAt(0) == '_') str = str.substring(1, str.length());
                         queryTable += str + " VARCHAR2(50), ";
                     }
@@ -208,20 +213,20 @@ public class CsvRestController {
         Map<String, Object> result = new HashMap<>();
         String filename = csvexcel;
         String location = uploadPath + filename + ".csv";
-        try {
-            File file = new File(location);
-            if (file.exists()) {
-                if (file.delete()) {
-                    System.out.println("파일삭제 성공");
-                } else {
-                    System.out.println("파일삭제 실패");
-                }
+        File file = new File(location);
+        if (file.exists()) {
+            if (file.delete()) {
+                System.out.println("파일삭제 성공");
             } else {
-                System.out.println("파일이 존재하지 않습니다.");
+                System.out.println("파일삭제 실패");
             }
-            Map<String, String> map = new HashMap<>();
-            map.put("filename", "\'%" + filename.toUpperCase() + "%\'");
+        } else {
+            System.out.println("파일이 존재하지 않습니다.");
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("filename", "\'%" + filename.toUpperCase() + "%\'");
 
+        try {
             int tmp = cService.deleteCsvData(map);
             result.put("tmp", tmp);
             entity = handleSuccess(result);
