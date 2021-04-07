@@ -264,7 +264,7 @@
                             <div class="card-body">
 
                                 <div class="row no-gutters align-items-center">
-                                    <form method="get" action="${root}/process/merge">
+                                    <form id="mergemake" action="">
                                         <select name="merge1" id="mergeselect1" class=""
                                                 data-live-search="true" onchange="getColumn(this.value,name)">
                                             <option value="">선택</option>
@@ -294,8 +294,7 @@
                                             <option value="">선택</option>
                                         </select>
                                         <div class="merge5"></div>
-                                        <input type="submit" class="btn-primary btn-sm" name="btn"
-                                               value="Merge 실행">
+                                        <input type="submit" class="btn-primary btn-sm" name="btn" onclick="makeMerge()">
                                     </form>
                                 </div>
 
@@ -465,7 +464,7 @@
                     $.each(data.list, function (index, vo) {
                         $("." + divName).append("<input type=\"checkbox\" name=\"check1\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                     });
-                    $("." + divName).append("<input type=\"hidden\" name=\"check1name\" class=\"\" value="+tableName+">");
+                    $("." + divName).append("<input type=\"hidden\" id=\"check1name\" class=\"\" value="+tableName+">");
                     $("." + divName).append("</br>");
                     $("." + divName).append("기준 열 : ");
                     $.each(data.list, function (index, vo) {
@@ -477,7 +476,7 @@
                     $.each(data.list, function (index, vo) {
                         $("." + divName).append("<input type=\"checkbox\" name=\"check3\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                     });
-                    $("." + divName).append("<input type=\"hidden\" name=\"check2name\" class=\"\" value="+tableName+">");
+                    $("." + divName).append("<input type=\"hidden\" id=\"check2name\" class=\"\" value="+tableName+">");
                     $("." + divName).append("</br>");
                     $("." + divName).append("기준 열 : ");
                     $.each(data.list, function (index, vo) {
@@ -490,7 +489,7 @@
                         $("." + divName).append("<input type=\"checkbox\" name=\"check5\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                     });
                     $("." + divName).append("</br>");
-                    $("." + divName).append("<input type=\"hidden\" name=\"check3name\" class=\"\" value="+tableName+">");
+                    $("." + divName).append("<input type=\"hidden\" id=\"check3name\" class=\"\" value="+tableName+">");
                     $("." + divName).append("기준 열 : ");
                     $.each(data.list, function (index, vo) {
                         $("." + divName).append("<input type=\"checkbox\" name=\"check6\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
@@ -502,7 +501,7 @@
                         $("." + divName).append("<input type=\"checkbox\" name=\"check7\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                     });
                     $("." + divName).append("</br>");
-                    $("." + divName).append("<input type=\"hidden\" name=\"check4name\" class=\"\" value="+tableName+">");
+                    $("." + divName).append("<input type=\"hidden\" id=\"check4name\" class=\"\" value="+tableName+">");
                     $("." + divName).append("기준 열 : ");
                     $.each(data.list, function (index, vo) {
                         $("." + divName).append("<input type=\"checkbox\" name=\"check8\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
@@ -514,7 +513,7 @@
                         $("." + divName).append("<input type=\"checkbox\" name=\"check9\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                     });
                     $("." + divName).append("</br>");
-                    $("." + divName).append("<input type=\"hidden\" name=\"check5name\" class=\"\" value="+tableName+">");
+                    $("." + divName).append("<input type=\"hidden\" id=\"check5name\" class=\"\" value="+tableName+">");
                     $("." + divName).append("기준 열 : ");
                     $.each(data.list, function (index, vo) {
                         $("." + divName).append("<input type=\"checkbox\" name=\"check10\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
@@ -634,6 +633,70 @@
                 alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
                 self.close();
             }
+        });
+    }
+    function makeMerge(e){
+
+        var check1 = [];
+        $("input[name='check1']:checked").each(function (i) {
+            check1.push($(this).val());
+        });
+        var check2 = [];
+        $("input[name='check2']:checked").each(function (i) {
+            check2.push($(this).val());
+        });
+        var check3 = [];
+        $("input[name='check3']:checked").each(function (i) {
+            check3.push($(this).val());
+        });
+        var check4 = [];
+        $("input[name='check4']:checked").each(function (i) {
+            check4.push($(this).val());
+        });
+        var check5 = [];
+        $("input[name='check5']:checked").each(function (i) {
+            check5.push($(this).val());
+        });
+        var check6 = [];
+        $("input[name='check6']:checked").each(function (i) {
+            check6.push($(this).val());
+        });
+        var check7 = [];
+        $("input[name='check7']:checked").each(function (i) {
+            check7.push($(this).val());
+        });
+        var check8 = [];
+        $("input[name='check8']:checked").each(function (i) {
+            check8.push($(this).val());
+        });
+        var check9 = [];
+        $("input[name='check9']:checked").each(function (i) {
+            check9.push($(this).val());
+        });
+        var check10 = [];
+        $("input[name='check10']:checked").each(function (i) {
+            check10.push($(this).val());
+        });
+
+        var table1 = $("#check1name").val();
+        var table2 = $("#check2name").val();
+        var table3 = $("#check3name").val();
+        var table4 = $("#check4name").val();
+        var table5 = $("#check5name").val();
+        var allData = {"table1":table1, "table2":table2, "table3":table3, "table4":table4, "table5":table5, "table5":table5, "table5":table5, "check1": check1, "check2": check2, "check3":check3, "check4":check4, "check5":check5,
+            "check6":check6, "check7":check7, "check8":check8, "check9":check9, "check10":check10}
+        $.ajax({
+            type: "GET",
+            url: "${root}/process/merge",
+            data: allData
+        }).done(function (result) {
+            console.log("결과확인");
+            javascript:history.go(0);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("에러");
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
         });
     }
     $("#sidebarToggle").on('click', function(e) {
