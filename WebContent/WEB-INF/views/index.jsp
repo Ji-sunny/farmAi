@@ -688,15 +688,16 @@
         $.ajax({
             type: "GET",
             url: "${root}/process/merge",
-            data: allData
-        }).done(function (result) {
-            console.log("결과확인");
-            javascript:history.go(0);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log("에러");
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
+            data: allData,
+            success:function(data){
+                alert("완료!");
+                window.opener.location.reload();
+                self.close();
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                self.close();
+            }
         });
     }
     $("#sidebarToggle").on('click', function(e) {
