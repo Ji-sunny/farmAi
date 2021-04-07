@@ -340,7 +340,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-2">
-                                        <a href="${root}/csv/save/box_new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                        <a href="${root}/csv/save/EFARMSCHEDULE_new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                                             <i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                                     </div>
                                 </div>
@@ -569,7 +569,7 @@
     $('#aidatatable').change(function () {
         var tname = $('#aidatatable option:selected').val();
         var rper = $('#airowper option:selected').val();
-        console.log(tname)
+
         $.ajax({
             url: "${root}/table/list?tableName=" + tname+"&rowsPer="+rper,
             type: "get"
@@ -620,7 +620,22 @@
         });
 
     }
-
+    function saveCSV(){
+        var tname = $('#aidatatable option:selected').val();
+        $.ajax({
+            url: "${root}/csv/save/"+tname,
+            type: "get",
+            success:function(data){
+                alert("완료!");
+                window.opener.location.reload();
+                self.close();
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                self.close();
+            }
+        });
+    }
     $("#sidebarToggle").on('click', function(e) {
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");

@@ -29,9 +29,7 @@ public class TableController {
         Map<String, String> map = new HashMap<>();
         map.put("tableName", tableName);
         int totalRows = eService.getTotalRows(map);
-
         Pager pager = new Pager(rowsPer, 5, totalRows, pageNo, tableName);
-
         List<Map<String, String>> list = eService.getTableList(pager);
         model.addAttribute("list", list);
         model.addAttribute("pager", pager);

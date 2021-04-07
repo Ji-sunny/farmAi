@@ -2,6 +2,7 @@ package com.farmai.Controller;
 
 
 import com.farmai.DTO.FileStorage;
+import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
 
 import org.json.simple.JSONObject;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -114,17 +117,17 @@ public class CsvRestController {
             } else {
                 ///////db에 csv 파일 구조와 같은 테이블 있는지 확인///////////
                 String inValue = "";
-                String inValueBe="";
+                String inValueBe = "";
                 int size = totalList.get(0).size();
                 for (int i = 0; i < totalList.get(0).size(); i++) {
                     inValueBe = totalList.get(0).get(i).replace("\"", "").toUpperCase();
                     if (inValueBe.charAt(0) == '_') inValueBe = inValueBe.substring(1, inValueBe.length());
-                    inValue += "\'"+ inValueBe +"\'" + ", ";
+                    inValue += "\'" + inValueBe + "\'" + ", ";
                 }
                 inValue = inValue.substring(0, inValue.length() - 2);
                 Map<String, Object> maps = new HashMap<>();
-                System.out.println("inValue : "+inValue);
-                System.out.println("size : "+size);
+                System.out.println("inValue : " + inValue);
+                System.out.println("size : " + size);
                 maps.put("inval", inValue);
                 maps.put("size", size);
                 String dbTableName = cService.selectTname(maps);
@@ -208,7 +211,7 @@ public class CsvRestController {
     }
 
     @GetMapping("delete/{csvexcel}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable("csvexcel")String csvexcel) {
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("csvexcel") String csvexcel) {
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
         String filename = csvexcel;
@@ -267,7 +270,7 @@ public class CsvRestController {
         return new ResponseEntity<String>(setContent(list), header, HttpStatus.CREATED);
     }
 
-    public String setContent(List<Map<String, String>> list) {
+        public String setContent(List<Map<String, String>> list) {
         StringBuilder str = new StringBuilder();
         for (String a : list.get(0).keySet()) {
             str.append(a).append(",");
@@ -276,7 +279,7 @@ public class CsvRestController {
         str.delete(str.length() - 2, str.length());
         str.append("\n");
 
-        System.out.println(list.get(0).values());
+
         for (int i = 0; i < list.size(); i++) {
             for (String a : list.get(i).values()) {
                 str.append(a).append(",");
@@ -289,6 +292,7 @@ public class CsvRestController {
         System.out.println("str : " + str);
         return str.toString();
     }
+
 
     private ResponseEntity<Map<String, Object>> handleSuccess(Map<String, Object> data) {
         data.put("status", true);
