@@ -270,7 +270,7 @@ public class CsvRestController {
         return new ResponseEntity<String>(setContent(list), header, HttpStatus.CREATED);
     }
 
-        public String setContent(List<Map<String, String>> list) {
+    public String setContent(List<Map<String, String>> list) {
         StringBuilder str = new StringBuilder();
         for (String a : list.get(0).keySet()) {
             str.append(a).append(",");
@@ -281,15 +281,13 @@ public class CsvRestController {
 
 
         for (int i = 0; i < list.size(); i++) {
-            for (String a : list.get(i).values()) {
-                str.append(a).append(",");
-                str.append(" ");
+            for(int k =0; k<list.get(i).values().size(); k++){
+                String row = String.valueOf(list.get(i).values());
+                str.append(row.replace("[","").replace("]",""));
+                str.append("\n");
             }
-            str.delete(str.length() - 2, str.length());
-            str.append("\n");
-        }
 
-        System.out.println("str : " + str);
+        }
         return str.toString();
     }
 
