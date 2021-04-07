@@ -230,26 +230,74 @@
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">_new 파일 선택</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">매크로 생성</h6>
                             </div>
 
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
-                                    <form method="get" action="${root}/merge">
+                                    <form method="get" action="${root}/macro/create">
                                         <select name="macro" id="marcoColumn" class=""
                                                 data-live-search="true" onchange="getMarcoColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
                                         <div class="macro"></div>
+                                        <select name="marcoModelName" id="marcoModelName" class=""
+                                                data-live-search="true" >
+                                            <option value="">선택</option>
+                                            <option value="feature_importance">feature_importance</option>
+                                            <option value="logisticregression">logisticregression</option>
+                                            <option value="regression">regression</option>
+                                        </select>
+                                        <br>
                                         매크로 이름 : <input type="text" name="macroName"/>
-                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="매크로 추가">
+                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="매크로 생성">
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
+
+
+
+
+                <div class="row">
+                    <!-- Area Chart -->
+                    <div class="col-xl-12 col-lg-">
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">매크로 생성 테스트</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <form>
+                                        <select name="macro" id="marcoColumn1" class=""
+                                                data-live-search="true" onchange="getMarcoColumn(this.value,name)">
+                                            <option value="">선택</option>
+                                        </select>
+                                        <div class="macro"></div>
+                                        <select name="marcoModelName" id="marcoModelName1" class=""
+                                                data-live-search="true" >
+                                            <option value="">선택</option>
+                                            <option value="feature_importance">feature_importance</option>
+                                            <option value="logisticregression">logisticregression</option>
+                                            <option value="regression">regression</option>
+                                        </select>
+                                        <br>
+                                        매크로 이름 : <input type="text" name="macroName" id="macroName"/>
+                                        <input type="submit" class="btn-primary btn-sm" value="매크로 생성" onclick="sendParams()">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
                 <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick=""> 매크로 실행</a>
                 <!-- Content Row -->
                 <div class="card shadow mb-4">
@@ -346,7 +394,7 @@
                 $.each(data.list, function (index, vo) {
                     // console.log("1", index)
                     // console.log("2", vo)
-                    $("#marcoColumn").append(
+                    $("#marcoColumn, #marcoColumn1").append(
                         "<option value='" + vo.tablesName + "'>" + vo.filesName + "</option>");
                 });
             }, "json");
@@ -358,15 +406,55 @@
             function (data, status) {
                 $("." + divName).append("cols_X : ");
                 $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"check1\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    $("." + divName).append("<input type=\"checkbox\" name=\"checkX\" class=\"\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                 });
-                $("." + divName).append("<input type=\"hidden\" name=\"check1name\" class=\"\" value="+tableName+">");
+                $("." + divName).append("<input type=\"hidden\" id=\"checkTable\" name=\"checkTable\" class=\"\" value="+tableName+">");
                 $("." + divName).append("</br>");
                 $("." + divName).append("col_y : ");
                 $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"check2\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    $("." + divName).append("<input type=\"checkbox\" name=\"checkY\" class=\"\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
                 });
             }, "json");
+    }
+
+    function sendParams(){
+        var checkTable = $("#checkTable").val();
+        var macroName = $("#macroName").val();
+        var marcoModelName1 = $("#marcoModelName1").val();
+
+        var checkXvalues = new Array();
+        $("input:checkbox[name='checkX']:checked").each(function() {
+            checkXvalues.push($(this).val());
+        });
+        var checkYvalue = new Array();
+        $("input:checkbox[name='checkY']:checked").each(function() {
+            checkYvalue.push($(this).val());
+        });
+        var chkArray = {
+            "macroName":macroName,
+            "checkTable": checkTable,
+            "checkX": checkXvalues,
+            "checkY": checkYvalue,
+            "marcoModelName":marcoModelName1
+        };
+
+        $.ajax({
+            url:"${root}/macro/create2",
+            type:'post',
+            // data: JSON.stringify(chkArray),
+            data: chkArray,
+
+            success:function(data){
+                alert("완료!");
+                window.opener.location.reload();
+                self.close();
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                self.close();
+            }
+        });
+
     }
 
     $("#sidebarToggle").on('click', function(e) {
