@@ -224,42 +224,6 @@
                 <%--                            </div>--%>
                 <%--                        </div>--%>
                 <%--                    </div>--%>
-                <div class="row">
-                    <!-- Area Chart -->
-                    <div class="col-xl-12 col-lg-">
-                        <!-- DataTales Example -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">매크로 생성</h6>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <form method="get" action="${root}/macro/create">
-                                        <select name="macro" id="marcoColumn" class=""
-                                                data-live-search="true" onchange="getMarcoColumn(this.value,name)">
-                                            <option value="">선택</option>
-                                        </select>
-                                        <div class="macro"></div>
-                                        <select name="marcoModelName" id="marcoModelName" class=""
-                                                data-live-search="true" >
-                                            <option value="">선택</option>
-                                            <option value="feature_importance">feature_importance</option>
-                                            <option value="logisticregression">logisticregression</option>
-                                            <option value="regression">regression</option>
-                                        </select>
-                                        <br>
-                                        매크로 이름 : <input type="text" name="macroName"/>
-                                        <input type="submit" class="btn-primary btn-sm" name="btn" value="매크로 생성">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
 
                 <div class="row">
                     <!-- Area Chart -->
@@ -439,11 +403,9 @@
         };
 
         $.ajax({
-            url:"${root}/macro/create2",
+            url:"${root}/macro/create",
             type:'post',
-            // data: JSON.stringify(chkArray),
             data: chkArray,
-
             success:function(data){
                 alert("완료!");
                 window.opener.location.reload();

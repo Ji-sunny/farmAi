@@ -1,13 +1,16 @@
 package com.farmai.Controller;
 
 
+import com.farmai.DTO.Macro;
+import com.farmai.Service.MacroService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+
 import java.util.*;
 
 @RestController
@@ -16,33 +19,12 @@ public class MacroRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(MacroRestController.class);
 
-    @GetMapping("create")
-    public ResponseEntity<Map<String, Object>> macroCreate(HttpServletRequest req) {
-        ResponseEntity<Map<String, Object>> entity = null;
-        Map<String, Object> result = new HashMap<>();
-        String[] checkX = req.getParameterValues("checkX");
-        String[] checkY = req.getParameterValues("checkY");
-        String marcoModelName = req.getParameter("marcoModelName");
-        String checkTable = req.getParameter("checkTable");
-        String macroName = req.getParameter("macroName");
-        System.out.println(checkX);
-        System.out.println(checkY);
-        System.out.println(marcoModelName);
-        System.out.println(checkTable);
-        System.out.println(macroName);
-        try {
-//            map.put("tableName","\'"+tableName.toUpperCase()+"\'");
-//            List<Map<String, String>> list = eService.getColumnNames(map);
-//            result.put("list", list);
+    private Macro macro;
 
-            entity = handleSuccess(result);
-        } catch (RuntimeException e) {
-            entity = handleException(e);
-        }
-        return entity;
-    }
+    @Autowired
+    MacroService mService;
 
-    @PostMapping("create2")
+    @PostMapping("create")
     public ResponseEntity<Map<String, Object>> macroCreate2(@RequestParam(value = "checkX[]") List<String> checkX,
                                                             @RequestParam(value = "checkY[]") List<String> checkY,
                                                             @RequestParam(value = "marcoModelName") String marcoModelName,
@@ -50,19 +32,15 @@ public class MacroRestController {
                                                             @RequestParam(value = "macroName") String macroName) {
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
-//        String[] checkX = req.getParameterValues("checkX");
-//        String[] checkY = req.getParameterValues("checkY");
-//        String marcoModelName = req.getParameter("marcoModelName");
-//        String checkTable = req.getParameter("checkTable");
-//        String macroName = req.getParameter("macroName");
-        System.out.println(checkX);
-        System.out.println(checkY);
-        System.out.println(checkTable);
-        System.out.println(macroName);
-        System.out.println(marcoModelName);
-
+        String colsX= "";
+        for(int i =0; i<checkX.size(); i++){
+            colsX+= checkX.get(i)+",";
+        }
+        colsX = colsX.substring(0,colsX.length()-1);
+        macro = new Macro(checkTable, marcoModelName, macroName, colsX,checkY.get(0));
         try {
-            result.put("result","success");
+            int tmp = mService.saveMacro(macro);
+            result.put("result",tmp);
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);
@@ -70,23 +48,6 @@ public class MacroRestController {
         return entity;
     }
 
-    @GetMapping("columnList/{tableName}")
-    public ResponseEntity<Map<String, Object>> columnList(@PathVariable("tableName") String tableName) {
-        System.out.println("tableName : "+tableName);
-        ResponseEntity<Map<String, Object>> entity = null;
-        Map<String, Object> result = new HashMap<>();
-        Map<String, String>map = new HashMap<>();
-        try {
-//            map.put("tableName","\'"+tableName.toUpperCase()+"\'");
-//            List<Map<String, String>> list = eService.getColumnNames(map);
-//            result.put("list", list);
-
-            entity = handleSuccess(result);
-        } catch (RuntimeException e) {
-            entity = handleException(e);
-        }
-        return entity;
-    }
 
     private ResponseEntity<Map<String, Object>> handleSuccess(Map<String, Object> data) {
         data.put("status", true);

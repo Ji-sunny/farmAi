@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="macro">
+
+
+    <insert id="saveMacro" parameterType="macro">
+        insert into MACRO values (#{tablesName},#{modelName},#{macroName},#{colsX},#{colY})
+    </insert>
+
+</mapper>
