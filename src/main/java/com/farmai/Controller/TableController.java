@@ -35,4 +35,5 @@ public class TableController {
         model.addAttribute("pager", pager);
         return "getDataTable";
     }
+
 }
