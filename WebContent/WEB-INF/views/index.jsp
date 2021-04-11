@@ -621,7 +621,7 @@
     }
     function saveCSV(){
         var tname = $('#aidatatable option:selected').val();
-        location.href="${root}/csv/save/"+tname;
+        window.location.href="${root}/csv/save/"+tname;
     }
     function makeMerge(e){
 
