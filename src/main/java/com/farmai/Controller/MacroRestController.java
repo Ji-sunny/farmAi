@@ -4,12 +4,13 @@ package com.farmai.Controller;
 import com.farmai.DTO.FileStorage;
 import com.farmai.DTO.Macro;
 import com.farmai.Service.MacroService;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 
 import java.util.*;
@@ -26,7 +27,7 @@ public class MacroRestController {
     MacroService mService;
 
     @PostMapping("create")
-    public ResponseEntity<Map<String, Object>> macroCreate2(@RequestParam(value = "checkX[]") List<String> checkX,
+    public ResponseEntity<Map<String, Object>> macroCreate(@RequestParam(value = "checkX[]") List<String> checkX,
                                                             @RequestParam(value = "checkY[]") List<String> checkY,
                                                             @RequestParam(value = "marcoModelName") String marcoModelName,
                                                             @RequestParam(value = "checkTable") String checkTable,
@@ -48,6 +49,34 @@ public class MacroRestController {
         }
         return entity;
     }
+
+    @PostMapping("dataSearch")
+    public ResponseEntity<Map<String, Object>> dataSearch(@RequestParam(value = "checkX[]") List<String> checkX,
+                                                            @RequestParam(value = "dataSearchModelName") String dataSearchModelName,
+                                                            @RequestParam(value = "checkTable") String checkTable) {
+        ResponseEntity<Map<String, Object>> entity = null;
+        Map<String, Object> result = new HashMap<>();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://127.0.0.1:8082/pre_search";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("model_name", dataSearchModelName);
+        jsonObject.put("table_name", checkTable);
+        jsonObject.put("cols_X", checkX);
+        try {
+            HttpEntity<String> entityPy = new HttpEntity<String>(jsonObject.toString(),headers);
+            String answer = restTemplate.postForObject(url, entityPy, String.class);
+            System.out.println(answer);
+            result.put("answer", answer);
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
+    }
+
     @GetMapping("test")
     public ResponseEntity<Map<String, Object>> getmacrodone() {
         ResponseEntity<Map<String, Object>> entity = null;

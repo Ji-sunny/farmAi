@@ -190,40 +190,43 @@
                     <h1 class="h3 mb-0 text-gray-800">Data Modeling</h1>
                 </div>
 
-                <!-- Pending Requests Card Example -->
-                <%--                    <div class="col-xl-3 col-md-6 mb-4">--%>
-                <%--                        <div class="card border-left-warning shadow h-100 py-2">--%>
-                <%--                            <div class="card-body">--%>
-                <%--                                <div class="row no-gutters align-items-center">--%>
-                <%--                                    <div class="col mr-2">--%>
-                <%--                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">--%>
-                <%--                                            매크로 리스트--%>
-                <%--                                        </div>--%>
-                <%--                                        <div class="row no-gutters align-items-center">--%>
-                <%--                                            <form method="post" action="${root}/macro/excute">--%>
-                <%--                                                <select id="selectMacro" name="macroName" class="selectpicker" data-live-search="true">--%>
-                <%--                                                    <option value="">선택</option>--%>
-                <%--                                                </select>--%>
-                <%--                                                <input type="submit" class="btn-primary btn-sm" name="btn" value="전처리 실행">--%>
-                <%--                                            </form>--%>
-                <%--                                        </div>--%>
-                <%--                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">--%>
-                <%--                                            매크로 삭제--%>
-                <%--                                        </div>--%>
-                <%--                                        <form method="get" action="${root}/macro/delete">--%>
-                <%--                                            <dt class="down w90"><label>매크로 선택</label></dt>--%>
-                <%--                                            <select name="macro" id="macrodel" class="selectpicker" data-live-search="true">--%>
-                <%--                                                <option value="">선택</option>--%>
-                <%--                                            </select>--%>
-                <%--                                            <br/>--%>
-                <%--                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn"--%>
-                <%--                                                   value="매크로 삭제">--%>
-                <%--                                        </form>--%>
-                <%--                                    </div>--%>
-                <%--                                </div>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
+                <div class="row">
+                    <!-- Area Chart -->
+                    <div class="col-xl-12 col-lg-">
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Data Search</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <form>
+                                        <select name="dataSearchModelName" id="dataSearchModelName" class=""
+                                                data-live-search="true" >
+                                            <option value="">선택</option>
+                                            <option value="rfe">rfe</option>
+                                            <option value="feature_importance">feature_importance</option>
+                                            <option value="regression">regression</option>
+                                            <option value="scaleregression">scaleregression</option>
+                                            <option value="logisticregression">logisticregression</option>
+                                            <option value="decisiontree">decisiontree</option>
+                                            <option value="describe">describe</option>
+                                            <option value="corr_pearson">corr_pearson</option>
+                                            <option value="corr_spearman">corr_spearman</option>
+                                        </select>
+                                        <select name="dataSearch" id="dataSearch" class=""
+                                                data-live-search="true" onchange="getDataSearchColumn(this.value,name)">
+                                            <option value="">선택</option>
+                                        </select>
+                                        <div class="dataSearch"></div>
+                                        <br>
+                                        <input type="submit" class="btn-primary btn-sm" value="data search" onclick="sendDataSearch()">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <!-- Area Chart -->
@@ -244,9 +247,15 @@
                                         <select name="marcoModelName" id="marcoModelName1" class=""
                                                 data-live-search="true" >
                                             <option value="">선택</option>
+                                            <option value="rfe">rfe</option>
                                             <option value="feature_importance">feature_importance</option>
-                                            <option value="logisticregression">logisticregression</option>
                                             <option value="regression">regression</option>
+                                            <option value="scaleregression">scaleregression</option>
+                                            <option value="logisticregression">logisticregression</option>
+                                            <option value="decisiontree">decisiontree</option>
+                                            <option value="describe">describe</option>
+                                            <option value="corr_pearson">corr_pearson</option>
+                                            <option value="corr_spearman">corr_spearman</option>
                                         </select>
                                         <br>
                                         매크로 이름 : <input type="text" name="macroName" id="macroName"/>
@@ -342,6 +351,8 @@
                     // console.log("2", vo)
                     $("#marcoColumn, #marcoColumn1").append(
                         "<option value='" + vo.tablesName + "'>" + vo.filesName + "</option>");
+                    $("#dataSearch").append(
+                        "<option value='" + vo.tablesName + "'>" + vo.tablesName + "</option>");
                 });
             }, "json");
     });
@@ -362,7 +373,50 @@
                 });
             }, "json");
     }
+    function getDataSearchColumn(tableName, divName) {
+        $("." + divName).empty();
+        $.get("${root}/process/table_new/list/" + tableName,
+            function (data, status) {
+                $("." + divName).append("cols_X : ");
+                $.each(data.list, function (index, vo) {
+                    $("." + divName).append("<input type=\"checkbox\" name=\"checkDataX\" class=\"\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                });
+                $("." + divName).append("<input type=\"hidden\" id=\"checkTableData\" name=\"checkTableData\" class=\"\" value="+tableName+">");
+                $("." + divName).append("</br>");
+            }, "json");
+    }
 
+    function sendDataSearch(){
+        var checkTableData = $("#checkTableData").val();
+        var dataSearchModelName = $("#dataSearchModelName").val();
+
+        var checkXvalues = new Array();
+        $("input:checkbox[name='checkDataX']:checked").each(function() {
+            checkXvalues.push($(this).val());
+        });
+
+        var chkArray = {
+            "checkTable": checkTableData,
+            "checkX": checkXvalues,
+            "dataSearchModelName":dataSearchModelName
+        };
+
+        $.ajax({
+            url:"${root}/macro/dataSearch",
+            type:'post',
+            data: chkArray,
+            success:function(data){
+                alert("완료!");
+                window.opener.location.reload();
+                self.close();
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                self.close();
+            }
+        });
+
+    }
     function sendParams(){
         var checkTable = $("#checkTable").val();
         var macroName = $("#macroName").val();

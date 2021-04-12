@@ -132,23 +132,23 @@ public class ProcessRestController {
         System.out.println("sel_cols : "+sel);
         System.out.println("stnd_cols : "+stnd);
 
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "http://127.0.0.1:8082/mergetable";
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("table_names", tableName);
-//        jsonObject.put("sel_cols", sel);
-//        jsonObject.put("stnd_cols", stnd);
-//        try {
-//            HttpEntity<String> entityPy = new HttpEntity<String>(jsonObject.toString(),headers);
-//            String answer = restTemplate.postForObject(url, entityPy, String.class);
-//            System.out.println(answer);
-//            result.put("answer", answer);
-//            entity = handleSuccess(result);
-//        } catch (RuntimeException e) {
-//            entity = handleException(e);
-//        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://127.0.0.1:8082/mergetable";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("table_names", tableName);
+        jsonObject.put("sel_cols", sel);
+        jsonObject.put("stnd_cols", stnd);
+        try {
+            HttpEntity<String> entityPy = new HttpEntity<String>(jsonObject.toString(),headers);
+            String answer = restTemplate.postForObject(url, entityPy, String.class);
+            System.out.println(answer);
+            result.put("answer", answer);
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
         return entity;
     }
 
