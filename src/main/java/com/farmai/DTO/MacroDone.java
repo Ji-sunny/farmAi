@@ -1,17 +1,25 @@
 package com.farmai.DTO;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-
 
 public class MacroDone {
     private String macroName;
     private String score;
     private String report;
+    private String kind;
 
-    public MacroDone(String macroName, String score, String report) {
+    public MacroDone(String macroName, String score, String report, String kind) {
         this.macroName = macroName;
         this.score = score;
         this.report = report;
+        this.kind = kind;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
     public String getMacroName() {
@@ -44,6 +52,7 @@ public class MacroDone {
                 "macroName='" + macroName + '\'' +
                 ", score='" + score + '\'' +
                 ", report='" + report + '\'' +
+                ", kind='" + kind + '\'' +
                 '}';
     }
 }

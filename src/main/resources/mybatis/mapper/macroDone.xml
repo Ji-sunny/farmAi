@@ -4,11 +4,11 @@
 <mapper namespace="macroDone">
 
     <select id="getevaluationList" resultType="macroDone">
-        select MACRO_NAME, SCORE, REPORT from MACRO_DONE
+        select MACRO_NAME, SCORE, REPORT, KIND from MACRO_DONE
     </select>
 
     <select id="getevaluationListT" parameterType="map" resultType="macroDone">
-        select MACRO_NAME, SCORE, REPORT from MACRO_DONE WHERE MACRO_NAME = ${macroName}
+        select MACRO_NAME, SCORE, REPORT, KIND from MACRO_DONE WHERE MACRO_NAME = ${macroName}
     </select>
 
 </mapper>

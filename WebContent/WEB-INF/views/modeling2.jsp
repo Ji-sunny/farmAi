@@ -190,8 +190,8 @@
 
                             <div class="card-body">
 
-                                <div class="row no-gutters align-items-center">
-                                    <select name="evaluation" id="evaluation" class="" data-live-search="true">
+                                <div class="col-sm-12 col-md-2">
+                                    <select name="evaluation" id="evaluation" class="custom-select custom-select-sm form-control form-control-sm" data-live-search="true">
                                         <option value="">선택</option>
                                     </select>
 
@@ -232,7 +232,6 @@
                                         <div class="dataTables_length">
                                             <label>시각화 검색:
                                                 <select id="visualization" name="visualization"
-                                                        aria-controls="dataTable"
                                                         class="custom-select custom-select-sm form-control form-control-sm">
                                                     <option value="">선택</option>
                                                 </select>
@@ -356,6 +355,22 @@
                 console.log("results : ",results);
                 console.log("results : ",results.length);
                 console.log(res.lists)
+
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                self.close();
+            }
+        });
+    });
+    $('#visualization').change(function () {
+        var tname = $('#visualization option:selected').val();
+        $.ajax({
+            url: "${root}/visual/evaluationList/" + tname,
+            type: "get",
+            success:function(res){
+                var results = res.list.kind;
+                console.log("visualization: "+ results);
 
             },
             error:function(jqXHR, textStatus, errorThrown){
