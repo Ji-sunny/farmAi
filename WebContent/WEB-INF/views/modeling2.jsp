@@ -199,7 +199,7 @@
                                 <div id="evaluationScore" ></div>
 <%--                                <div id="evaluationTable"></div>--%>
                                 <div>
-                                    <table id = "evaluationTable" border = "1">
+                                    <table id = "evaluationTable" class="table table-bordered dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th>index</th>
