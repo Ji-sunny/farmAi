@@ -28,7 +28,7 @@
             chart.scrollbarX = new am4core.Scrollbar();
 
 // Add data
-            chart.data = [${json}];
+            chart.data = ;
 // X축
 
             var topContainer = chart.chartContainer.createChild(am4core.Container);

@@ -4,7 +4,9 @@ package com.farmai.Controller;
 import com.farmai.DTO.FileStorage;
 import com.farmai.DTO.Macro;
 import com.farmai.Service.MacroService;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,7 @@ public class MacroRestController {
         return entity;
     }
 
-    @PostMapping("dataSearch")
+    @GetMapping("dataSearch")
     public ResponseEntity<Map<String, Object>> dataSearch(@RequestParam(value = "checkX[]") List<String> checkX,
                                                             @RequestParam(value = "dataSearchModelName") String dataSearchModelName,
                                                             @RequestParam(value = "checkTable") String checkTable) {
@@ -68,8 +70,10 @@ public class MacroRestController {
         try {
             HttpEntity<String> entityPy = new HttpEntity<String>(jsonObject.toString(),headers);
             String answer = restTemplate.postForObject(url, entityPy, String.class);
-            System.out.println(answer);
-            result.put("answer", answer);
+
+            JSONArray jarray = (JSONArray) JSONValue.parse(answer);
+            result.put("lists", jarray);
+
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);

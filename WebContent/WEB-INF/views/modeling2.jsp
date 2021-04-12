@@ -243,8 +243,7 @@
 
                                 <div id="image">
                                 </div>
-                                <div id="graph">
-                                </div>
+                                <div id="bardiv"></div>
                                 <div id="chart">
                                 </div>
 
@@ -352,11 +351,7 @@
             success:function(res){
                 $("#evaluationScore").append("score = ").append(res.list.score);
                 var results = res.list.report;
-                console.log("results : ",results);
-                console.log("results : ",results.length);
-                console.log(res.lists)
-
-            },
+                  },
             error:function(jqXHR, textStatus, errorThrown){
                 alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
                 self.close();
@@ -372,6 +367,52 @@
                 var results = res.list.kind;
                 console.log("visualization: "+ results);
 
+                if (results === "bar"){
+                    $.ajax({
+                        url: "${root}/visual/bar/" + tname,
+                        type: "get",
+                        success:function(res){
+                            console.log(res.lists);
+                            barJson(res.lists);
+
+                        },
+                        error:function(jqXHR, textStatus, errorThrown){
+                            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                            self.close();
+                        }
+                    });
+                }
+
+                if (results === "chart"){
+                    $.ajax({
+                        url: "${root}/visual/chart/" + tname,
+                        type: "get",
+                        success:function(res){
+                            console.log(res);
+
+                        },
+                        error:function(jqXHR, textStatus, errorThrown){
+                            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                            self.close();
+                        }
+                    });
+                }
+
+                if (results === "img"){
+                    $.ajax({
+                        url: "${root}/visual/img/" + tname,
+                        type: "get",
+                        success:function(res){
+                            console.log(res);
+
+                        },
+                        error:function(jqXHR, textStatus, errorThrown){
+                            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                            self.close();
+                        }
+                    });
+                }
+
             },
             error:function(jqXHR, textStatus, errorThrown){
                 alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
@@ -383,5 +424,80 @@
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
     });
+    function barJson(dataSet) {
+        am4core.ready(function(dataSet) {
+
+            am4core.useTheme(am4themes_animated);
+
+            var chart = am4core.create("bardiv", am4charts.XYChart);
+            chart.scrollbarX = new am4core.Scrollbar();
+
+            chart.data = dataSet;
+
+            var topContainer = chart.chartContainer.createChild(am4core.Container);
+            topContainer.layout = "absolute";
+            topContainer.toBack();
+            topContainer.paddingBottom = 2;
+            topContainer.width = am4core.percent(100);
+
+            let axisTitle = topContainer.createChild(am4core.Label);
+            axisTitle.text = "predict";
+            axisTitle.fontWeight = 600;
+            axisTitle.align = "left";
+            axisTitle.paddingLeft = 10;
+
+            var label = chart.chartContainer.createChild(am4core.Label);
+            label.text = "box_num";
+            label.fontWeight = 600;
+            label.align = "center";
+
+            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+            categoryAxis.dataFields.category = "box_num";
+            categoryAxis.renderer.grid.template.location = 0;
+            categoryAxis.renderer.minGridDistance = 30;
+            categoryAxis.renderer.labels.template.horizontalCenter = "right";
+            categoryAxis.renderer.labels.template.verticalCenter = "middle";
+            // categoryAxis.renderer.labels.template.rotation = 270;
+            categoryAxis.tooltip.disabled = true;
+            categoryAxis.renderer.minHeight = 50;
+
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.renderer.minWidth = 50;
+
+
+            var series = chart.series.push(new am4charts.ColumnSeries());
+            series.sequencedInterpolation = true;
+            series.dataFields.valueY = "predict";
+            series.dataFields.categoryX = "box_num";
+            series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+            series.columns.template.strokeWidth = 0;
+
+            series.tooltip.pointerOrientation = "vertical";
+
+            series.columns.template.column.cornerRadiusTopLeft = 10;
+            series.columns.template.column.cornerRadiusTopRight = 10;
+            series.columns.template.column.fillOpacity = 0.8;
+
+
+            var hoverState = series.columns.template.column.states.create("hover");
+            hoverState.properties.cornerRadiusTopLeft = 0;
+            hoverState.properties.cornerRadiusTopRight = 0;
+            hoverState.properties.fillOpacity = 1;
+
+            series.columns.template.adapter.add("fill", function(fill, target) {
+                return chart.colors.getIndex(target.dataItem.index);
+            });
+
+
+            chart.cursor = new am4charts.XYCursor();
+
+        }); // end am4core.ready()
+    }
 </script>
+<style>
+    #bardiv {
+        width: 100%;
+        height: 500px;
+    }
+</style>
 </html>

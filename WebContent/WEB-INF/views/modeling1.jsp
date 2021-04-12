@@ -220,9 +220,21 @@
                                         </select>
                                         <div class="dataSearch"></div>
                                         <br>
-                                        <input type="submit" class="btn-primary btn-sm" value="data search" onclick="sendDataSearch()">
+                                        <input type="button" class="btn-primary btn-sm" value="data search" onclick="sendDataSearch()">
                                     </form>
                                 </div>
+                            </div>
+                            <div>
+                                <table id = "dataSearchTable" class="table table-bordered dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <thead>
+                                    <tr>
+                                        <th>index</th>
+                                        <th>temp</th>
+                                        <th>humid</th>
+                                        <th>ec</th>
+                                    </tr>
+                                    </thead>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -400,20 +412,16 @@
             "checkX": checkXvalues,
             "dataSearchModelName":dataSearchModelName
         };
-
-        $.ajax({
-            url:"${root}/macro/dataSearch",
-            type:'post',
-            data: chkArray,
-            success:function(data){
-                alert("완료!");
-                window.opener.location.reload();
-                self.close();
-            },
-            error:function(jqXHR, textStatus, errorThrown){
-                alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
-                self.close();
-            }
+        $("#dataSearchTable").DataTable({
+            destroy: true,
+            searching: false,
+            ajax: {  url:"${root}/macro/dataSearch", type:'get', data: chkArray, dataSrc: 'lists' },
+            columns: [
+                { data: " " },
+                { data: "temp" },
+                { data: 'humid' },
+                { data: 'ec' }
+            ]
         });
 
     }
