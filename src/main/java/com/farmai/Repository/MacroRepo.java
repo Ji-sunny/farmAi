@@ -21,4 +21,8 @@ public class MacroRepo {
     }
 
 
+    public List<String> getmacrodonetable() {
+        List<String> list = sst.selectList("macro.getmacrodone");
+        return list;
+    }
 }

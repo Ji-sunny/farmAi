@@ -22,5 +22,7 @@ public class MacroService {
     }
 
 
-
+    public List<String> getmacrodonetable() {
+        return mRepo.getmacrodonetable();
+    }
 }

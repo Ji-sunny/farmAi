@@ -10,17 +10,14 @@
 
 
 <!-- Resources -->
-<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
 
 <!-- Chart code -->
 
-<html>
-<head>
-    <title>Title</title>
+
+
     <script>
-        am4core.ready(function() {s
+        am4core.ready(function() {
 
 // Themes begin
             am4core.useTheme(am4themes_animated);
@@ -31,54 +28,35 @@
             chart.scrollbarX = new am4core.Scrollbar();
 
 // Add data
-            chart.data = [{
-                "country": "USA",
-                "visits": 3025
-            }, {
-                "country": "China",
-                "visits": 1882
-            }, {
-                "country": "Japan",
-                "visits": 1809
-            }, {
-                "country": "Germany",
-                "visits": 1322
-            }, {
-                "country": "UK",
-                "visits": 1122
-            }, {
-                "country": "France",
-                "visits": 1114
-            }, {
-                "country": "India",
-                "visits": 984
-            }, {
-                "country": "Spain",
-                "visits": 711
-            }, {
-                "country": "Netherlands",
-                "visits": 665
-            }, {
-                "country": "Russia",
-                "visits": 580
-            }, {
-                "country": "South Korea",
-                "visits": 443
-            }, {
-                "country": "Canada",
-                "visits": 441
-            }];
+            chart.data = [${json}];
+// X축
 
+            var topContainer = chart.chartContainer.createChild(am4core.Container);
+            topContainer.layout = "absolute";
+            topContainer.toBack();
+            topContainer.paddingBottom = 2;
+            topContainer.width = am4core.percent(100);
+
+            let axisTitle = topContainer.createChild(am4core.Label);
+            axisTitle.text = "predict";
+            axisTitle.fontWeight = 600;
+            axisTitle.align = "left";
+            axisTitle.paddingLeft = 10;
+// Add bottom label
+            var label = chart.chartContainer.createChild(am4core.Label);
+            label.text = "box_num";
+            label.fontWeight = 600;
+            label.align = "center";
 // Create axes
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "country";
+            categoryAxis.dataFields.category = "box_num";
             categoryAxis.renderer.grid.template.location = 0;
             categoryAxis.renderer.minGridDistance = 30;
             categoryAxis.renderer.labels.template.horizontalCenter = "right";
             categoryAxis.renderer.labels.template.verticalCenter = "middle";
-            categoryAxis.renderer.labels.template.rotation = 270;
+            // categoryAxis.renderer.labels.template.rotation = 270;
             categoryAxis.tooltip.disabled = true;
-            categoryAxis.renderer.minHeight = 110;
+            categoryAxis.renderer.minHeight = 50;
 
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
             valueAxis.renderer.minWidth = 50;
@@ -86,8 +64,8 @@
 // Create series
             var series = chart.series.push(new am4charts.ColumnSeries());
             series.sequencedInterpolation = true;
-            series.dataFields.valueY = "visits";
-            series.dataFields.categoryX = "country";
+            series.dataFields.valueY = "predict";
+            series.dataFields.categoryX = "box_num";
             series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
             series.columns.template.strokeWidth = 0;
 
@@ -112,7 +90,7 @@
 
         }); // end am4core.ready()
     </script>
-</head>
+
 <!-- Styles -->
 <style>
     #chartdiv {
@@ -123,4 +101,4 @@
 <body>
 <div id="chartdiv"></div>
 </body>
-</html>
+

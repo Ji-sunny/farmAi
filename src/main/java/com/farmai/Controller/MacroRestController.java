@@ -1,6 +1,7 @@
 package com.farmai.Controller;
 
 
+import com.farmai.DTO.FileStorage;
 import com.farmai.DTO.Macro;
 import com.farmai.Service.MacroService;
 import org.slf4j.Logger;
@@ -47,7 +48,19 @@ public class MacroRestController {
         }
         return entity;
     }
-
+    @GetMapping("test")
+    public ResponseEntity<Map<String, Object>> getmacrodone() {
+        ResponseEntity<Map<String, Object>> entity = null;
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<String> list = mService.getmacrodonetable();
+            result.put("list", list);
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
+    }
 
     private ResponseEntity<Map<String, Object>> handleSuccess(Map<String, Object> data) {
         data.put("status", true);
