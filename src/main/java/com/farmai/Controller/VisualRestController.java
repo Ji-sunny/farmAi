@@ -41,6 +41,8 @@ public class VisualRestController {
         }
         return entity;
     }
+
+
     @GetMapping("evaluationList/{macroName}")
     public ResponseEntity<Map<String, Object>> getevaluationListT(@PathVariable("macroName")String macroName) {
         ResponseEntity<Map<String, Object>> entity = null;
@@ -56,7 +58,6 @@ public class VisualRestController {
                 score = "0"+score;
                 macroDone.setScore(score);
             }
-
 
             JSONArray jarray = (JSONArray) JSONValue.parse(macroDone.getReport());
 

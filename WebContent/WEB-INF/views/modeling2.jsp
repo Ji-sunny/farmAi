@@ -219,40 +219,40 @@
                 </div>
 
                 <!-- Content Row -->
-<%--                <div class="card shadow mb-4">--%>
-<%--                    <div class="card-header py-3">--%>
-<%--                        <h6 class="m-0 font-weight-bold text-primary">시각화</h6>--%>
-<%--                    </div>--%>
-<%--                    <div class="card-body">--%>
-<%--                        <div class="table-responsive">--%>
-<%--                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">--%>
-<%--                                <div class="row">--%>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">시각화</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div class="row">
 
-<%--                                    <div class="col-sm-12 col-md-8">--%>
-<%--                                        <div class="dataTables_length">--%>
-<%--                                            <label>시각화 검색:--%>
-<%--                                                <select id="aidatatable" name="aidatatable"--%>
-<%--                                                        aria-controls="dataTable"--%>
-<%--                                                        class="custom-select custom-select-sm form-control form-control-sm">--%>
-<%--                                                    <option value="">선택</option>--%>
-<%--                                                </select>--%>
-<%--                                            </label>--%>
-<%--                                        </div>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
+                                    <div class="col-sm-12 col-md-8">
+                                        <div class="dataTables_length">
+                                            <label>시각화 검색:
+                                                <select id="visualization" name="visualization"
+                                                        aria-controls="dataTable"
+                                                        class="custom-select custom-select-sm form-control form-control-sm">
+                                                    <option value="">선택</option>
+                                                </select>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
 
 
-<%--                                <div id="image">--%>
-<%--                                </div>--%>
-<%--                                <div id="graph">--%>
-<%--                                </div>--%>
-<%--                                <div id="chart">--%>
-<%--                                </div>--%>
+                                <div id="image">
+                                </div>
+                                <div id="graph">
+                                </div>
+                                <div id="chart">
+                                </div>
 
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <!-- /.container-fluid -->
@@ -327,7 +327,7 @@
         $.get("${root}/visual/evaluationList",
             function (data, status) {
                 $.each(data.list, function (index, vo) {
-                    $("#evaluation").append(
+                    $("#evaluation, #visualization").append(
                         "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");
                 });
             }, "json");
