@@ -198,7 +198,7 @@
                                 </div>
                                 <div id="evaluationScore" ></div>
 <%--                                <div id="evaluationTable"></div>--%>
-                                <div>
+                                <div id="evaluationTablediv">
                                     <table id = "evaluationTable" class="table table-bordered dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                         <thead>
                                             <tr>
@@ -329,9 +329,14 @@
                         "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");
                 });
             }, "json");
+        $("#evaluationTablediv").hide();
     });
     $('#evaluation').change(function () {
         var tname = $('#evaluation option:selected').val();
+        if(tname == "") {
+            $("#evaluationTablediv, #evaluationScore").hide();
+        }else {$("#evaluationTablediv, #evaluationScore").show();}
+
         $("#evaluationScore").empty();
         $("#evaluationTable").DataTable({
             destroy: true,
