@@ -9,7 +9,7 @@
 		<typeAlias alias="pager" type="com.farmai.DTO.Pager"/>
 		<typeAlias alias="filestorage" type="com.farmai.DTO.FileStorage"/>
 		<typeAlias alias="macro" type="com.farmai.DTO.Macro"/>
-<!--		<typeAlias alias="macro" type="com.farmai.DTO.Macro"/>-->
+		<typeAlias alias="macroDone" type="com.farmai.DTO.MacroDone"/>
 	</typeAliases>
 
 </configuration>

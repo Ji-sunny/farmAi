@@ -22,14 +22,20 @@ public class MainController {
     
     @RequestMapping("/")
     public static String index(){
-        logger.info("실행 : main");
         return "index";
     }
+
     @RequestMapping("modeling1")
-    public static String modeling(){
-        logger.info("실행 : modeling1");
+    public static String modeling1(){
         return "modeling1";
     }
+    @RequestMapping("modeling2")
+    public static String modeling2(){
+        return "modeling2";
+    }
+
+
+
 
     @GetMapping("modeling/bar")
     public String showBar(Model model) {

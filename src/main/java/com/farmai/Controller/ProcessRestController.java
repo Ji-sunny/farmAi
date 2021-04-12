@@ -60,7 +60,6 @@ public class ProcessRestController {
             map.put("tableName","\'"+tableName.toUpperCase()+"\'");
             List<Map<String, String>> list = pService.getColumnNames(map);
             result.put("list", list);
-
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);

@@ -96,20 +96,7 @@
                 <span>Modeling2</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-               aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Components</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Components:</h6>
-                    <a class="collapse-item" href="buttons.html">Buttons</a>
-                    <a class="collapse-item" href="cards.html">Cards</a>
-                </div>
-            </div>
-        </li>
+
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -187,43 +174,10 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Data Modeling</h1>
+                    <h1 class="h3 mb-0 text-gray-800">시각화</h1>
                 </div>
 
-                <!-- Pending Requests Card Example -->
-                <%--                    <div class="col-xl-3 col-md-6 mb-4">--%>
-                <%--                        <div class="card border-left-warning shadow h-100 py-2">--%>
-                <%--                            <div class="card-body">--%>
-                <%--                                <div class="row no-gutters align-items-center">--%>
-                <%--                                    <div class="col mr-2">--%>
-                <%--                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">--%>
-                <%--                                            매크로 리스트--%>
-                <%--                                        </div>--%>
-                <%--                                        <div class="row no-gutters align-items-center">--%>
-                <%--                                            <form method="post" action="${root}/macro/excute">--%>
-                <%--                                                <select id="selectMacro" name="macroName" class="selectpicker" data-live-search="true">--%>
-                <%--                                                    <option value="">선택</option>--%>
-                <%--                                                </select>--%>
-                <%--                                                <input type="submit" class="btn-primary btn-sm" name="btn" value="전처리 실행">--%>
-                <%--                                            </form>--%>
-                <%--                                        </div>--%>
-                <%--                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">--%>
-                <%--                                            매크로 삭제--%>
-                <%--                                        </div>--%>
-                <%--                                        <form method="get" action="${root}/macro/delete">--%>
-                <%--                                            <dt class="down w90"><label>매크로 선택</label></dt>--%>
-                <%--                                            <select name="macro" id="macrodel" class="selectpicker" data-live-search="true">--%>
-                <%--                                                <option value="">선택</option>--%>
-                <%--                                            </select>--%>
-                <%--                                            <br/>--%>
-                <%--                                            <input type="submit" class="btn-success btn-sm mt-2" name="btn"--%>
-                <%--                                                   value="매크로 삭제">--%>
-                <%--                                        </form>--%>
-                <%--                                    </div>--%>
-                <%--                                </div>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
+                <!-- Content Row -->
 
                 <div class="row">
                     <!-- Area Chart -->
@@ -231,40 +185,74 @@
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">매크로 생성 테스트</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">평가</h6>
                             </div>
+
                             <div class="card-body">
+
                                 <div class="row no-gutters align-items-center">
-                                    <form>
-                                        <select name="macro" id="marcoColumn1" class=""
-                                                data-live-search="true" onchange="getMarcoColumn(this.value,name)">
-                                            <option value="">선택</option>
-                                        </select>
-                                        <div class="macro"></div>
-                                        <select name="marcoModelName" id="marcoModelName1" class=""
-                                                data-live-search="true" >
-                                            <option value="">선택</option>
-                                            <option value="feature_importance">feature_importance</option>
-                                            <option value="logisticregression">logisticregression</option>
-                                            <option value="regression">regression</option>
-                                        </select>
-                                        <br>
-                                        매크로 이름 : <input type="text" name="macroName" id="macroName"/>
-                                        <input type="submit" class="btn-primary btn-sm" value="매크로 생성" onclick="sendParams()">
-                                    </form>
+                                    <select name="evaluation" id="evaluation" class="" data-live-search="true">
+                                        <option value="">선택</option>
+                                    </select>
+
                                 </div>
+                                <div id="evaluationScore" ></div>
+<%--                                <div id="evaluationTable"></div>--%>
+                                <div>
+                                    <table id = "evaluationTable" border = "1">
+                                        <thead>
+                                            <tr>
+                                                <th>index</th>
+                                                <th>precision</th>
+                                                <th>recall</th>
+                                                <th>f1-score</th>
+                                                <th>support</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-
-
-
-
-                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick=""> 매크로 실행(????)</a>
                 <!-- Content Row -->
+<%--                <div class="card shadow mb-4">--%>
+<%--                    <div class="card-header py-3">--%>
+<%--                        <h6 class="m-0 font-weight-bold text-primary">시각화</h6>--%>
+<%--                    </div>--%>
+<%--                    <div class="card-body">--%>
+<%--                        <div class="table-responsive">--%>
+<%--                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">--%>
+<%--                                <div class="row">--%>
 
+<%--                                    <div class="col-sm-12 col-md-8">--%>
+<%--                                        <div class="dataTables_length">--%>
+<%--                                            <label>시각화 검색:--%>
+<%--                                                <select id="aidatatable" name="aidatatable"--%>
+<%--                                                        aria-controls="dataTable"--%>
+<%--                                                        class="custom-select custom-select-sm form-control form-control-sm">--%>
+<%--                                                    <option value="">선택</option>--%>
+<%--                                                </select>--%>
+<%--                                            </label>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+
+
+<%--                                <div id="image">--%>
+<%--                                </div>--%>
+<%--                                <div id="graph">--%>
+<%--                                </div>--%>
+<%--                                <div id="chart">--%>
+<%--                                </div>--%>
+
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
             </div>
             <!-- /.container-fluid -->
@@ -331,76 +319,51 @@
 <script src="${root}/resources/js/sb-admin-2.min.js"></script>
 <!-- Page level custom scripts -->
 <script src="${root}/resources/js/demo/datatables-demo.js"></script>
+
+
 </body>
 <script>
     $(document).ready(function () {
-        $.get("${root}/process/selectnew/list",
+        $.get("${root}/visual/evaluationList",
             function (data, status) {
-                // console.log(data)
                 $.each(data.list, function (index, vo) {
-                    // console.log("1", index)
-                    // console.log("2", vo)
-                    $("#marcoColumn, #marcoColumn1").append(
-                        "<option value='" + vo.tablesName + "'>" + vo.filesName + "</option>");
+                    $("#evaluation").append(
+                        "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");
                 });
             }, "json");
     });
-//marcoColumn
-    function getMarcoColumn(tableName, divName) {
-        $("." + divName).empty();
-        $.get("${root}/process/table_new/list/" + tableName,
-            function (data, status) {
-                $("." + divName).append("cols_X : ");
-                $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"checkX\" class=\"\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
-                });
-                $("." + divName).append("<input type=\"hidden\" id=\"checkTable\" name=\"checkTable\" class=\"\" value="+tableName+">");
-                $("." + divName).append("</br>");
-                $("." + divName).append("col_y : ");
-                $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"checkY\" class=\"\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
-                });
-            }, "json");
-    }
-
-    function sendParams(){
-        var checkTable = $("#checkTable").val();
-        var macroName = $("#macroName").val();
-        var marcoModelName1 = $("#marcoModelName1").val();
-
-        var checkXvalues = new Array();
-        $("input:checkbox[name='checkX']:checked").each(function() {
-            checkXvalues.push($(this).val());
+    $('#evaluation').change(function () {
+        var tname = $('#evaluation option:selected').val();
+        $("#evaluationScore").empty();
+        $("#evaluationTable").DataTable({
+            destroy: true,
+            searching: false,
+            ajax: {  url: "${root}/visual/evaluationList/" + tname, dataSrc: 'lists' },
+            columns: [
+                        { data: " " },
+                        { data: "precision" },
+                        { data: 'recall' },
+                        { data: 'f1-score' },
+                        { data: 'support' }
+            ]
         });
-        var checkYvalue = new Array();
-        $("input:checkbox[name='checkY']:checked").each(function() {
-            checkYvalue.push($(this).val());
-        });
-        var chkArray = {
-            "macroName":macroName,
-            "checkTable": checkTable,
-            "checkX": checkXvalues,
-            "checkY": checkYvalue,
-            "marcoModelName":marcoModelName1
-        };
-
         $.ajax({
-            url:"${root}/macro/create",
-            type:'post',
-            data: chkArray,
-            success:function(data){
-                alert("완료!");
-                window.opener.location.reload();
-                self.close();
+            url: "${root}/visual/evaluationList/" + tname,
+            type: "get",
+            success:function(res){
+                $("#evaluationScore").append("score = ").append(res.list.score);
+                var results = res.list.report;
+                console.log("results : ",results);
+                console.log("results : ",results.length);
+                console.log(res.lists)
+
             },
             error:function(jqXHR, textStatus, errorThrown){
                 alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
                 self.close();
             }
         });
-
-    }
-
+    });
     $("#sidebarToggle").on('click', function(e) {
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
