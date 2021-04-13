@@ -113,10 +113,24 @@ public class VisualRestController {
         System.out.println("predCols : "+predCols);
 
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://127.0.0.1:8082/visualize";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("macro_name", visualMname);
+        jsonObject.put("pred_cols_X", predCols);
         Map<String, Object> result = new HashMap<>();
         try {
-            List<MacroDone> list = vService.getevaluationList();
-            result.put("list", list);
+            HttpEntity<String> entityPy = new HttpEntity<String>(jsonObject.toString(),headers);
+            String answer = restTemplate.postForObject(url, entityPy, String.class);
+
+            JSONArray jarray = (JSONArray) JSONValue.parse(answer);
+            result.put("list", jarray);
+
+            System.out.println(jarray);
+
+
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,13 +86,13 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="${root}/modeling1" aria-expanded="true" >
+            <a class="nav-link collapsed" href="${root}/modeling1" aria-expanded="true">
                 <i class="fas fa-chart-bar"></i>
                 <span>Modeling1</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="${root}/modeling2" aria-expanded="true" >
+            <a class="nav-link collapsed" href="${root}/modeling2" aria-expanded="true">
                 <i class="fas fa-chart-pie"></i>
                 <span>Modeling2</span>
             </a>
@@ -192,23 +192,27 @@
                             <div class="card-body">
 
                                 <div class="col-sm-12 col-md-2">
-                                    <select name="evaluation" id="evaluation" class="custom-select custom-select-sm form-control form-control-sm" data-live-search="true">
+                                    <select name="evaluation" id="evaluation"
+                                            class="custom-select custom-select-sm form-control form-control-sm"
+                                            data-live-search="true">
                                         <option value="">선택</option>
                                     </select>
 
                                 </div>
-                                <div id="evaluationScore" ></div>
-<%--                                <div id="evaluationTable"></div>--%>
+                                <div id="evaluationScore"></div>
+                                <%--                                <div id="evaluationTable"></div>--%>
                                 <div id="evaluationTablediv">
-                                    <table id = "evaluationTable" class="table table-bordered dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                    <table id="evaluationTable" class="table table-bordered dataTable" width="100%"
+                                           cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                           style="width: 100%;">
                                         <thead>
-                                            <tr>
-                                                <th>index</th>
-                                                <th>precision</th>
-                                                <th>recall</th>
-                                                <th>f1-score</th>
-                                                <th>support</th>
-                                            </tr>
+                                        <tr>
+                                            <th>index</th>
+                                            <th>precision</th>
+                                            <th>recall</th>
+                                            <th>f1-score</th>
+                                            <th>support</th>
+                                        </tr>
                                         </thead>
                                     </table>
                                 </div>
@@ -232,13 +236,15 @@
                                         <div class="dataTables_length">
                                             <form>
                                                 <label>시각화 검색:
-                                                    <select id="visualization" name="visualization" class="custom-select custom-select-sm form-control form-control-sm"
+                                                    <select id="visualization" name="visualization"
+                                                            class="custom-select custom-select-sm form-control form-control-sm"
                                                             data-live-search="true" onchange="getModelName()">
                                                         <option value="">선택</option>
                                                     </select>
                                                     <div class="macroCols"></div>
                                                 </label>
-                                                <input type="button" class="btn-primary btn-sm" value="시각화 버튼" onclick="getVisualStyle()">
+                                                <input type="button" class="btn-primary btn-sm" value="시각화 버튼"
+                                                       onclick="getVisualStyle()">
                                             </form>
                                         </div>
                                     </div>
@@ -351,31 +357,33 @@
     });
     $('#evaluation').change(function () {
         var tname = $('#evaluation option:selected').val();
-        if(tname == "") {
+        if (tname == "") {
             $("#evaluationTablediv, #evaluationScore").hide();
-        }else {$("#evaluationTablediv, #evaluationScore").show();}
+        } else {
+            $("#evaluationTablediv, #evaluationScore").show();
+        }
 
         $("#evaluationScore").empty();
         $("#evaluationTable").DataTable({
             destroy: true,
             searching: false,
-            ajax: {  url: "${root}/visual/evaluationList/" + tname, dataSrc: 'lists' },
+            ajax: {url: "${root}/visual/evaluationList/" + tname, dataSrc: 'lists'},
             columns: [
-                        { data: " " },
-                        { data: "precision" },
-                        { data: 'recall' },
-                        { data: 'f1-score' },
-                        { data: 'support' }
+                {data: " "},
+                {data: "precision"},
+                {data: 'recall'},
+                {data: 'f1-score'},
+                {data: 'support'}
             ]
         });
         $.ajax({
             url: "${root}/visual/evaluationList/" + tname,
             type: "get",
-            success:function(res){
+            success: function (res) {
                 $("#evaluationScore").append("score = ").append(res.list.score);
                 var results = res.list.report;
-                  },
-            error:function(jqXHR, textStatus, errorThrown){
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
                 alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
                 self.close();
             }
@@ -389,17 +397,17 @@
             function (res, status) {
                 const modelName = res.list.modelName;
                 const colsX = res.list.colsX;
-                if (modelName === 'logisticregression'){
+                if (modelName === 'logisticregression') {
                     const words = colsX.split(',');
                     $.each(words, function (index, vo) {
-                        $(".macroCols").append(vo +" : "+"<input type=\"number\" step=\"0.0000000001\" name=\"predCols\" class=\"\" value=\"\">");
+                        $(".macroCols").append(vo + " : " + "<input type=\"number\" step=\"0.0000000001\" name=\"predCols\" class=\"\" value=\"\">");
                         $(".macroCols").append("</br>");
                     });
                 }
             }, "json");
     }
 
-    function getVisualStyle(){
+    function getVisualStyle() {
         $("#image").empty();
         $("#bardiv").empty();
         $("#chart").empty();
@@ -409,66 +417,114 @@
             "visualMname": mName,
             "predCols": [],
         };
-        if (visualType==='img'){
+        if (visualType === 'img') {
             $.ajax({
-                url:"${root}/visual/img",
-                type:'get',
+                url: "${root}/visual/img",
+                type: 'get',
                 data: visualArray,
-                success:function(res){
-                    console.log("img : ",res);
+                success: function (res) {
+                    console.log("img : ", res);
                     const imgNames = res.list.split('/');
-                    const imgName = "image/"+imgNames[imgNames.length-1];
-                    $("#image").append("<img src=\"${root}"+imgName+"\">");
+                    const imgName = "image/" + imgNames[imgNames.length - 1];
+                    $("#image").append("<img src=\"${root}" + imgName + "\">");
                     self.close();
                 },
-                error:function(jqXHR, textStatus, errorThrown){
+                error: function (jqXHR, textStatus, errorThrown) {
                     alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
                     self.close();
                 }
             });
         }
 
-        if (visualType==='chart'){
-            const html =" <table id = \"dataSearchTable\" class=\"table table-bordered dataTable\" width=\"100%\" cellspacing=\"0\" role=\"grid\" aria-describedby=\"dataTable_info\" style=\"width: 100%;\">" +
-                "<thead>" +
-                "<tr>" +
-                "<th>index</th>" +
-                "<th>temp</th>" +
-                "<th>humid</th>" +
-                "<th>ec</th>" +
-                "</tr>" +
-                "</thead>" +
-                "</table>";
-            $("#chart").append(html);
+        if (visualType === 'chart') {
+            // const html = " <table id = \"dataSearchTable\" class=\"table table-bordered dataTable\" width=\"100%\" cellspacing=\"0\" role=\"grid\" aria-describedby=\"dataTable_info\" style=\"width: 100%;\">" +
+            //     "<thead>" +
+            //     "<tr>" +
+            //     "<th>index</th>" +
+            //     "<th>temp</th>" +
+            //     "<th>humid</th>" +
+            //     "<th>ec</th>" +
+            //     "</tr>" +
+            //     "</thead>" +
+            //     "</table>";
+            // $("#chart").append(html);
 
-            $("#dataSearchTable").DataTable({
-                destroy: true,
-                searching: false,
-                ajax: {  url:"${root}/visual/chart", type:'get', data: visualArray, dataSrc: 'lists' },
-                columns: [
-                    { data: " " },
-                    { data: "temp" },
-                    { data: 'humid' },
-                    { data: 'ec' }
-                ]
+            $.ajax({
+                url: "${root}/visual/chart",
+                type: 'get',
+                data: visualArray,
+                success: function (res) {
+                    console.log(res.list.keys());
+                    console.log(Object.keys(res.list));
+
+                    for (prop in res.list){
+                        console.log(prop)
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    // $("#chart").empty();
+                    // $("#chart").append('<table id="displayTable" class="display" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+                    // //$("#tableDiv").find("table thead tr").append(tableHeaders);  
+                    //
+                    // $('#displayTable').dataTable(res.list);
+
+
+                    self.close();
+                },
+                "dataType": "json",
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                    self.close();
+                }
             });
+
+
+
+
+            <%--$("#dataSearchTable").DataTable({--%>
+            <%--    destroy: true,--%>
+            <%--    searching: false,--%>
+            <%--    ajax: {url: "${root}/visual/chart", type: 'get', data: visualArray, dataSrc: 'list'},--%>
+            <%--    columns: [--%>
+            <%--        {data: "0"},--%>
+            <%--        {data: "1"}--%>
+            <%--    ]--%>
+            <%--});--%>
         }
 
-        if (visualType==='bar'){
+        if (visualType === 'bar') {
             const xValues = new Array();
-            $("input[name='predCols']").each(function() {
+            $("input[name='predCols']").each(function () {
                 xValues.push($(this).val());
             });
             visualArray.predCols = xValues;
             $.ajax({
-                url:"${root}/visual/bar",
-                type:'get',
+                url: "${root}/visual/bar",
+                type: 'get',
                 data: visualArray,
-                success:function(res){
+                success: function (res) {
                     barJson(res.list);
                     self.close();
                 },
-                error:function(jqXHR, textStatus, errorThrown){
+                error: function (jqXHR, textStatus, errorThrown) {
                     alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
                     self.close();
                 }
@@ -478,9 +534,7 @@
 
 
     function barJson(dataSet) {
-        am4core.ready(function() {
-
-
+        am4core.ready(function () {
             am4core.useTheme(am4themes_animated);
 
             var chart = am4core.create("bardiv", am4charts.XYChart);
@@ -537,7 +591,7 @@
             hoverState.properties.cornerRadiusTopRight = 0;
             hoverState.properties.fillOpacity = 1;
 
-            series.columns.template.adapter.add("fill", function(fill, target) {
+            series.columns.template.adapter.add("fill", function (fill, target) {
                 return chart.colors.getIndex(target.dataItem.index);
             });
 
@@ -548,12 +602,7 @@
     }
 
 
-
-
-
-
-
-    $("#sidebarToggle").on('click', function(e) {
+    $("#sidebarToggle").on('click', function (e) {
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
     });
