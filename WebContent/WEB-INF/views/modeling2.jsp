@@ -260,6 +260,9 @@
                                 <div id="chart">
 
                                 </div>
+                                <div id="chart2">
+
+                                </div>
 
                             </div>
                         </div>
@@ -437,56 +440,44 @@
         }
 
         if (visualType === 'chart') {
-            // const html = " <table id = \"dataSearchTable\" class=\"table table-bordered dataTable\" width=\"100%\" cellspacing=\"0\" role=\"grid\" aria-describedby=\"dataTable_info\" style=\"width: 100%;\">" +
-            //     "<thead>" +
-            //     "<tr>" +
-            //     "<th>index</th>" +
-            //     "<th>temp</th>" +
-            //     "<th>humid</th>" +
-            //     "<th>ec</th>" +
-            //     "</tr>" +
-            //     "</thead>" +
-            //     "</table>";
-            // $("#chart").append(html);
+            const html = " <table id = \"dataSearchTable\" class=\"table table-bordered dataTable\" width=\"100%\" cellspacing=\"0\" role=\"grid\" aria-describedby=\"dataTable_info\" style=\"width: 100%;\">" +
+                "<thead>" +
+                "<tr>" +
+                "<th>0</th>" +
+                "<th>1</th>" +
+                "</tr>" +
+                "</thead>" +
+                "</table>";
+            $("#chart").append(html);
 
             $.ajax({
                 url: "${root}/visual/chart",
                 type: 'get',
                 data: visualArray,
                 success: function (res) {
-                    console.log(res.list.keys());
-                    console.log(Object.keys(res.list));
-
-                    for (prop in res.list){
-                        console.log(prop)
-                    }
+                    console.log(res.list);
 
 
+                    var tableHeaders;
+                    var list = new Array();
+                    $.each(res.list, function (index, vo) {
+
+                        $.each(vo, function (key, val) {
+                            if (index ==0)
+                                tableHeaders += "<th>" + key + "</th>";
+                            list.push(val);
+                        });
+                    });
 
 
+                    $("#chart2").empty();
+                    $("#chart2").append('<table id="displayTable" class="display" cellspacing="0" width="100%"><thead><tr>'
+                        + tableHeaders + '</tr></thead></table>');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    // $("#chart").empty();
-                    // $("#chart").append('<table id="displayTable" class="display" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
-                    // //$("#tableDiv").find("table thead tr").append(tableHeaders);  
-                    //
-                    // $('#displayTable').dataTable(res.list);
-
-
+                    $('#displayTable').dataTable({
+                        dataSrc: res.list
+                    });
                     self.close();
                 },
                 "dataType": "json",
@@ -499,15 +490,15 @@
 
 
 
-            <%--$("#dataSearchTable").DataTable({--%>
-            <%--    destroy: true,--%>
-            <%--    searching: false,--%>
-            <%--    ajax: {url: "${root}/visual/chart", type: 'get', data: visualArray, dataSrc: 'list'},--%>
-            <%--    columns: [--%>
-            <%--        {data: "0"},--%>
-            <%--        {data: "1"}--%>
-            <%--    ]--%>
-            <%--});--%>
+            $("#dataSearchTable").DataTable({
+                destroy: true,
+                searching: false,
+                ajax: {url: "${root}/visual/chart", type: 'get', data: visualArray, dataSrc: 'list'},
+                columns: [
+                    {data: "0"},
+                    {data: "1"}
+                ]
+            });
         }
 
         if (visualType === 'bar') {
