@@ -81,19 +81,25 @@ public class MacroRestController {
         return entity;
     }
 
-    @GetMapping("test")
-    public ResponseEntity<Map<String, Object>> getmacrodone() {
+    @GetMapping("modelName/{mName}")
+    public ResponseEntity<Map<String, Object>> getmodelName(@PathVariable("mName")String mName) {
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
+        map.put("mName","\'"+mName+"\'");
         try {
-            List<String> list = mService.getmacrodonetable();
-            result.put("list", list);
+            macro = mService.getModelName(map);
+            result.put("list", macro);
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);
         }
         return entity;
     }
+
+
+
+
 
     private ResponseEntity<Map<String, Object>> handleSuccess(Map<String, Object> data) {
         data.put("status", true);

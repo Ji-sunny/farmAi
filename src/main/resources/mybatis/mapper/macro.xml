@@ -8,4 +8,8 @@
         insert into MACRO values (#{tablesName},#{modelName},#{macroName},#{colsX},#{colY})
     </insert>
 
+    <select id="getModelName" parameterType="map" resultType="macro">
+        select TABLE_NAME, MODEL_NAME, MACRO_NAME, COLS_X, COL_Y from MACRO where MACRO_NAME = ${mName}
+    </select>
+
 </mapper>

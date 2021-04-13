@@ -20,9 +20,8 @@ public class MacroRepo {
         return tmp;
     }
 
-
-    public List<String> getmacrodonetable() {
-        List<String> list = sst.selectList("macro.getmacrodone");
-        return list;
+    public Macro getModelName(Map<String, String> map) {
+        Macro macro = sst.selectOne("macro.getModelName",map);
+        return macro;
     }
 }

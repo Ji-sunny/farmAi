@@ -227,15 +227,18 @@
                         <div class="table-responsive">
                             <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                 <div class="row">
-
                                     <div class="col-sm-12 col-md-8">
                                         <div class="dataTables_length">
-                                            <label>시각화 검색:
-                                                <select id="visualization" name="visualization"
-                                                        class="custom-select custom-select-sm form-control form-control-sm">
-                                                    <option value="">선택</option>
-                                                </select>
-                                            </label>
+                                            <form>
+                                                <label>시각화 검색:
+                                                    <select id="visualization" name="visualization" class="custom-select custom-select-sm form-control form-control-sm"
+                                                            data-live-search="true" onchange="getModelName()">
+                                                        <option value="">선택</option>
+                                                    </select>
+                                                    <div class="macroCols"></div>
+                                                </label>
+                                                <input type="button" class="btn-primary btn-sm" value="시각화 버튼" onclick="getVisualStyle()">
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -243,8 +246,20 @@
 
                                 <div id="image">
                                 </div>
-                                <div id="bardiv"></div>
+                                <div id="bardiv">
+
+                                </div>
                                 <div id="chart">
+                                    <table id = "dataSearchTable" class="table table-bordered dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>index</th>
+                                            <th>temp</th>
+                                            <th>humid</th>
+                                            <th>ec</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
                                 </div>
 
                             </div>
@@ -325,8 +340,12 @@
         $.get("${root}/visual/evaluationList",
             function (data, status) {
                 $.each(data.list, function (index, vo) {
-                    $("#evaluation, #visualization").append(
+                    $("#evaluation").append(
                         "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");
+                });
+                $.each(data.list, function (index, vo) {
+                    $("#visualization").append(
+                        "<option value='" + vo.kind + "' mName ='" + vo.macroName + "'>" + vo.macroName + "</option>");
                 });
             }, "json");
         $("#evaluationTablediv").hide();
@@ -363,72 +382,84 @@
             }
         });
     });
-    $('#visualization').change(function () {
-        var tname = $('#visualization option:selected').val();
-        $.ajax({
-            url: "${root}/visual/evaluationList/" + tname,
-            type: "get",
-            success:function(res){
-                var results = res.list.kind;
-                console.log("visualization: "+ results);
 
-                if (results === "bar"){
-                    $.ajax({
-                        url: "${root}/visual/bar/" + tname,
-                        type: "get",
-                        success:function(res){
-                            console.log(res.lists);
-                            barJson(res.lists);
-
-                        },
-                        error:function(jqXHR, textStatus, errorThrown){
-                            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
-                            self.close();
-                        }
+    function getModelName() {
+        const name = $('#visualization option:selected').text();
+        $(".macroCols").empty();
+        $.get("${root}/macro/modelName/" + name,
+            function (res, status) {
+                const modelName = res.list.modelName;
+                const colsX = res.list.colsX;
+                if (modelName === 'logisticregression'){
+                    const words = colsX.split(',');
+                    $.each(words, function (index, vo) {
+                        $(".macroCols").append(vo +" : "+"<input type=\"number\" step=\"0.0000000001\" name=\"predCols\" class=\"\" value=\"\">");
+                        $(".macroCols").append("</br>");
                     });
                 }
+            }, "json");
+    }
 
-                if (results === "chart"){
-                    $.ajax({
-                        url: "${root}/visual/chart/" + tname,
-                        type: "get",
-                        success:function(res){
-                            console.log(res);
-
-                        },
-                        error:function(jqXHR, textStatus, errorThrown){
-                            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
-                            self.close();
-                        }
-                    });
+    function getVisualStyle(){
+        const visualType = $('#visualization option:selected').val();
+        const mName = $('#visualization option:selected').text();
+        const visualArray = {
+            "visualMname": mName,
+            "predCols": [],
+        };
+        if (visualType==='img'){
+            $.ajax({
+                url:"${root}/visual/img",
+                type:'get',
+                data: visualArray,
+                success:function(res){
+                    console.log("img : ",res);
+                    self.close();
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                    self.close();
                 }
+            });
+        }
 
-                if (results === "img"){
-                    $.ajax({
-                        url: "${root}/visual/img/" + tname,
-                        type: "get",
-                        success:function(res){
-                            console.log(res);
+        if (visualType==='chart'){
+            $("#dataSearchTable").DataTable({
+                destroy: true,
+                searching: false,
+                ajax: {  url:"${root}/visual/chart", type:'get', data: visualArray, dataSrc: 'lists' },
+                columns: [
+                    { data: " " },
+                    { data: "temp" },
+                    { data: 'humid' },
+                    { data: 'ec' }
+                ]
+            });
+        }
 
-                        },
-                        error:function(jqXHR, textStatus, errorThrown){
-                            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
-                            self.close();
-                        }
-                    });
+        if (visualType==='bar'){
+            const xValues = new Array();
+            $("input[name='predCols']").each(function() {
+                xValues.push($(this).val());
+            });
+            visualArray.predCols = xValues;
+            $.ajax({
+                url:"${root}/visual/bar",
+                type:'get',
+                data: visualArray,
+                success:function(res){
+                    console.log("bar : ",res);
+                    self.close();
+                },
+                error:function(jqXHR, textStatus, errorThrown){
+                    alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                    self.close();
                 }
+            });
+        }
+    }
 
-            },
-            error:function(jqXHR, textStatus, errorThrown){
-                alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
-                self.close();
-            }
-        });
-    });
-    $("#sidebarToggle").on('click', function(e) {
-        $("body").toggleClass("sidebar-toggled");
-        $(".sidebar").toggleClass("toggled");
-    });
+
     function barJson(dataSet) {
         am4core.ready(function(dataSet) {
 
@@ -498,6 +529,17 @@
 
         }); // end am4core.ready()
     }
+
+
+
+
+
+
+
+    $("#sidebarToggle").on('click', function(e) {
+        $("body").toggleClass("sidebar-toggled");
+        $(".sidebar").toggleClass("toggled");
+    });
 </script>
 <style>
     #bardiv {

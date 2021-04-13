@@ -21,8 +21,7 @@ public class MacroService {
         return tmp;
     }
 
-
-    public List<String> getmacrodonetable() {
-        return mRepo.getmacrodonetable();
+    public Macro getModelName(Map<String, String> map) {
+        return mRepo.getModelName(map);
     }
 }

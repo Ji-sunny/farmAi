@@ -9,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +66,96 @@ public class VisualRestController {
         }
         return entity;
     }
+
+
+
+    @GetMapping("bar")
+    public ResponseEntity<Map<String, Object>> getBar(@RequestParam(value = "predCols[]") List<String> predCols,
+                                                      @RequestParam(value = "visualMname") String visualMname) {
+        ResponseEntity<Map<String, Object>> entity = null;
+
+        System.out.println("bar");
+        System.out.println("visualMname : "+visualMname);
+        System.out.println("predCols : "+predCols);
+
+
+
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<MacroDone> list = vService.getevaluationList();
+            result.put("list", list);
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
+    }
+    @GetMapping("chart")
+    public ResponseEntity<Map<String, Object>> getChart(@RequestParam(value = "predCols[]", required = false) List<String> predCols,
+                                                        @RequestParam(value = "visualMname") String visualMname) {
+        ResponseEntity<Map<String, Object>> entity = null;
+
+
+        System.out.println("chart");
+        System.out.println("visualMname : "+visualMname);
+        System.out.println("predCols : "+predCols);
+
+
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<MacroDone> list = vService.getevaluationList();
+            result.put("list", list);
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
+    }
+    @GetMapping("img")
+    public ResponseEntity<Map<String, Object>> getImg(@RequestParam(value = "predCols[]", required = false) List<String> predCols,
+                                                      @RequestParam(value = "visualMname") String visualMname) {
+        ResponseEntity<Map<String, Object>> entity = null;
+
+
+        System.out.println("img");
+        System.out.println("visualMname : "+visualMname);
+        System.out.println("predCols : "+predCols);
+
+
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<MacroDone> list = vService.getevaluationList();
+            result.put("list", list);
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private ResponseEntity<Map<String, Object>> handleSuccess(Map<String, Object> data) {
         data.put("status", true);
