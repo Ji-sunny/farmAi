@@ -24,4 +24,12 @@ public class MacroService {
     public Macro getModelName(Map<String, String> map) {
         return mRepo.getModelName(map);
     }
+
+    public List<Macro> getMacroTable() {
+        return mRepo.getMacro();
+    }
+    public int deleteMacroTable(String macroname) {
+        int tmp = mRepo.deleteMacro(macroname);
+        return tmp;
+    }
 }

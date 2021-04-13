@@ -97,7 +97,33 @@ public class MacroRestController {
         return entity;
     }
 
-
+    @GetMapping("select/list")
+    public ResponseEntity<Map<String, Object>> getMacro() {
+        ResponseEntity<Map<String, Object>> entity = null;
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<Macro> list = mService.getMacroTable();
+            result.put("list", list);
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+        }
+        return entity;
+    }
+    @GetMapping("delete/{macroname}")
+    public ResponseEntity<Map<String, Object>> deleteMacro(@PathVariable("macroname") String macroname) {
+        ResponseEntity<Map<String, Object>> entity = null;
+        Map<String, Object> result = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
+        map.put("macroname", macroname);
+        try {
+                int tmp = mService.deleteMacroTable(macroname);
+//                System.out.println("GetMapping " +tmp);
+                entity = handleSuccess(result);
+            } catch (RuntimeException e) {
+                entity = handleException(e);
+            }
+        return entity;
+            }
 
 
 

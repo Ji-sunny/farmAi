@@ -201,7 +201,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <form>
-                                        <select name="dataSearchModelName" id="dataSearchModelName" class=""
+                                        <div>모델명:</div>
+                                        <select name="dataSearchModelName" id="dataSearchModelName" class="custom-select custom-select-sm form-control form-control-sm"
                                                 data-live-search="true" >
                                             <option value="">선택</option>
                                             <option value="rfe">rfe</option>
@@ -214,7 +215,8 @@
                                             <option value="corr_pearson">corr_pearson</option>
                                             <option value="corr_spearman">corr_spearman</option>
                                         </select>
-                                        <select name="dataSearch" id="dataSearch" class=""
+                                        <div style="margin-top: 10%">테이블명:</div>
+                                        <select name="dataSearch" id="dataSearch" class="custom-select custom-select-sm form-control form-control-sm"
                                                 data-live-search="true" onchange="getDataSearchColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
@@ -251,12 +253,14 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <form>
-                                        <select name="macro" id="marcoColumn1" class=""
+                                        <div>테이블명:</div>
+                                        <select name="macro" id="marcoColumn1" class="custom-select custom-select-sm form-control form-control-sm"
                                                 data-live-search="true" onchange="getMarcoColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
                                         <div class="macro"></div>
-                                        <select name="marcoModelName" id="marcoModelName1" class=""
+                                        <div style="margin-top: 5%">모델명:</div>
+                                        <select name="marcoModelName" id="marcoModelName1" class="custom-select custom-select-sm form-control form-control-sm"
                                                 data-live-search="true" >
                                             <option value="">선택</option>
                                             <option value="rfe">rfe</option>
@@ -274,14 +278,22 @@
                                         <input type="submit" class="btn-primary btn-sm" value="매크로 생성" onclick="sendParams()">
                                     </form>
                                 </div>
+                                <hr>
+                                <div>
+                                <form>
+                                <div style="display: inline-block">매크로:
+                                <select name="macro" id="marcokeys" class="custom-select custom-select-sm form-control form-control-sm"
+                                data-live-search="true">
+                                <option value="">선택</option>
+                                </select>
+                                </div>
+                                <input type="submit" class="btn-primary btn-sm" value="매크로 삭제" onclick="deletemacro()">
+                            </form>
+                            </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
-
 
                 <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick=""> 매크로 실행(????)</a>
                 <!-- Content Row -->
@@ -367,6 +379,13 @@
                         "<option value='" + vo.tablesName + "'>" + vo.tablesName + "</option>");
                 });
             }, "json");
+        $.get("${root}/macro/select/list",
+            function (data) {
+                $.each(data.list, function (index, vo) {
+                     $("#marcokeys").append(
+                        "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");
+                    })
+                })
     });
 //marcoColumn
     function getMarcoColumn(tableName, divName) {
@@ -462,7 +481,24 @@
         });
 
     }
-
+    //지선
+    function deletemacro() {
+        var macroname = $("#marcokeys").val();
+        console.log(macroname);
+        $.ajax({
+            url:"${root}/macro/delete/" + macroname,
+            type:'get',
+            success:function(data){
+            alert("완료!");
+            window.opener.location.reload();
+            self.close();
+            },
+        rror:function(jqXHR, textStatus, errorThrown){
+            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+            self.close();
+            }
+        });
+    }
     $("#sidebarToggle").on('click', function(e) {
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");

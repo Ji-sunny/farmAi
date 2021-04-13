@@ -24,4 +24,14 @@ public class MacroRepo {
         Macro macro = sst.selectOne("macro.getModelName",map);
         return macro;
     }
+
+    public List<Macro> getMacro() {
+        List<Macro> list = sst.selectList("macro.getMacro");
+        return list;
+    }
+
+    public int deleteMacro(String macroname) {
+        int tmp = sst.delete("macro.deleteMacro", macroname);
+        return tmp;
+        }
 }
