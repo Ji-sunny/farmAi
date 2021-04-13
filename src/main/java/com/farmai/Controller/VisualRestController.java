@@ -3,13 +3,14 @@ package com.farmai.Controller;
 import com.farmai.DTO.MacroDone;
 import com.farmai.Service.VisualService;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +71,7 @@ public class VisualRestController {
 
 
     @GetMapping("bar")
-    public ResponseEntity<Map<String, Object>> getBar(@RequestParam(value = "predCols[]") List<String> predCols,
+    public ResponseEntity<Map<String, Object>> getBar(@RequestParam(value = "predCols[]") List<Integer> predCols,
                                                       @RequestParam(value = "visualMname") String visualMname) {
         ResponseEntity<Map<String, Object>> entity = null;
 
@@ -79,16 +80,27 @@ public class VisualRestController {
         System.out.println("predCols : "+predCols);
 
 
-
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://127.0.0.1:8082/visualize";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("macro_name", visualMname);
+        jsonObject.put("pred_cols_X", predCols);
         Map<String, Object> result = new HashMap<>();
         try {
-            List<MacroDone> list = vService.getevaluationList();
-            result.put("list", list);
+            HttpEntity<String> entityPy = new HttpEntity<String>(jsonObject.toString(),headers);
+            String answer = restTemplate.postForObject(url, entityPy, String.class);
+
+            JSONArray jarray = (JSONArray) JSONValue.parse(answer);
+            result.put("list", jarray);
+
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);
         }
         return entity;
+
     }
     @GetMapping("chart")
     public ResponseEntity<Map<String, Object>> getChart(@RequestParam(value = "predCols[]", required = false) List<String> predCols,
@@ -122,10 +134,21 @@ public class VisualRestController {
         System.out.println("predCols : "+predCols);
 
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://127.0.0.1:8082/visualize";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("macro_name", visualMname);
+        jsonObject.put("pred_cols_X", predCols);
         Map<String, Object> result = new HashMap<>();
         try {
-            List<MacroDone> list = vService.getevaluationList();
-            result.put("list", list);
+            HttpEntity<String> entityPy = new HttpEntity<String>(jsonObject.toString(),headers);
+            String answer = restTemplate.postForObject(url, entityPy, String.class);
+            System.out.println(answer);
+
+            result.put("list", answer);
+
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);

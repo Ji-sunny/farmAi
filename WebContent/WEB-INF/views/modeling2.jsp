@@ -245,21 +245,13 @@
 
 
                                 <div id="image">
+
                                 </div>
                                 <div id="bardiv">
 
                                 </div>
                                 <div id="chart">
-                                    <table id = "dataSearchTable" class="table table-bordered dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                                        <thead>
-                                        <tr>
-                                            <th>index</th>
-                                            <th>temp</th>
-                                            <th>humid</th>
-                                            <th>ec</th>
-                                        </tr>
-                                        </thead>
-                                    </table>
+
                                 </div>
 
                             </div>
@@ -333,6 +325,12 @@
 <!-- Page level custom scripts -->
 <script src="${root}/resources/js/demo/datatables-demo.js"></script>
 
+<!--chart-->
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/frozen.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
 
 </body>
 <script>
@@ -401,6 +399,9 @@
     }
 
     function getVisualStyle(){
+        $("#image").empty();
+        $("#bardiv").empty();
+        $("#chart").empty();
         const visualType = $('#visualization option:selected').val();
         const mName = $('#visualization option:selected').text();
         const visualArray = {
@@ -414,6 +415,7 @@
                 data: visualArray,
                 success:function(res){
                     console.log("img : ",res);
+                    $("#image").append("<img src ="+res.list+"/>");
                     self.close();
                 },
                 error:function(jqXHR, textStatus, errorThrown){
@@ -424,6 +426,18 @@
         }
 
         if (visualType==='chart'){
+            const html =" <table id = \"dataSearchTable\" class=\"table table-bordered dataTable\" width=\"100%\" cellspacing=\"0\" role=\"grid\" aria-describedby=\"dataTable_info\" style=\"width: 100%;\">" +
+                "<thead>" +
+                "<tr>" +
+                "<th>index</th>" +
+                "<th>temp</th>" +
+                "<th>humid</th>" +
+                "<th>ec</th>" +
+                "</tr>" +
+                "</thead>" +
+                "</table>";
+            $("#chart").append(html);
+
             $("#dataSearchTable").DataTable({
                 destroy: true,
                 searching: false,
@@ -448,7 +462,7 @@
                 type:'get',
                 data: visualArray,
                 success:function(res){
-                    console.log("bar : ",res);
+                    barJson(res.list);
                     self.close();
                 },
                 error:function(jqXHR, textStatus, errorThrown){
@@ -461,7 +475,8 @@
 
 
     function barJson(dataSet) {
-        am4core.ready(function(dataSet) {
+        am4core.ready(function() {
+
 
             am4core.useTheme(am4themes_animated);
 
@@ -469,7 +484,6 @@
             chart.scrollbarX = new am4core.Scrollbar();
 
             chart.data = dataSet;
-
             var topContainer = chart.chartContainer.createChild(am4core.Container);
             topContainer.layout = "absolute";
             topContainer.toBack();
