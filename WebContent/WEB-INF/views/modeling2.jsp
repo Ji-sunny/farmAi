@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -415,7 +416,9 @@
                 data: visualArray,
                 success:function(res){
                     console.log("img : ",res);
-                    $("#image").append("<img src ="+res.list+"/>");
+                    const imgNames = res.list.split('/');
+                    const imgName = "image/"+imgNames[imgNames.length-1];
+                    $("#image").append("<img src=\"${root}"+imgName+"\">");
                     self.close();
                 },
                 error:function(jqXHR, textStatus, errorThrown){
