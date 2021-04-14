@@ -142,10 +142,10 @@ public class VisualRestController {
                                                       @RequestParam(value = "visualMname") String visualMname) {
         ResponseEntity<Map<String, Object>> entity = null;
 
-
-        System.out.println("img");
-        System.out.println("visualMname : "+visualMname);
-        System.out.println("predCols : "+predCols);
+//
+//        System.out.println("img");
+//        System.out.println("visualMname : "+visualMname);
+//        System.out.println("predCols : "+predCols);
 
 
         HttpHeaders headers = new HttpHeaders();
@@ -159,7 +159,7 @@ public class VisualRestController {
         try {
             HttpEntity<String> entityPy = new HttpEntity<String>(jsonObject.toString(),headers);
             String answer = restTemplate.postForObject(url, entityPy, String.class);
-            System.out.println(answer);
+//            System.out.println(answer);
 
             result.put("list", answer);
 

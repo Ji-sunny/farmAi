@@ -188,7 +188,7 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-md-8">
                                         <div class="dataTables_length">
-                                            <label>테이블 선택:
+                                            <label>트리거 선택:
                                                 <select name="evaluation" id="evaluation" class="custom-select custom-select-sm form-control form-control-sm" data-live-search="true">
                                                     <option value="">선택</option>
                                                 </select>
@@ -384,7 +384,7 @@
         $("#chart").empty();
         const name = $('#visualization option:selected').text();
         $(".macroCols").empty();
-        $.get("${root}/macro/modelName/" + name,
+        $.get("${root}/trigger/modelName/" + name,
             function (res, status) {
                 const modelName = res.list.modelName;
                 const colsX = res.list.colsX;

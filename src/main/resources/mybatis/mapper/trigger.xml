@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="macro">
+<mapper namespace="trigger">
 
-
-    <insert id="saveMacro" parameterType="macro">
+    <insert id="saveMacro" parameterType="trigger">
         insert into MACRO values (#{tablesName},#{modelName},#{macroName},#{colsX},#{colY})
     </insert>
 
-    <select id="getModelName" parameterType="map" resultType="macro">
+    <select id="getModelName" parameterType="map" resultType="trigger">
         select TABLE_NAME, MODEL_NAME, MACRO_NAME, COLS_X, COL_Y from MACRO where MACRO_NAME = ${mName}
     </select>
 
-    <select id="getMacro" resultType="macro">
+    <select id="getMacro" resultType="trigger">
         select  * FROM MACRO
     </select>
 

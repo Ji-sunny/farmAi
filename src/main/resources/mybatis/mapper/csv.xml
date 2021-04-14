@@ -54,7 +54,7 @@
     <select id="getTableDataList" parameterType="map" resultMap="tableDataList">
         select * from ${tableName}
     </select>
-    <resultMap type="java.util.LinkedHashMap" id="tableDataList">
+    <resultMap type="java.util.HashMap" id="tableDataList">
     </resultMap>
 
 

@@ -1,14 +1,14 @@
 package com.farmai.DTO;
 
 
-public class Macro {
+public class Trigger {
     private String tablesName;
     private String modelName;
     private String macroName;
     private String colsX;
     private String colY;
 
-    public Macro(String tablesName, String modelName, String macroName, String colsX, String colY) {
+    public Trigger(String tablesName, String modelName, String macroName, String colsX, String colY) {
         this.tablesName = tablesName;
         this.modelName = modelName;
         this.macroName = macroName;

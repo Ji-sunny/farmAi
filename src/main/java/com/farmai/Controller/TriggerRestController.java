@@ -1,9 +1,8 @@
 package com.farmai.Controller;
 
 
-import com.farmai.DTO.FileStorage;
-import com.farmai.DTO.Macro;
-import com.farmai.Service.MacroService;
+import com.farmai.DTO.Trigger;
+import com.farmai.Service.TriggerService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -18,15 +17,15 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 @RestController
-@RequestMapping("macro")
-public class MacroRestController {
+@RequestMapping("trigger")
+public class TriggerRestController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MacroRestController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TriggerRestController.class);
 
-    private Macro macro;
+    private Trigger trigger;
 
     @Autowired
-    MacroService mService;
+    TriggerService tService;
 
     @PostMapping("create")
     public ResponseEntity<Map<String, Object>> macroCreate(@RequestParam(value = "checkX[]") List<String> checkX,
@@ -41,9 +40,9 @@ public class MacroRestController {
             colsX+= checkX.get(i)+",";
         }
         colsX = colsX.substring(0,colsX.length()-1);
-        macro = new Macro(checkTable, marcoModelName, macroName, colsX,checkY.get(0));
+        trigger = new Trigger(checkTable, marcoModelName, macroName, colsX,checkY.get(0));
         try {
-            int tmp = mService.saveMacro(macro);
+            int tmp = tService.saveMacro(trigger);
             result.put("result",tmp);
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
@@ -88,8 +87,8 @@ public class MacroRestController {
         Map<String, String> map = new HashMap<>();
         map.put("mName","\'"+mName+"\'");
         try {
-            macro = mService.getModelName(map);
-            result.put("list", macro);
+            trigger = tService.getModelName(map);
+            result.put("list", trigger);
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);
@@ -98,11 +97,11 @@ public class MacroRestController {
     }
 
     @GetMapping("select/list")
-    public ResponseEntity<Map<String, Object>> getMacro() {
+    public ResponseEntity<Map<String, Object>> getTrigger() {
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
         try {
-            List<Macro> list = mService.getMacroTable();
+            List<Trigger> list = tService.getMacroTable();
             result.put("list", list);
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
@@ -116,7 +115,7 @@ public class MacroRestController {
         Map<String, String> map = new HashMap<>();
         map.put("macroname", macroname);
         try {
-                int tmp = mService.deleteMacroTable(macroname);
+                int tmp = tService.deleteMacroTable(macroname);
 //                System.out.println("GetMapping " +tmp);
                 entity = handleSuccess(result);
             } catch (RuntimeException e) {

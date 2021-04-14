@@ -237,11 +237,11 @@
                                 <div class="row no-gutters align-items-center">
                                     <form>
                                         <div>테이블명:</div>
-                                        <select name="macro" id="marcoColumn1" class=""
+                                        <select name="trigger" id="marcoColumn1" class=""
                                                 data-live-search="true" onchange="getMarcoColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
-                                        <div class="macro"></div>
+                                        <div class="trigger"></div>
                                         <div>모델명:</div>
                                         <select name="marcoModelName" id="marcoModelName1" class="selectpicker"
                                                 data-live-search="true">
@@ -262,7 +262,7 @@
                                 <hr>
                                 <div> 트리거 삭제
                                     <form>
-                                        <select name="macro" id="marcokeys" class="" data-live-search="true">
+                                        <select name="trigger" id="marcokeys" class="" data-live-search="true">
                                             <option value="">선택</option>
                                         </select>
                                         <input type="submit" class="btn-success btn-sm mt-2" value="트리거 삭제" onclick="deleteMacro()">
@@ -362,7 +362,7 @@
                 });
                 $('#marcoColumn, #marcoColumn1, #dataSearch').selectpicker();
             }, "json");
-        $.get("${root}/macro/select/list",
+        $.get("${root}/trigger/select/list",
             function (data) {
                 $.each(data.list, function (index, vo) {
                     $("#marcokeys").append(
@@ -421,7 +421,7 @@
         };
         $("#dataSearchTable").DataTable({
             destroy: true,
-            ajax: {url: "${root}/macro/dataSearch", type: 'get', data: chkArray, dataSrc: 'lists'},
+            ajax: {url: "${root}/trigger/dataSearch", type: 'get', data: chkArray, dataSrc: 'lists'},
             columns: [
                 {data: " "},
                 {data: "temp"},
@@ -454,7 +454,7 @@
         };
 
         $.ajax({
-            url: "${root}/macro/create",
+            url: "${root}/trigger/create",
             type: 'post',
             data: chkArray,
             success: function (data) {
@@ -475,7 +475,7 @@
         var macroname = $("#marcokeys").val();
         // console.log(macroname);
         $.ajax({
-            url: "${root}/macro/delete/" + macroname,
+            url: "${root}/trigger/delete/" + macroname,
             type: 'get',
             success: function (data) {
                 alert("완료!");

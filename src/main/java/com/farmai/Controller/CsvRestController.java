@@ -5,6 +5,7 @@ import com.farmai.DTO.FileStorage;
 import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
 
+import org.apache.commons.collections4.MapUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -302,6 +303,10 @@ public class CsvRestController {
 
         try {
             List<Map<String, String>> list = cService.getTableDataList(map);
+
+            System.out.println(list.get(0));
+            System.out.println(list.get(1));
+
             result.put("list", list);
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
