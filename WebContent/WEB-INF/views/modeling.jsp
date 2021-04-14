@@ -189,7 +189,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <form>
                                         <div>모델명:</div>
-                                        <select name="dataSearchModelName" id="dataSearchModelName" class="custom-select custom-select-sm form-control form-control-sm"
+                                        <select name="dataSearchModelName" id="dataSearchModelName" class=""
                                                 data-live-search="true" >
                                             <option value="">선택</option>
                                             <option value="rfe">rfe</option>
@@ -202,8 +202,8 @@
                                             <option value="corr_pearson">corr_pearson</option>
                                             <option value="corr_spearman">corr_spearman</option>
                                         </select>
-                                        <div style="margin-top: 10%">테이블명:</div>
-                                        <select name="dataSearch" id="dataSearch" class="custom-select custom-select-sm form-control form-control-sm"
+                                        <div>테이블명:</div>
+                                        <select name="dataSearch" id="dataSearch" class=""
                                                 data-live-search="true" onchange="getDataSearchColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
@@ -241,13 +241,13 @@
                                 <div class="row no-gutters align-items-center">
                                     <form>
                                         <div>테이블명:</div>
-                                        <select name="macro" id="marcoColumn1" class="custom-select custom-select-sm form-control form-control-sm"
+                                        <select name="macro" id="marcoColumn1" class=""
                                                 data-live-search="true" onchange="getMarcoColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
                                         <div class="macro"></div>
-                                        <div style="margin-top: 5%">모델명:</div>
-                                        <select name="marcoModelName" id="marcoModelName1" class="custom-select custom-select-sm form-control form-control-sm"
+                                        <div>모델명:</div>
+                                        <select name="marcoModelName" id="marcoModelName1" class=""
                                                 data-live-search="true" >
                                             <option value="">선택</option>
                                             <option value="rfe">rfe</option>
@@ -268,8 +268,8 @@
                                 <hr>
                                 <div>
                                 <form>
-                                <div style="display: inline-block">매크로:
-                                <select name="macro" id="marcokeys" class="custom-select custom-select-sm form-control form-control-sm"
+                                <div>매크로:
+                                <select name="macro" id="marcokeys" class=""
                                 data-live-search="true">
                                 <option value="">선택</option>
                                 </select>
@@ -373,6 +373,7 @@
                         "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");
                     })
                 })
+        $('#dataSearchTable').hide();
     });
 //marcoColumn
     function getMarcoColumn(tableName, divName) {
@@ -405,6 +406,7 @@
     }
 
     function sendDataSearch(){
+        $('#dataSearchTable').show();
         var checkTableData = $("#checkTableData").val();
         var dataSearchModelName = $("#dataSearchModelName").val();
 
