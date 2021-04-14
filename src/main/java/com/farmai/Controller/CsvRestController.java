@@ -302,12 +302,7 @@ public class CsvRestController {
 
         try {
             List<Map<String, String>> list = cService.getTableDataList(map);
-
             result.put("list", list);
-
-            System.out.println(list);
-
-
             entity = handleSuccess(result);
         } catch (RuntimeException e) {
             entity = handleException(e);
