@@ -5,16 +5,17 @@ import com.farmai.DTO.FileStorage;
 import com.farmai.DTO.Pager;
 import com.farmai.Service.CsvService;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -289,6 +290,38 @@ public class CsvRestController {
         }
         return str.toString();
     }
+
+
+    @GetMapping("table/{tName}")
+    public ResponseEntity<Map<String, Object>> getTable(@PathVariable("tName")String tName) {
+        ResponseEntity<Map<String, Object>> entity = null;
+        Map<String, Object> result = new HashMap<>();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("tableName", tName);
+
+        try {
+            List<Map<String, String>> list = cService.getTableDataList(map);
+
+            result.put("list", list);
+
+            System.out.println(list);
+
+
+            entity = handleSuccess(result);
+        } catch (RuntimeException e) {
+            entity = handleException(e);
+        }
+        return entity;
+    }
+
+
+
+
+
+
+
+
 
 
     private ResponseEntity<Map<String, Object>> handleSuccess(Map<String, Object> data) {

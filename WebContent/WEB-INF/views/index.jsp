@@ -221,7 +221,7 @@
                                         </div>
                                         <form method="get">
                                             <dt class="down w90"><label>파일 선택</label></dt>
-                                            <select name="csvexcel" id="delexcel" class="selectpicker"
+                                            <select name="csvexcel" id="delexcel" class=""
                                                     data-live-search="true">
                                                 <option value="">선택</option>
                                             </select>
@@ -282,8 +282,6 @@
                                         <input type="submit" class="btn-primary btn-sm" name="btn" onclick="makeMerge()">
                                     </form>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -299,19 +297,19 @@
                         <div class="table-responsive">
                             <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                 <div class="row">
-                                    <div class="col-sm-12 col-md-2">
-                                        <div class="dataTables_length" id="dataTable_length">
-                                            <label>Show
-                                                <select id="airowper" name="dataTable_length" aria-controls="dataTable"
-                                                        class="custom-select custom-select-sm form-control form-control-sm">
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                    <option value="100">100</option>
-                                                </select>
-                                            </label>
-                                        </div>
-                                    </div>
+<%--                                    <div class="col-sm-12 col-md-2">--%>
+<%--                                        <div class="dataTables_length" id="dataTable_length">--%>
+<%--                                            <label>Show--%>
+<%--                                                <select id="airowper" name="dataTable_length" aria-controls="dataTable"--%>
+<%--                                                        class="custom-select custom-select-sm form-control form-control-sm">--%>
+<%--                                                    <option value="10">10</option>--%>
+<%--                                                    <option value="25">25</option>--%>
+<%--                                                    <option value="50">50</option>--%>
+<%--                                                    <option value="100">100</option>--%>
+<%--                                                </select>--%>
+<%--                                            </label>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
                                     <div class="col-sm-12 col-md-8">
                                         <div class="dataTables_length">
                                             <label>테이블 선택:
@@ -330,9 +328,8 @@
                                 </div>
 
 
-                                <div id="boardList">
-
-                                </div>
+<%--                                <div id="boardList"></div>--%>
+                                <div id="chart"></div>
 
                             </div>
                         </div>
@@ -404,6 +401,17 @@
 <script src="${root}/resources/js/sb-admin-2.min.js"></script>
 <!-- Page level custom scripts -->
 <script src="${root}/resources/js/demo/datatables-demo.js"></script>
+
+
+<!-- selectpicker-->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+
+
+
 </body>
 <script>
     $(document).ready(function () {
@@ -416,6 +424,7 @@
                     $("#delexcel").append(
                         "<option value='" + vo.filesName + "'>" + vo.filesName + "</option>");
                 });
+                $('#delexcel').selectpicker();
             }, "json");
         $.get("${root}/process/select/list",
             function (data, status) {
@@ -436,7 +445,11 @@
                     $("#mergeselect1, #mergeselect2, #mergeselect3, #mergeselect4, #mergeselect5").append(
                         "<option value='" + vo.tablesName + "'>" + vo.filesName + "</option>");
                 });
+                $('#mergeselect1, #mergeselect2, #mergeselect3, #mergeselect4, #mergeselect5').selectpicker();
             }, "json");
+
+
+
     });
 
     function getColumn(tableName, divName) {
@@ -447,61 +460,61 @@
                 if (divName == 'merge1'){
                     $("." + divName).append("받을 열 : ");
                     $.each(data.list, function (index, vo) {
-                        $("." + divName).append("<input type=\"checkbox\" name=\"check1\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                        $("." + divName).append("<label for=\""+index+"a"+"\"><input type=\"checkbox\" name=\"check1\" class=\"check\" id="+index+"a" +" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                     });
                     $("." + divName).append("<input type=\"hidden\" id=\"check1name\" class=\"\" value="+tableName+">");
                     $("." + divName).append("</br>");
                     $("." + divName).append("기준 열 : ");
                     $.each(data.list, function (index, vo) {
-                        $("." + divName).append("<input type=\"checkbox\" name=\"check2\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                        $("." + divName).append("<label for=\""+index+"b"+"\"><input type=\"checkbox\" name=\"check2\" class=\"check\" id="+index+"b" +" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                     });
                 }
                 if (divName == 'merge2'){
                     $("." + divName).append("받을 열 : ");
                     $.each(data.list, function (index, vo) {
-                        $("." + divName).append("<input type=\"checkbox\" name=\"check3\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                        $("." + divName).append("<label for=\""+index+"c"+"\"><input type=\"checkbox\" name=\"check3\" class=\"check\" id="+index+"c" +" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                     });
                     $("." + divName).append("<input type=\"hidden\" id=\"check2name\" class=\"\" value="+tableName+">");
                     $("." + divName).append("</br>");
                     $("." + divName).append("기준 열 : ");
                     $.each(data.list, function (index, vo) {
-                        $("." + divName).append("<input type=\"checkbox\" name=\"check4\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                        $("." + divName).append("<label for=\""+index+"d"+"\"><input type=\"checkbox\" name=\"check4\" class=\"check\" id="+index+"d" +" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                     });
                 }
                 if (divName == 'merge3'){
                     $("." + divName).append("받을 열 : ");
                     $.each(data.list, function (index, vo) {
-                        $("." + divName).append("<input type=\"checkbox\" name=\"check5\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                        $("." + divName).append("<label for=\""+index+"e"+"\"><input type=\"checkbox\" name=\"check5\" class=\"check\" id="+index+"e" +" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                     });
                     $("." + divName).append("</br>");
                     $("." + divName).append("<input type=\"hidden\" id=\"check3name\" class=\"\" value="+tableName+">");
                     $("." + divName).append("기준 열 : ");
                     $.each(data.list, function (index, vo) {
-                        $("." + divName).append("<input type=\"checkbox\" name=\"check6\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                        $("." + divName).append("<label for=\""+index+"f"+"\"><input type=\"checkbox\" name=\"check6\" class=\"check\" id="+index+"f" +" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                     });
                 }
                 if (divName == 'merge4'){
                     $("." + divName).append("받을 열 : ");
                     $.each(data.list, function (index, vo) {
-                        $("." + divName).append("<input type=\"checkbox\" name=\"check7\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                        $("." + divName).append("<label for=\""+index+"g"+"\"><input type=\"checkbox\" name=\"check7\" class=\"check\" id="+index+"g" +" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                     });
                     $("." + divName).append("</br>");
                     $("." + divName).append("<input type=\"hidden\" id=\"check4name\" class=\"\" value="+tableName+">");
                     $("." + divName).append("기준 열 : ");
                     $.each(data.list, function (index, vo) {
-                        $("." + divName).append("<input type=\"checkbox\" name=\"check8\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                        $("." + divName).append("<label for=\""+index+"h"+"\"><input type=\"checkbox\" name=\"check8\" class=\"check\" id="+index+"h" +" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                     });
                 }
                 if (divName == 'merge5'){
                     $("." + divName).append("받을 열 : ");
                     $.each(data.list, function (index, vo) {
-                        $("." + divName).append("<input type=\"checkbox\" name=\"check9\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                        $("." + divName).append("<label for=\""+index+"i"+"\"><input type=\"checkbox\" name=\"check9\" class=\"check\" id="+index+"i" +" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                     });
                     $("." + divName).append("</br>");
                     $("." + divName).append("<input type=\"hidden\" id=\"check5name\" class=\"\" value="+tableName+">");
                     $("." + divName).append("기준 열 : ");
                     $.each(data.list, function (index, vo) {
-                        $("." + divName).append("<input type=\"checkbox\" name=\"check10\" class=\"check\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                        $("." + divName).append("<label for=\""+index+"j"+"\"><input type=\"checkbox\" name=\"check10\" class=\"check\" id="+index+"j" +" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                     });
                 }
             }, "json");
@@ -552,40 +565,43 @@
 
     $('#aidatatable').change(function () {
         var tname = $('#aidatatable option:selected').val();
-        var rper = $('#airowper option:selected').val();
-
+        $("#chart").empty();
         $.ajax({
-            url: "${root}/table/list?tableName=" + tname+"&rowsPer="+rper,
-            type: "get"
-        }).done(function (result) {
-            $("#boardList").html(result);
+            url: "${root}/csv/table/"+tname,
+            type: 'get',
+            success: function (res) {
+                console.log(res);
+                let tableHeaders='';
+                let tablerow='';
+                let tablerows='';
+                $.each(res, function (index, vo) {
+                    $.each(vo, function (list_key, value) {
+                        tablerow = "";
+                        $.each(value, function (key, val) {
+                            if (list_key ==0) {
+                                tableHeaders += "<th>" + key + "</th>";
+                                tablerow += "<td>" + val + "</td>";
+                            } else  tablerow += "<td>" + val + "</td>";
+                        });
+                        tablerows += "<tr>" + tablerow + "</tr>";
+                    });
 
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log("에러");
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
+                    return false;
+                });
+
+                $("#chart").append('<table id="visualTable" class="table table-bordered dataTable" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead>' + tablerows+ '</table>');
+
+                $('#visualTable').dataTable(res.list);
+                self.close();
+            },
+            // "dataType": "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                self.close();
+            }
         });
     });
-    function pagingBoard(no) {
-        //@RequestParam(defaultValue = "1") int pageNo, @RequestParam String tableName, @RequestParam (defaultValue = "10")int rowsPer, Model model) throws IOException {
-        var tname = $('#aidatatable option:selected').val();
-        var rper = $('#airowper option:selected').val();
-        $.ajax({
-            url: "${root}/table/list?pageNo="+no+"&tableName="+tname+"&rowsPer="+rper,
-            type: "get"
-        }).done(function (result) {
-            // console.log("결과확인");
-            $("#boardList").html(result);
 
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log("에러");
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        });
-
-    }
     function delCsv(){
         // console.log('test');
         var name = $('#delexcel option:selected').val();
@@ -677,5 +693,10 @@
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
     });
+
+    function test() {
+
+    }
+
 </script>
 </html>

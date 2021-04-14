@@ -39,6 +39,7 @@ public class MainController {
     public static String modeling(){
         return "modeling";
     }
+
     @RequestMapping("visualization")
     public static String visualization(){
         return "visualization";

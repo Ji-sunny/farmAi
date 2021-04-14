@@ -189,7 +189,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <form>
                                         <div>모델명:</div>
-                                        <select name="dataSearchModelName" id="dataSearchModelName" class=""
+                                        <select name="dataSearchModelName" id="dataSearchModelName" class="selectpicker"
                                                 data-live-search="true">
                                             <option value="">선택</option>
                                             <option value="rfe">rfe</option>
@@ -248,7 +248,7 @@
                                         </select>
                                         <div class="macro"></div>
                                         <div>모델명:</div>
-                                        <select name="marcoModelName" id="marcoModelName1" class=""
+                                        <select name="marcoModelName" id="marcoModelName1" class="selectpicker"
                                                 data-live-search="true">
                                             <option value="">선택</option>
                                             <option value="rfe">rfe</option>
@@ -345,6 +345,15 @@
 <script src="${root}/resources/js/sb-admin-2.min.js"></script>
 <!-- Page level custom scripts -->
 <script src="${root}/resources/js/demo/datatables-demo.js"></script>
+
+<!-- selectpicker-->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+
+
 </body>
 <script>
     $(document).ready(function () {
@@ -359,14 +368,16 @@
                     $("#dataSearch").append(
                         "<option value='" + vo.tablesName + "'>" + vo.tablesName + "</option>");
                 });
+                $('#marcoColumn, #marcoColumn1, #dataSearch').selectpicker();
             }, "json");
         $.get("${root}/macro/select/list",
             function (data) {
                 $.each(data.list, function (index, vo) {
                     $("#marcokeys").append(
                         "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");
-                })
-            })
+                });
+                $('#marcokeys').selectpicker();
+            }, "json");
         $('#dataSearchTable').hide();
     });
 
@@ -377,13 +388,13 @@
             function (data, status) {
                 $("." + divName).append("cols_X : ");
                 $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"checkX\" class=\"\" value=" + vo.COLUMN_NAME + ">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    $("." + divName).append("<label for=\""+index+"q"+"\"><input type=\"checkbox\" name=\"checkX\" class=\"\"id="+index+"q"+ +" value=" + vo.COLUMN_NAME + ">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                 });
                 $("." + divName).append("<input type=\"hidden\" id=\"checkTable\" name=\"checkTable\" class=\"\" value=" + tableName + ">");
                 $("." + divName).append("</br>");
                 $("." + divName).append("col_y : ");
                 $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"checkY\" class=\"\" value=" + vo.COLUMN_NAME + ">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    $("." + divName).append("<label for=\""+index+"w"+"\"><input type=\"checkbox\" name=\"checkY\" class=\"\"id="+index+"w" +" value=" + vo.COLUMN_NAME + ">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                 });
             }, "json");
     }
@@ -394,7 +405,7 @@
             function (data, status) {
                 $("." + divName).append("cols_X : ");
                 $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"checkDataX\" class=\"\" value=" + vo.COLUMN_NAME + ">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    $("." + divName).append("<label for=\""+index+"e"+"\"><input type=\"checkbox\" name=\"checkDataX\" class=\"\" id="+index+"e" +" value=" + vo.COLUMN_NAME + ">" + "   " + vo.COLUMN_NAME + "<label>  |  ");
                 });
                 $("." + divName).append("<input type=\"hidden\" id=\"checkTableData\" name=\"checkTableData\" class=\"\" value=" + tableName + ">");
                 $("." + divName).append("</br>");
@@ -418,7 +429,6 @@
         };
         $("#dataSearchTable").DataTable({
             destroy: true,
-            searching: false,
             ajax: {url: "${root}/macro/dataSearch", type: 'get', data: chkArray, dataSrc: 'lists'},
             columns: [
                 {data: " "},
@@ -480,7 +490,7 @@
                 window.opener.location.reload();
                 self.close();
             },
-            rror: function (jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
                 self.close();
             }
