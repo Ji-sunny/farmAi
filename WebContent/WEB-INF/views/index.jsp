@@ -186,9 +186,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">CSV
-                                            파일
-                                            저장
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            CSV 저장
                                         </div>
                                         <form id="excelUploadForm" name="excelUploadForm"
                                               enctype="multipart/form-data"
@@ -218,10 +217,10 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            저장된 엑셀 파일 삭제
+                                            파일 삭제
                                         </div>
                                         <form method="get">
-                                            <dt class="down w90"><label>엑셀선택</label></dt>
+                                            <dt class="down w90"><label>파일 선택</label></dt>
                                             <select name="csvexcel" id="delexcel" class="selectpicker"
                                                     data-live-search="true">
                                                 <option value="">선택</option>
@@ -315,7 +314,7 @@
                                     </div>
                                     <div class="col-sm-12 col-md-8">
                                         <div class="dataTables_length">
-                                            <label>테이블 검색:
+                                            <label>테이블 선택:
                                                 <select id="aidatatable" name="aidatatable"
                                                         aria-controls="dataTable"
                                                         class="custom-select custom-select-sm form-control form-control-sm">
@@ -326,7 +325,7 @@
                                     </div>
                                     <div class="col-sm-12 col-md-2">
                                         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="saveCSV()">
-                                            <i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                                            <i class="fas fa-download fa-sm text-white-50"></i> CSV 저장</a>
                                     </div>
                                 </div>
 
@@ -529,7 +528,7 @@
         if (confirm("업로드 하시겠습니까?")) {
             var options = {
                 success: function (data) {
-                    console.log(data);
+                    // console.log(data);
                     alert("모든 데이터가 업로드 되었습니다.");
                     javascript:history.go(0);
                 },
@@ -538,7 +537,7 @@
                     $('.wrap-loading').removeClass('display-none');
                 },
                 complete: function () {
-                    console.log("complete");
+                    // console.log("complete");
                     $('.wrap-loading').addClass('display-none');
                     javascript:history.go(0);
                 },
@@ -576,7 +575,7 @@
             url: "${root}/table/list?pageNo="+no+"&tableName="+tname+"&rowsPer="+rper,
             type: "get"
         }).done(function (result) {
-            console.log("결과확인");
+            // console.log("결과확인");
             $("#boardList").html(result);
 
         }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -588,14 +587,14 @@
 
     }
     function delCsv(){
-        console.log('test');
+        // console.log('test');
         var name = $('#delexcel option:selected').val();
-        console.log(name);
+        // console.log(name);
         $.ajax({
             url: "${root}/csv/delete/"+name,
             type: "get"
         }).done(function (result) {
-            console.log("결과확인");
+            // console.log("결과확인");
             javascript:history.go(0);
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.log("에러");

@@ -26,7 +26,9 @@
     </delete>
 
     <select id="getFileNameListOri" resultType="filestorage">
-        select TABLES_NAME, FILES_NAME from FILE_STORAGE where FILES_NAME not like '%_new%'
+        select distinct lower(TABLES_NAME) as TABLES_NAME, FILES_NAME from FILE_STORAGE where FILES_NAME not like '%_new%'
+        union all
+        select distinct lower(TABLES_NAME) as TABLES_NAME, FILES_NAME from FILE_STORAGE where FILES_NAME like '%_new%'
     </select>
 
     <select id="getTotalRows" parameterType="map" resultType="int">

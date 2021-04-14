@@ -85,13 +85,13 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="${root}/modeling" aria-expanded="true" >
+            <a class="nav-link collapsed" href="${root}/modeling" aria-expanded="true">
                 <i class="fas fa-chart-bar"></i>
                 <span>Modeling</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="${root}/visualization" aria-expanded="true" >
+            <a class="nav-link collapsed" href="${root}/visualization" aria-expanded="true">
                 <i class="fas fa-chart-pie"></i>
                 <span>Visualization</span>
             </a>
@@ -190,7 +190,7 @@
                                     <form>
                                         <div>모델명:</div>
                                         <select name="dataSearchModelName" id="dataSearchModelName" class=""
-                                                data-live-search="true" >
+                                                data-live-search="true">
                                             <option value="">선택</option>
                                             <option value="rfe">rfe</option>
                                             <option value="feature_importance">feature_importance</option>
@@ -207,14 +207,15 @@
                                                 data-live-search="true" onchange="getDataSearchColumn(this.value,name)">
                                             <option value="">선택</option>
                                         </select>
+                                        <input type="button" class="btn-primary btn-sm" value="데이터 검색" onclick="sendDataSearch()">
                                         <div class="dataSearch"></div>
-                                        <br>
-                                        <input type="button" class="btn-primary btn-sm" value="data search" onclick="sendDataSearch()">
                                     </form>
                                 </div>
                             </div>
                             <div>
-                                <table id = "dataSearchTable" class="table table-bordered dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                <table id="dataSearchTable" class="table table-bordered dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%;">
                                     <thead>
                                     <tr>
                                         <th>index</th>
@@ -235,7 +236,7 @@
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">매크로 생성 테스트</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Trigger Generation</h6>
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -248,7 +249,7 @@
                                         <div class="macro"></div>
                                         <div>모델명:</div>
                                         <select name="marcoModelName" id="marcoModelName1" class=""
-                                                data-live-search="true" >
+                                                data-live-search="true">
                                             <option value="">선택</option>
                                             <option value="rfe">rfe</option>
                                             <option value="feature_importance">feature_importance</option>
@@ -260,32 +261,25 @@
                                             <option value="corr_pearson">corr_pearson</option>
                                             <option value="corr_spearman">corr_spearman</option>
                                         </select>
-                                        <br>
-                                        매크로 이름 : <input type="text" name="macroName" id="macroName"/>
-                                        <input type="submit" class="btn-primary btn-sm" value="매크로 생성" onclick="sendParams()">
+                                        <div>트리거 이름 :</div>
+                                        <input type="text" name="macroName" id="macroName"/>
+                                        <input type="submit" class="btn-primary btn-sm" value="트리거 생성"
+                                               onclick="sendParams()">
                                     </form>
                                 </div>
                                 <hr>
-                                <div>
-                                <form>
-                                <div>매크로:
-                                <select name="macro" id="marcokeys" class=""
-                                data-live-search="true">
-                                <option value="">선택</option>
-                                </select>
+                                <div> 트리거 삭제
+                                    <form>
+                                        <select name="macro" id="marcokeys" class="" data-live-search="true">
+                                            <option value="">선택</option>
+                                        </select>
+                                        <input type="submit" class="btn-success btn-sm mt-2" value="트리거 삭제" onclick="deleteMacro()">
+                                    </form>
                                 </div>
-                                <input type="submit" class="btn-primary btn-sm" value="매크로 삭제" onclick="deletemacro()">
-                            </form>
-                            </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick=""> 매크로 실행(????)</a>
-                <!-- Content Row -->
-
-
             </div>
             <!-- /.container-fluid -->
 
@@ -369,126 +363,131 @@
         $.get("${root}/macro/select/list",
             function (data) {
                 $.each(data.list, function (index, vo) {
-                     $("#marcokeys").append(
+                    $("#marcokeys").append(
                         "<option value='" + vo.macroName + "'>" + vo.macroName + "</option>");
-                    })
                 })
+            })
         $('#dataSearchTable').hide();
     });
-//marcoColumn
+
+    //marcoColumn
     function getMarcoColumn(tableName, divName) {
         $("." + divName).empty();
         $.get("${root}/process/table_new/list/" + tableName,
             function (data, status) {
                 $("." + divName).append("cols_X : ");
                 $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"checkX\" class=\"\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    $("." + divName).append("<input type=\"checkbox\" name=\"checkX\" class=\"\" value=" + vo.COLUMN_NAME + ">" + "   " + vo.COLUMN_NAME + "  |  ");
                 });
-                $("." + divName).append("<input type=\"hidden\" id=\"checkTable\" name=\"checkTable\" class=\"\" value="+tableName+">");
+                $("." + divName).append("<input type=\"hidden\" id=\"checkTable\" name=\"checkTable\" class=\"\" value=" + tableName + ">");
                 $("." + divName).append("</br>");
                 $("." + divName).append("col_y : ");
                 $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"checkY\" class=\"\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    $("." + divName).append("<input type=\"checkbox\" name=\"checkY\" class=\"\" value=" + vo.COLUMN_NAME + ">" + "   " + vo.COLUMN_NAME + "  |  ");
                 });
             }, "json");
     }
+
     function getDataSearchColumn(tableName, divName) {
         $("." + divName).empty();
         $.get("${root}/process/table_new/list/" + tableName,
             function (data, status) {
                 $("." + divName).append("cols_X : ");
                 $.each(data.list, function (index, vo) {
-                    $("." + divName).append("<input type=\"checkbox\" name=\"checkDataX\" class=\"\" value="+vo.COLUMN_NAME+">" + "   " + vo.COLUMN_NAME + "  |  ");
+                    $("." + divName).append("<input type=\"checkbox\" name=\"checkDataX\" class=\"\" value=" + vo.COLUMN_NAME + ">" + "   " + vo.COLUMN_NAME + "  |  ");
                 });
-                $("." + divName).append("<input type=\"hidden\" id=\"checkTableData\" name=\"checkTableData\" class=\"\" value="+tableName+">");
+                $("." + divName).append("<input type=\"hidden\" id=\"checkTableData\" name=\"checkTableData\" class=\"\" value=" + tableName + ">");
                 $("." + divName).append("</br>");
             }, "json");
     }
 
-    function sendDataSearch(){
+    function sendDataSearch() {
         $('#dataSearchTable').show();
         var checkTableData = $("#checkTableData").val();
         var dataSearchModelName = $("#dataSearchModelName").val();
 
         var checkXvalues = new Array();
-        $("input:checkbox[name='checkDataX']:checked").each(function() {
+        $("input:checkbox[name='checkDataX']:checked").each(function () {
             checkXvalues.push($(this).val());
         });
 
         var chkArray = {
             "checkTable": checkTableData,
             "checkX": checkXvalues,
-            "dataSearchModelName":dataSearchModelName
+            "dataSearchModelName": dataSearchModelName
         };
         $("#dataSearchTable").DataTable({
             destroy: true,
             searching: false,
-            ajax: {  url:"${root}/macro/dataSearch", type:'get', data: chkArray, dataSrc: 'lists' },
+            ajax: {url: "${root}/macro/dataSearch", type: 'get', data: chkArray, dataSrc: 'lists'},
             columns: [
-                { data: " " },
-                { data: "temp" },
-                { data: 'humid' },
-                { data: 'ec' }
+                {data: " "},
+                {data: "temp"},
+                {data: 'humid'},
+                {data: 'ec'}
             ]
         });
 
     }
-    function sendParams(){
+
+    function sendParams() {
         var checkTable = $("#checkTable").val();
         var macroName = $("#macroName").val();
         var marcoModelName1 = $("#marcoModelName1").val();
 
         var checkXvalues = new Array();
-        $("input:checkbox[name='checkX']:checked").each(function() {
+        $("input:checkbox[name='checkX']:checked").each(function () {
             checkXvalues.push($(this).val());
         });
         var checkYvalue = new Array();
-        $("input:checkbox[name='checkY']:checked").each(function() {
+        $("input:checkbox[name='checkY']:checked").each(function () {
             checkYvalue.push($(this).val());
         });
         var chkArray = {
-            "macroName":macroName,
+            "macroName": macroName,
             "checkTable": checkTable,
             "checkX": checkXvalues,
             "checkY": checkYvalue,
-            "marcoModelName":marcoModelName1
+            "marcoModelName": marcoModelName1
         };
 
         $.ajax({
-            url:"${root}/macro/create",
-            type:'post',
+            url: "${root}/macro/create",
+            type: 'post',
             data: chkArray,
-            success:function(data){
+            success: function (data) {
                 alert("완료!");
                 window.opener.location.reload();
                 self.close();
             },
-            error:function(jqXHR, textStatus, errorThrown){
+            error: function (jqXHR, textStatus, errorThrown) {
                 alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
                 self.close();
             }
         });
 
     }
+
     //지선
-    function deletemacro() {
+    function deleteMacro() {
         var macroname = $("#marcokeys").val();
-        console.log(macroname);
+        // console.log(macroname);
         $.ajax({
-            url:"${root}/macro/delete/" + macroname,
-            type:'get',
-            success:function(data){
-            alert("완료!");
-            window.opener.location.reload();
-            self.close();
+            url: "${root}/macro/delete/" + macroname,
+            type: 'get',
+            success: function (data) {
+                alert("완료!");
+                window.opener.location.reload();
+                self.close();
             },
-        rror:function(jqXHR, textStatus, errorThrown){
-            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
-            self.close();
+            rror: function (jqXHR, textStatus, errorThrown) {
+                alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+                self.close();
             }
         });
     }
-    $("#sidebarToggle").on('click', function(e) {
+
+    $("#sidebarToggle").on('click', function (e) {
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
     });

@@ -61,18 +61,17 @@ public class CsvRestController {
             String csvName = csvFile.getOriginalFilename().toUpperCase();
             String filesName = csvName.substring(0, csvName.length() - 4);
             String direction = uploadPath + csvName;
-            ///////저장된 csv 파일있는지 체크, 있으면 저장 안되고 없으면 저장 진행///////////
-            File f = new File(direction);
-            if (f.exists()) {
-                f.delete();
-            }
-
-            ///////csv 파일 저장///////////
-            try {
-                csvFile.transferTo(Paths.get(direction));
-            } catch (Exception e) {
-                throw new RuntimeException(e.getMessage(), e);
-            }
+//            ///////저장된 csv 파일있는지 체크, 있으면 저장 안되고 없으면 저장 진행///////////
+//            File f = new File(direction);
+//            if (f.exists()) {
+//                f.delete();
+//            }
+//            ///////csv 파일 저장///////////
+//            try {
+//                csvFile.transferTo(Paths.get(direction));
+//            } catch (Exception e) {
+//                throw new RuntimeException(e.getMessage(), e);
+//            }
 
             ///////file_storage에 테이블 이름과 csv파일이름 저장///////////
 
@@ -215,17 +214,17 @@ public class CsvRestController {
         ResponseEntity<Map<String, Object>> entity = null;
         Map<String, Object> result = new HashMap<>();
         String filename = csvexcel;
-        String location = uploadPath + filename + ".csv";
-        File file = new File(location);
-        if (file.exists()) {
-            if (file.delete()) {
-                System.out.println("파일삭제 성공");
-            } else {
-                System.out.println("파일삭제 실패");
-            }
-        } else {
-            System.out.println("파일이 존재하지 않습니다.");
-        }
+//        String location = uploadPath + filename + ".csv";
+//        File file = new File(location);
+//        if (file.exists()) {
+//            if (file.delete()) {
+//                System.out.println("파일삭제 성공");
+//            } else {
+//                System.out.println("파일삭제 실패");
+//            }
+//        } else {
+//            System.out.println("파일이 존재하지 않습니다.");
+//        }
         Map<String, String> map = new HashMap<>();
         map.put("filename", "\'%" + filename.toUpperCase() + "%\'");
 

@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -175,32 +174,29 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">시각화</h1>
+                    <h1 class="h3 mb-0 text-gray-800">Visualization</h1>
                 </div>
 
-                <!-- Content Row -->
 
-                <div class="row">
-                    <!-- Area Chart -->
-                    <div class="col-xl-12 col-lg-">
-                        <!-- DataTales Example -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">평가</h6>
-                            </div>
-
-                            <div class="card-body">
-
-                                <div class="col-sm-12 col-md-2">
-                                    <select name="evaluation" id="evaluation"
-                                            class="custom-select custom-select-sm form-control form-control-sm"
-                                            data-live-search="true">
-                                        <option value="">선택</option>
-                                    </select>
-
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Evaluation</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div id="dataTable_wrapper0" class="dataTables_wrapper dt-bootstrap4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-8">
+                                        <div class="dataTables_length">
+                                            <label>테이블 선택:
+                                                <select name="evaluation" id="evaluation" class="custom-select custom-select-sm form-control form-control-sm" data-live-search="true">
+                                                    <option value="">선택</option>
+                                                </select>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div id="evaluationScore"></div>
-                                <%--                                <div id="evaluationTable"></div>--%>
                                 <div id="evaluationTablediv">
                                     <table id="evaluationTable" class="table table-bordered dataTable" width="100%"
                                            cellspacing="0" role="grid" aria-describedby="dataTable_info"
@@ -220,13 +216,11 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
                 <!-- Content Row -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">시각화</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Visualization</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -361,7 +355,6 @@
         $("#evaluationScore").empty();
         $("#evaluationTable").DataTable({
             destroy: true,
-            searching: false,
             ajax: {url: "${root}/visual/evaluationList/" + tname, dataSrc: 'lists'},
             columns: [
                 {data: " "},
@@ -422,7 +415,6 @@
                 type: 'get',
                 data: visualArray,
                 success: function (res) {
-                    console.log("img : ", res);
                     const imgNames = res.list.split('/');
                     const imgName = "image/" + imgNames[imgNames.length - 1];
                     $("#image").append("<img src=\"${root}" + imgName + "\">");
