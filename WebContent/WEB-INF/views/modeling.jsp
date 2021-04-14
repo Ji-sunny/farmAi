@@ -192,12 +192,7 @@
                                         <select name="dataSearchModelName" id="dataSearchModelName" class="selectpicker"
                                                 data-live-search="true">
                                             <option value="">선택</option>
-                                            <option value="rfe">rfe</option>
-                                            <option value="feature_importance">feature_importance</option>
-                                            <option value="regression">regression</option>
-                                            <option value="scaleregression">scaleregression</option>
-                                            <option value="logisticregression">logisticregression</option>
-                                            <option value="decisiontree">decisiontree</option>
+                                            <option value="vif">vif</option>
                                             <option value="describe">describe</option>
                                             <option value="corr_pearson">corr_pearson</option>
                                             <option value="corr_spearman">corr_spearman</option>
@@ -257,9 +252,6 @@
                                             <option value="scaleregression">scaleregression</option>
                                             <option value="logisticregression">logisticregression</option>
                                             <option value="decisiontree">decisiontree</option>
-                                            <option value="describe">describe</option>
-                                            <option value="corr_pearson">corr_pearson</option>
-                                            <option value="corr_spearman">corr_spearman</option>
                                         </select>
                                         <div>트리거 이름 :</div>
                                         <input type="text" name="macroName" id="macroName"/>

@@ -297,20 +297,7 @@
                         <div class="table-responsive">
                             <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                 <div class="row">
-<%--                                    <div class="col-sm-12 col-md-2">--%>
-<%--                                        <div class="dataTables_length" id="dataTable_length">--%>
-<%--                                            <label>Show--%>
-<%--                                                <select id="airowper" name="dataTable_length" aria-controls="dataTable"--%>
-<%--                                                        class="custom-select custom-select-sm form-control form-control-sm">--%>
-<%--                                                    <option value="10">10</option>--%>
-<%--                                                    <option value="25">25</option>--%>
-<%--                                                    <option value="50">50</option>--%>
-<%--                                                    <option value="100">100</option>--%>
-<%--                                                </select>--%>
-<%--                                            </label>--%>
-<%--                                        </div>--%>
-<%--                                    </div>--%>
-                                    <div class="col-sm-12 col-md-8">
+                                    <div class="col-sm-12 col-md-3">
                                         <div class="dataTables_length">
                                             <label>테이블 선택:
                                                 <select id="aidatatable" name="aidatatable"
@@ -321,14 +308,12 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-2">
+                                    <div class="col-sm-12 col-md-9">
                                         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="saveCSV()">
                                             <i class="fas fa-download fa-sm text-white-50"></i> CSV 저장</a>
                                     </div>
                                 </div>
 
-
-<%--                                <div id="boardList"></div>--%>
                                 <div id="chart"></div>
 
                             </div>
