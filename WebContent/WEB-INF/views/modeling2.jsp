@@ -250,19 +250,9 @@
                                     </div>
                                 </div>
 
-
-                                <div id="image">
-
-                                </div>
-                                <div id="bardiv">
-
-                                </div>
-                                <div id="chart">
-
-                                </div>
-                                <div id="chart2">
-
-                                </div>
+                                <div id="chart"></div>
+                                <div id="image"></div>
+                                <div id="bardiv"></div>
 
                             </div>
                         </div>
@@ -438,66 +428,40 @@
                 }
             });
         }
-
         if (visualType === 'chart') {
-            const html = " <table id = \"dataSearchTable\" class=\"table table-bordered dataTable\" width=\"100%\" cellspacing=\"0\" role=\"grid\" aria-describedby=\"dataTable_info\" style=\"width: 100%;\">" +
-                "<thead>" +
-                "<tr>" +
-                "<th>0</th>" +
-                "<th>1</th>" +
-                "</tr>" +
-                "</thead>" +
-                "</table>";
-            $("#chart").append(html);
-
             $.ajax({
                 url: "${root}/visual/chart",
                 type: 'get',
                 data: visualArray,
                 success: function (res) {
-                    console.log(res.list);
-
-
-                    var tableHeaders;
-                    var list = new Array();
-                    $.each(res.list, function (index, vo) {
-
-                        $.each(vo, function (key, val) {
-                            if (index ==0)
-                                tableHeaders += "<th>" + key + "</th>";
-                            list.push(val);
+                    let tableHeaders;
+                    let tablerow;
+                    let tablerows;
+                    $.each(res, function (index, vo) {
+                        $.each(vo, function (list_key, value) {
+                            tablerow = "";
+                            $.each(value, function (key, val) {
+                                if (list_key ==0) {
+                                    tableHeaders += "<th>" + key + "</th>";
+                                    tablerow += "<td>" + val + "</td>";
+                                } else  tablerow += "<td>" + val + "</td>";
+                            });
+                            tablerows += "<tr>" + tablerow + "</tr>";
                         });
+
+                        return false;
                     });
 
+                    $("#chart").append('<table id="visualTable" class="table table-bordered dataTable" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead>' + tablerows+ '</table>');
 
-                    $("#chart2").empty();
-                    $("#chart2").append('<table id="displayTable" class="display" cellspacing="0" width="100%"><thead><tr>'
-                        + tableHeaders + '</tr></thead></table>');
-
-
-                    $('#displayTable').dataTable({
-                        dataSrc: res.list
-                    });
+                    $('#visualTable').dataTable(res.list);
                     self.close();
                 },
-                "dataType": "json",
+                // "dataType": "json",
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
                     self.close();
                 }
-            });
-
-
-
-
-            $("#dataSearchTable").DataTable({
-                destroy: true,
-                searching: false,
-                ajax: {url: "${root}/visual/chart", type: 'get', data: visualArray, dataSrc: 'list'},
-                columns: [
-                    {data: "0"},
-                    {data: "1"}
-                ]
             });
         }
 
