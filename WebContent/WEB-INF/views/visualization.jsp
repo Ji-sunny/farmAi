@@ -86,15 +86,15 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="${root}/modeling1" aria-expanded="true">
+            <a class="nav-link collapsed" href="${root}/modeling" aria-expanded="true">
                 <i class="fas fa-chart-bar"></i>
-                <span>Modeling1</span>
+                <span>Modeling</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="${root}/modeling2" aria-expanded="true">
+            <a class="nav-link collapsed" href="${root}/visualization" aria-expanded="true">
                 <i class="fas fa-chart-pie"></i>
-                <span>Modeling2</span>
+                <span>Visualization</span>
             </a>
         </li>
 
@@ -249,7 +249,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
 
+                                </div>
                                 <div id="chart"></div>
                                 <div id="image"></div>
                                 <div id="bardiv"></div>
@@ -384,6 +386,9 @@
     });
 
     function getModelName() {
+        $("#image").empty();
+        $("#bardiv").empty();
+        $("#chart").empty();
         const name = $('#visualization option:selected').text();
         $(".macroCols").empty();
         $.get("${root}/macro/modelName/" + name,
@@ -398,12 +403,13 @@
                     });
                 }
             }, "json");
+
+
+
     }
 
     function getVisualStyle() {
-        $("#image").empty();
-        $("#bardiv").empty();
-        $("#chart").empty();
+
         const visualType = $('#visualization option:selected').val();
         const mName = $('#visualization option:selected').text();
         const visualArray = {
@@ -434,9 +440,9 @@
                 type: 'get',
                 data: visualArray,
                 success: function (res) {
-                    let tableHeaders;
-                    let tablerow;
-                    let tablerows;
+                    let tableHeaders='';
+                    let tablerow='';
+                    let tablerows='';
                     $.each(res, function (index, vo) {
                         $.each(vo, function (list_key, value) {
                             tablerow = "";
@@ -476,6 +482,8 @@
                 type: 'get',
                 data: visualArray,
                 success: function (res) {
+                    $('#bardiv').css( 'width', '100%');
+                    $('#bardiv').css( 'height', '500px');
                     barJson(res.list);
                     self.close();
                 },
@@ -562,10 +570,5 @@
         $(".sidebar").toggleClass("toggled");
     });
 </script>
-<style>
-    #bardiv {
-        width: 100%;
-        height: 500px;
-    }
-</style>
+
 </html>
